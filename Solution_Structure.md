@@ -108,11 +108,9 @@ Successfully purchase the **Property Target** while maintaining total financial 
 
 <br/>
 
-### Score Metrics
+### Performance Metrics
 * **Total Net Worth**  
 * **Property Target Progress (%)**  
 * **Outstanding Debt & Leverage Exposure**  
 * **Cumulative Investment Return (ROI)**  
 * **Risk Management Score (Margin Health)**  
-README.md
-Displaying README.md.
