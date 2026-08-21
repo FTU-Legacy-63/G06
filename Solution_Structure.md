@@ -1,4 +1,4 @@
-📈 Korean Stock Market Simulation Game
+📈 Korean Stock Market Simulation Game <br>
 A strategic simulation game focused on stock investment, margin trading mechanics, and market volatility based on the South Korean financial market.
 ---
 🎮 Product Overview
@@ -32,10 +32,10 @@ Margin Borrowing	Leverage provided by the brokerage with interest and maintenanc
 Property Target	The ultimate financial acquisition goal
 ---
 📊 Investment Universe
-Players can Buy, Sell, or Hold assets using either settled cash or margin leverage:
-Samsung Electronics (Large-cap tech benchmark)
-SK Hynix (Semiconductor / growth equity)
-KOSPI Index ETF (Broad market-tracking fund)
+Players can Buy, Sell, or Hold assets using either settled cash or margin leverage:<br>
+Samsung Electronics (Large-cap tech benchmark)<br>
+SK Hynix (Semiconductor / growth equity)<br>
+KOSPI Index ETF (Broad market-tracking fund)<br>
 ---
 📉 Market Lifecycle (6 Phases)
 ```text
