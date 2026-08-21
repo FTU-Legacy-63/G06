@@ -2,7 +2,7 @@
 A strategic simulation game focused on stock investment, margin trading mechanics, and market volatility based on the South Korean financial market.
 ---
 🎮 Product Overview
-Current Playable Role: Individual Investor (Retail)
+Current Playable Role: Individual Investor (Retail) <br>
 Planned Roles: Institutional Investor, Brokerage Firm, Government / Financial Regulator
 ---
 🔄 Core Gameplay Loop
