@@ -46,12 +46,12 @@ An interactive, consequence-based stock market simulation designed to teach reta
 
 ## 📈 Simulation Progression (6 Phases)
 
-Phase 1: Bullish Momentum       (Rising confidence, early gains) <br>
-Phase 2: Leverage Expansion     (Incentive to borrow and scale positions) <br>
-Phase 3: Market Overheating     (Peak valuations, volatility spikes) <br>
-Phase 4: Severe Market Shock    (Sudden downturn, asset devaluation) <br>
-Phase 5: Margin Crisis          (Margin calls triggered, liquidity crunch) <br>
-Phase 6: Resolution & Reckoning (Forced liquidation or survival) <br>
+**Phase 1: Bullish Momentum**       (Rising confidence, early gains) <br>
+**Phase 2: Leverage Expansion**     (Incentive to borrow and scale positions) <br>
+**Phase 3: Market Overheating**     (Peak valuations, volatility spikes) <br>
+**Phase 4: Severe Market Shock**    (Sudden downturn, asset devaluation) <br>
+**Phase 5: Margin Crisis**          (Margin calls triggered, liquidity crunch) <br>
+**Phase 6: Resolution & Reckoning** (Forced liquidation or survival) <br>
 
 
 ---
