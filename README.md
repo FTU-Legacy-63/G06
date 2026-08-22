@@ -1,95 +1,105 @@
+# 📉 Market Crash Survival Simulator
 
-# Korea Margin Crisis Simulation
+## Project Overview
 
-An interactive, consequence-based stock market simulation designed to teach retail investors and students the real-world mechanics and psychological risks of leverage, margin calls, and forced liquidation.
+**Free Fall 2.0** is a financial learning game designed around a key problem: understanding margin trading in theory does not necessarily prepare inexperienced investors to make sound decisions when markets move rapidly against them.
 
----
-
-## 📌 Project Overview
-
-**Korea Margin Crisis Simulation** compresses a single volatile Korean trading day into a **30-minute interactive session**. Players allocate capital between cash deposits and equities, decide when and how much leverage to use, and navigate dynamic market shocks to achieve a long-term property wealth target while maintaining solvency.
-
-[User Decision] ──► [Market Info & News] ──► [Trade Execution (Cash/Margin)]
-▲                                                 │
-│                                                 ▼
-[Next Decision] ◄── [Consequence / Result] ◄── [Portfolio & Margin Update]
-
+The project focuses on the gap between **knowing how leverage works** and **understanding its consequences while making real-time investment decisions**.
 
 ---
 
-## 🎯 Target Users & Core Objectives
+## Problem & Pain Point
 
-* **Target Audience:** Retail investors, finance/banking students, and risk-management learners.
-* **Core Task:** Balance returns, market volatility, debt maintenance, and solvency under rapidly shifting market conditions.
-* **Problem Addressed:** Static mathematical models fail to convey the emotional pressure and rapid capital erosion of leverage during systemic market shocks.
+Margin immediately makes its benefit visible: investors gain greater purchasing power and can amplify returns with limited initial capital. However, its downside is less intuitive. Inexperienced investors may struggle to anticipate how quickly leverage can reduce their equity, consume available liquidity, trigger margin calls, and eventually result in forced liquidation during a severe market decline.
+
+This creates the project's central pain point:
+
+> **The consequences of leverage are difficult to perceive before they materialize, particularly under time pressure and rapidly changing market conditions.**
+
+The problem, therefore, is whether investors can **recognize risk and make appropriate decisions while their financial position is changing**.
 
 ---
 
-## 🚀 MVP Scope (Week 2)
+## Target Users
 
-### Playable Roles
-* **Individual Investor** *(Active in MVP)*
-* *Planned for Future Releases:* Institutional Investor, Brokerage Firm, Government / Regulator
+The primary users are:
 
-### Investment Universe
-* **Samsung Electronics**
-* **SK Hynix**
-* **KOSPI-Tracking ETF**
+- **Retail and inexperienced investors** who have limited practical experience with leveraged trading.
+- **Finance students** who understand financial concepts academically but lack a safe environment in which to experience their consequences.
+
+Their core task is to **manage investment exposure and leverage as market conditions change while protecting their financial position from excessive losses and liquidation**.
+
+---
+
+## Desired User Outcome
+
+After completing the simulation, users should be able to better understand:
+
+- How leverage changes both return and downside exposure.
+- How declining asset prices affect equity and margin health.
+- Why liquidity becomes important during a margin call.
+- How excessive leverage can lead to forced liquidation.
+- How investment decisions made under FOMO or panic affect financial outcomes.
+
+The intended outcome is not simply to teach users that **"margin is risky,"** but to help them recognize **when and why a leveraged position becomes financially vulnerable**.
+
+---
+
+## Product Direction
+
+The proposed product is a **scenario-based stock-market simulation** inspired by the mid-2026 South Korean market episode.
+
+Players manage a portfolio through changing market conditions and make decisions involving:
+
+> **Buy / Sell / Hold → Position Size → Cash / Margin → Risk Management**
+
+Each decision changes the player's financial state and influences the decisions available in subsequent scenarios.
+
+The learning loop is:
+
+> **Scenario → Information → Decision → Financial State Update → Consequence → Feedback → Next Decision**
+
+---
+
+## Main Output
+
+The main output is a **Final Financial Outcome Dashboard** that summarizes the player's financial position and progress toward the target at the end of the simulation.
+
+The dashboard displays:
+
+**Final Net Worth | Portfolio Return | Cash Balance | Margin Debt | Maximum Leverage | Margin Ratio | Margin Calls | Liquidation Status | Maximum Drawdown | Financial Target Progress**
+
+The output allows players to directly observe the financial outcome of their investment and leverage decisions and determine whether they successfully achieved the target while remaining solvent.
+
+---
+
+## MVP Direction
+
+The player begins with **initial savings and a major financial objective**, such as accumulating enough capital for a high-value property down payment within a **limited period**.
+
+Deposits provide safety but insufficient growth, while stock investment offers a faster path toward the target.
+
+During the early market phases, stock prices repeatedly rise and the player earns positive returns. However, ordinary investment alone remains insufficient to reach the financial target. The game introduces **margin** as a way to increase purchasing power and potentially close the remaining funding gap.
+
+The player is not required to use margin, but the game environment makes leverage increasingly attractive:
+
+> **Financial Target → Insufficient Capital → Stock Gains → Remaining Funding Gap → Margin Opportunity → Higher Buying Power**
+
+If the player uses margin, subsequent gains bring the financial target increasingly within reach, reinforcing the decision to take additional leverage. When market conditions eventually reverse, the same leverage amplifies losses and may lead to **margin calls, liquidity pressure, forced liquidation, or negative net worth**.
+
+The core MVP experience therefore follows:
+
+> **Need Capital → Invest → Earn → Fall Short → Use Margin → Approach Target → Market Crash → Manage or Suffer the Consequences**
 
 ### Core Mechanics
-* **Trading:** Buy, Sell, and Hold actions with dynamic position sizing
-* **Financing:** Cash vs. Margin allocation with real-time borrowing capacity tracking
-* **Risk Engine:** Margin health monitoring, automated Margin Calls, and Forced Liquidation
-* **Objectives:** Real-time tracking toward a defined Property Target
 
----
+- Buy / Sell / Hold
+- Position sizing
+- Cash and margin financing
+- Financial-target progress
+- Margin monitoring
+- Market shocks
+- Margin calls
+- Forced liquidation
 
-## 📈 Simulation Progression (6 Phases)
-
-**Phase 1: Bullish Momentum**       (Rising confidence, early gains) <br>
-**Phase 2: Leverage Expansion**     (Incentive to borrow and scale positions) <br>
-**Phase 3: Market Overheating**     (Peak valuations, volatility spikes) <br>
-**Phase 4: Severe Market Shock**    (Sudden downturn, asset devaluation) <br>
-**Phase 5: Margin Crisis**          (Margin calls triggered, liquidity crunch) <br>
-**Phase 6: Resolution & Reckoning** (Forced liquidation or survival) <br>
-
-
----
-
-## 🖥️ Product Architecture & UI Flow
-
-| Screen | Core Purpose & Display Metrics |
-| :--- | :--- |
-| **🏠 Home** | Overview of net worth, active portfolio, debt load, and property goal progress. |
-| **📊 Market** | Live price tickers, breaking news feed, sentiment indicators, and order entry. |
-| **💳 Margin** | Borrowing power, collateral coverage ratio, margin debt, and health alerts. |
-| **🏁 Results** | Final net worth, ROI, peak leverage ratio, and post-session diagnostic breakdown. |
-
----
-
-## 👥 Team Responsibilities
-
-* **Trần Hữu Dụ:** Game mechanics, leverage formulas, maintenance margin ratios, liquidation triggers, win/loss conditions.
-* **Cáp Phan Quang Khánh:** Scenario decision trees, dynamic market events, narrative branching, consequence logic.
-* **Nguyễn Hồng Nguyên:** Asset parameters, historical price series, volatility inputs, leverage limits.
-* **Triệu Đức Lương:** UI/UX wireframes, dashboard layout, alert states, user flow, result visualizations.
-* **Nguyễn Quang Minh:** Core simulation engine, state management, event controller, settlement logic.
-
----
-
-## 📂 Project Documentation & Artifacts
-
-* `PROJECT_PROPOSAL.md`: Problem statement, target personas, and value proposition.
-* `SOLUTION_STRUCTURE.md`: Technical architecture, state flow diagrams, and MVP specifications.
-* **Task Board:** Workstream allocation, milestone tracking, and deliverables by output.
-* **Revision Notes:** Log of architectural and design iterations based on feedback.
-
----
-
-## 📍 Project Status & Roadmap
-
-- [x] **Week 1:** Problem discovery & concept definition.
-- [x] **Week 2:** Solution design, core loop validation, MVP scope, and role allocation.
-- [ ] **Next Up:** Finalizing data schemas, price series models, volatility distributions, and simulation input assumptions.
-combine into 1 file
-
+The intended learning experience is not that the game explicitly tells players to use margin, but that players experience **why leverage can appear rational and attractive before its downside becomes visible**.
