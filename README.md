@@ -1,4 +1,4 @@
-# 📉 Market Crash Survival Simulator
+# 📉 Free Fall 2.0
 
 ## Project Overview
 
