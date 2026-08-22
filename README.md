@@ -6,7 +6,6 @@
 
 The project focuses on the gap between **knowing how leverage works** and **understanding its consequences while making real-time investment decisions**.
 
----
 
 ## Problem & Pain Point
 
@@ -18,7 +17,6 @@ This creates the project's central pain point:
 
 The problem, therefore, is whether investors can **recognize risk and make appropriate decisions while their financial position is changing**.
 
----
 
 ## Target Users
 
@@ -29,7 +27,6 @@ The primary users are:
 
 Their core task is to **manage investment exposure and leverage as market conditions change while protecting their financial position from excessive losses and liquidation**.
 
----
 
 ## Desired User Outcome
 
@@ -43,7 +40,6 @@ After completing the simulation, users should be able to better understand:
 
 The intended outcome is not simply to teach users that **"margin is risky,"** but to help them recognize **when and why a leveraged position becomes financially vulnerable**.
 
----
 
 ## Product Direction
 
@@ -59,7 +55,6 @@ The learning loop is:
 
 > **Scenario → Information → Decision → Financial State Update → Consequence → Feedback → Next Decision**
 
----
 
 ## Main Output
 
@@ -71,7 +66,6 @@ The dashboard displays:
 
 The output allows players to directly observe the financial outcome of their investment and leverage decisions and determine whether they successfully achieved the target while remaining solvent.
 
----
 
 ## MVP Direction
 
