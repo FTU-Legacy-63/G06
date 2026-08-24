@@ -58,42 +58,46 @@ The learning loop is:
 
 ## Main Output
 
-The main output is a **Final Financial Outcome Dashboard** that summarizes the player's financial position and progress toward the target at the end of the simulation.
+The main output is the user's **ability to recognize and manage leverage risk before it develops into severe financial distress or forced liquidation**.
 
-The dashboard displays:
+After completing the simulation, users should be able to:
 
-**Final Net Worth | Portfolio Return | Cash Balance | Margin Debt | Maximum Leverage | Margin Ratio | Margin Calls | Liquidation Status | Maximum Drawdown | Financial Target Progress**
+- Recognize how leverage amplifies both returns and losses.
+- Assess vulnerability through leverage, liquidity, and margin conditions.
+- Identify when a leveraged position becomes financially unsustainable.
+- Adjust exposure and liquidity to reduce margin-call and liquidation risk.
 
-The output allows players to directly observe the financial outcome of their investment and leverage decisions and determine whether they successfully achieved the target while remaining solvent.
+> **Recognize Risk → Assess Vulnerability → Adjust Financial Position → Reduce Liquidation Risk**
 
+---
 
 ## MVP Direction
 
-The player begins with **initial savings and a major financial objective**, such as accumulating enough capital for a high-value property down payment within a **limited period**.
+The MVP is structured into **six connected phases**, with each phase addressing a smaller component of the central pain point: inexperienced investors struggle to recognize how leverage changes their financial vulnerability before severe losses occur.
 
-Deposits provide safety but insufficient growth, while stock investment offers a faster path toward the target.
+| Phase | Smaller Pain Point | MVP Experience | Intended User Achievement |
+|---|---|---|---|
+| **1. Capital Allocation** | Users may focus on returns without considering the trade-off between safety and growth. | Allocate limited capital between bank deposits and stocks. | Recognize the **risk–return trade-off** of the initial portfolio. |
+| **2. Rising Market** | Repeated gains can make investment risk appear lower than it actually is. | Positive news and rising stock prices reward equity exposure. | Recognize how recent performance can encourage **greater risk-taking**. |
+| **3. Margin Opportunity** | The benefit of margin is immediately visible, while its downside is less intuitive. | The financial target remains out of reach and margin increases available buying power. | Understand **why leverage is attractive** and how it increases market exposure beyond own capital. |
+| **4. Leveraged Gains** | Users may associate higher portfolio value with greater financial strength. | Leveraged positions generate amplified gains and faster target progress. | Distinguish **portfolio exposure from net equity** and recognize that higher returns come with higher leverage. |
+| **5. Financial Vulnerability** | Strong performance can hide declining liquidity and margin safety. | The player approaches the target while leverage rises, cash buffers fall, and margin health deteriorates. | Identify when a profitable position is becoming **financially vulnerable before a crash occurs**. |
+| **6. Market Crash** | Users may underestimate how quickly leverage can turn market risk into liquidity and solvency risk. | Falling prices trigger amplified losses, margin warnings, margin calls, and possible forced liquidation. | Apply **deleveraging and liquidity decisions** to reduce losses and liquidation risk. |
 
-During the early market phases, stock prices repeatedly rise and the player earns positive returns. However, ordinary investment alone remains insufficient to reach the financial target. The game introduces **margin** as a way to increase purchasing power and potentially close the remaining funding gap.
+### MVP Learning Flow
 
-The player is not required to use margin, but the game environment makes leverage increasingly attractive:
+> **Risk–Return Trade-off → Risk-Taking Incentive → Leverage Attraction → Gain Amplification → Vulnerability Recognition → Leverage Risk Management**
 
-> **Financial Target → Insufficient Capital → Stock Gains → Remaining Funding Gap → Margin Opportunity → Higher Buying Power**
+### Core Decisions
 
-If the player uses margin, subsequent gains bring the financial target increasingly within reach, reinforcing the decision to take additional leverage. When market conditions eventually reverse, the same leverage amplifies losses and may lead to **margin calls, liquidity pressure, forced liquidation, or negative net worth**.
+**Deposit / Invest → Buy / Sell / Hold → Position Size → Cash / Margin → Maintain Liquidity / Increase Exposure → Respond to Margin Call**
 
-The core MVP experience therefore follows:
+### MVP Success Criterion
 
-> **Need Capital → Invest → Earn → Fall Short → Use Margin → Approach Target → Market Crash → Manage or Suffer the Consequences**
+The MVP is successful if the player can recognize **why leverage becomes attractive during a rising market, when that leverage begins to make the financial position vulnerable, and how exposure and liquidity decisions affect the probability of forced liquidation.**
 
-### Core Mechanics
+### Core Decisions
 
-- Buy / Sell / Hold
-- Position sizing
-- Cash and margin financing
-- Financial-target progress
-- Margin monitoring
-- Market shocks
-- Margin calls
-- Forced liquidation
+**Buy / Sell / Hold | Position Size | Cash / Margin | Liquidity Management | Margin Call Response**
 
-The intended learning experience is not that the game explicitly tells players to use margin, but that players experience **why leverage can appear rational and attractive before its downside becomes visible**.
+The MVP is successful if the player can identify **why leverage was attractive, when the position became financially vulnerable, and which decisions increased or reduced liquidation risk**.
