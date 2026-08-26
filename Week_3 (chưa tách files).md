@@ -72,7 +72,7 @@ This file demonstrates how fixed scenarios combined with different player decisi
 | Market Path | Aggressive bull run followed by a sudden crash |
 | Phase 5 Shock | −20% |
 | Player Strategy | Maximum margin exposure |
-| Maximum Leverage | 1:5 |
+| Maximum Leverage | 1:4 |
 
 ### Intended Consequence
 
