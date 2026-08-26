@@ -58,46 +58,89 @@ The learning loop is:
 
 ## Main Output
 
-The main output is the user's **ability to recognize and manage leverage risk before it develops into severe financial distress or forced liquidation**.
+The main output is the user's **ability to recognize how leverage develops from an attractive opportunity into a financial vulnerability, and how poor risk management can eventually lead to forced liquidation**.
 
-After completing the simulation, users should be able to:
+The learning outcome develops progressively across the six phases:
 
-- Recognize how leverage amplifies both returns and losses.
-- Assess vulnerability through leverage, liquidity, and margin conditions.
-- Identify when a leveraged position becomes financially unsustainable.
-- Adjust exposure and liquidity to reduce margin-call and liquidation risk.
+- **Phase 1 – Slightly Green Market & Deceptive Hype:** Players understand basic trading mechanics and the opportunity cost of holding cash. More importantly, they learn how borrowing increases purchasing power and makes aggressive investment more attractive.
 
-> **Recognize Risk → Assess Vulnerability → Adjust Financial Position → Reduce Liquidation Risk**
+- **Phase 2 – Fundamental Shift & Building Confidence:** Players experience how genuine fundamentals can support market growth. Repeated gains build confidence in their investment decisions and gradually encourage greater risk-taking.
+
+- **Phase 3 – Market Euphoria & Maximum Leverage:** Players experience the peak of **leverage blindness**. Their Net Worth and Property-Target Progress rise rapidly, while Margin Debt and financial vulnerability increase at the same time.
+
+- **Phase 4 – Minor Correction:** Players experience **complacency risk**. Because the decline appears small compared with previous gains, they may dismiss early warning signs as a temporary correction instead of reducing leverage.
+
+- **Phase 5 – Crisis Begins & Bull Traps:** Players experience how temporary rebounds and misleading recovery signals can encourage them to hold or average down. Meanwhile, their Margin Health deteriorates and available liquidity becomes increasingly important.
+
+- **Phase 6 – Margin Cascade & Forced Liquidation:** Players experience the ultimate consequence of excessive leverage. Once Maintenance Margin requirements are breached, Margin Calls and Forced Liquidation can remove the player's ability to control the position and convert temporary market losses into permanent capital loss.
+
+The overall user outcome is:
+
+> **Understand Leverage → Build Confidence → Recognize Vulnerability → Respond to Warning Signs → Manage Liquidity & Exposure → Reduce Liquidation Risk**
 
 ---
 
-## MVP Direction
+## MVP Scope (Week 2)
 
-The MVP is structured into **six connected phases**, with each phase addressing a smaller component of the central pain point: inexperienced investors struggle to recognize how leverage changes their financial vulnerability before severe losses occur.
+The Minimum Viable Product focuses strictly on the **core simulation loop required to reproduce the six-phase learning experience and demonstrate the behavioral and mathematical consequences of leverage**.
 
-| Phase | Smaller Pain Point | MVP Experience | Intended User Achievement |
-|---|---|---|---|
-| **1. Capital Allocation** | Users may focus on returns without considering the trade-off between safety and growth. | Allocate limited capital between bank deposits and stocks. | Recognize the **risk–return trade-off** of the initial portfolio. |
-| **2. Rising Market** | Repeated gains can make investment risk appear lower than it actually is. | Positive news and rising stock prices reward equity exposure. | Recognize how recent performance can encourage **greater risk-taking**. |
-| **3. Margin Opportunity** | The benefit of margin is immediately visible, while its downside is less intuitive. | The financial target remains out of reach and margin increases available buying power. | Understand **why leverage is attractive** and how it increases market exposure beyond own capital. |
-| **4. Leveraged Gains** | Users may associate higher portfolio value with greater financial strength. | Leveraged positions generate amplified gains and faster target progress. | Distinguish **portfolio exposure from net equity** and recognize that higher returns come with higher leverage. |
-| **5. Financial Vulnerability** | Strong performance can hide declining liquidity and margin safety. | The player approaches the target while leverage rises, cash buffers fall, and margin health deteriorates. | Identify when a profitable position is becoming **financially vulnerable before a crash occurs**. |
-| **6. Market Crash** | Users may underestimate how quickly leverage can turn market risk into liquidity and solvency risk. | Falling prices trigger amplified losses, margin warnings, margin calls, and possible forced liquidation. | Apply **deleveraging and liquidity decisions** to reduce losses and liquidation risk. |
+### Six-Phase Simulation
 
-### MVP Learning Flow
+1. **Slightly Green Market & Deceptive Hype**
+   - Fake or misleading positive news
+   - Slightly rising stock prices
+   - Basic Buy / Sell / Hold mechanics
+   - Cash vs. Margin financing
+   - Buying Power and initial leverage
 
-> **Risk–Return Trade-off → Risk-Taking Incentive → Leverage Attraction → Gain Amplification → Vulnerability Recognition → Leverage Risk Management**
+2. **Fundamental Shift & Building Confidence**
+   - Verified positive corporate news
+   - Continued market growth
+   - Portfolio gains
+   - Financial-Target Progress
 
-### Core Decisions
+3. **Market Euphoria & Maximum Leverage**
+   - Strong bullish market
+   - Higher Margin availability
+   - Position sizing / MAX
+   - Net Worth vs. Margin Debt
+   - Leverage Ratio and Property-Target Progress
 
-**Deposit / Invest → Buy / Sell / Hold → Position Size → Cash / Margin → Maintain Liquidity / Increase Exposure → Respond to Margin Call**
+4. **Minor Correction**
+   - Mild negative market movement
+   - Genuine but moderately bearish news
+   - Hold / Sell / Reduce Exposure decisions
+   - Margin Health monitoring
 
-### MVP Success Criterion
+5. **Crisis Begins & Bull Traps**
+   - Sharp declines followed by temporary rebounds
+   - Misleading recovery signals
+   - Hold / Sell / Average Down decisions
+   - Liquidity pressure
+   - Margin Health deterioration and warnings
 
-The MVP is successful if the player can recognize **why leverage becomes attractive during a rising market, when that leverage begins to make the financial position vulnerable, and how exposure and liquidity decisions affect the probability of forced liquidation.**
+6. **Margin Cascade & Forced Liquidation**
+   - Severe market decline
+   - Maintenance Margin breach
+   - Margin Calls
+   - Deleveraging / collateral response
+   - Forced Liquidation
+   - Possible negative Net Worth
 
-### Core Decisions
+### Core Mechanics
 
-**Buy / Sell / Hold | Position Size | Cash / Margin | Liquidity Management | Margin Call Response**
+1. Buy / Sell / Hold decisions.
+2. Position sizing.
+3. Cash vs. Margin financing.
+4. Financial-Target Progress.
+5. Margin Health monitoring and Maintenance Margin thresholds.
+6. Margin Calls and Forced Liquidation.
 
-The MVP is successful if the player can identify **why leverage was attractive, when the position became financially vulnerable, and which decisions increased or reduced liquidation risk**.
+### Product Structure
+
+1. **Home:** Dashboard of Net Worth, Cash, Portfolio Value, Margin Debt, and Property-Target Progress.
+2. **Market:** Stock prices, Stock News feed, Buy / Sell / Hold, and position sizing.
+3. **Margin:** Buying Power, Margin Debt, Leverage Ratio, Margin Health, and Margin Call alerts.
+4. **Results:** Final Net Worth, Margin Debt, Property-Target Progress, Maximum Leverage, Maximum Drawdown, Margin Calls, and Liquidation Status.
+
+> **Core MVP Flow: Hype → Confidence → Maximum Leverage → Complacency → Bull Trap → Margin Cascade**
