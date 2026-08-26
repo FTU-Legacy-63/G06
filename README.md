@@ -82,64 +82,21 @@ The overall user outcome is:
 
 ## MVP Scope
 
-The Minimum Viable Product focuses strictly on the **core simulation loop required to reproduce the six-phase learning experience and demonstrate the behavioral and mathematical consequences of leverage**.
+The MVP focuses only on the Individual Investor and the essential mechanics needed to experience the full margin cycle.
 
-### Six-Phase Simulation
+- **Goal:** Reach a high-value Property Target while remaining financially solvent.
+- **Market:** 6 phases from market hype and growth to correction, bull trap, and crash.
+- **Trading:** Buy / Sell / Hold with basic position sizing.
+- **Margin:** Cash vs. Margin, Buying Power, Margin Debt, and Margin Health.
+- **Risk:** Margin Warning → Margin Call → Forced Liquidation.
+- **Final Result:** Net Worth, Margin Debt, Property-Target Progress, and Liquidation Status.
 
-1. **Slightly Green Market & Deceptive Hype**
-   - Fake or misleading positive news
-   - Slightly rising stock prices
-   - Basic Buy / Sell / Hold mechanics
-   - Cash vs. Margin financing
-   - Buying Power and initial leverage
-
-2. **Fundamental Shift & Building Confidence**
-   - Verified positive corporate news
-   - Continued market growth
-   - Portfolio gains
-   - Financial-Target Progress
-
-3. **Market Euphoria & Maximum Leverage**
-   - Strong bullish market
-   - Higher Margin availability
-   - Position sizing / MAX
-   - Net Worth vs. Margin Debt
-   - Leverage Ratio and Property-Target Progress
-
-4. **Minor Correction**
-   - Mild negative market movement
-   - Genuine but moderately bearish news
-   - Hold / Sell / Reduce Exposure decisions
-   - Margin Health monitoring
-
-5. **Crisis Begins & Bull Traps**
-   - Sharp declines followed by temporary rebounds
-   - Misleading recovery signals
-   - Hold / Sell / Average Down decisions
-   - Liquidity pressure
-   - Margin Health deterioration and warnings
-
-6. **Margin Cascade & Forced Liquidation**
-   - Severe market decline
-   - Maintenance Margin breach
-   - Margin Calls
-   - Deleveraging / collateral response
-   - Forced Liquidation
-   - Possible negative Net Worth
-
-### Core Mechanics
-
-1. Buy / Sell / Hold decisions.
-2. Position sizing.
-3. Cash vs. Margin financing.
-4. Financial-Target Progress.
-5. Margin Health monitoring and Maintenance Margin thresholds.
-6. Margin Calls and Forced Liquidation.
+> **MVP Flow: Invest → Use Margin → Approach Target → Market Reverses → Manage Margin Risk → Survive / Liquidate**
 
 ### Product Structure
 
 1. **Home:** Dashboard of Net Worth, Cash, Portfolio Value, Margin Debt, and Property-Target Progress.
-2. **Market:** Stock prices, Stock News feed, Buy / Sell / Hold, and position sizing.
+2. **Market:** Stock prices, Stock News feed, Recommendations, Leading Investors, Buy / Sell / Hold, and position sizing.
 3. **Margin:** Buying Power, Margin Debt, Leverage Ratio, Margin Health, and Margin Call alerts.
 4. **Results:** Final Net Worth, Margin Debt, Property-Target Progress, Maximum Leverage, Maximum Drawdown, Margin Calls, and Liquidation Status.
 
