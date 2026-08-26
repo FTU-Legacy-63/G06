@@ -80,7 +80,7 @@ The overall user outcome is:
 
 ---
 
-## MVP Scope (Week 2)
+## MVP Scope
 
 The Minimum Viable Product focuses strictly on the **core simulation loop required to reproduce the six-phase learning experience and demonstrate the behavioral and mathematical consequences of leverage**.
 
