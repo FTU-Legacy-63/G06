@@ -10,7 +10,6 @@ The main question is:
 
 The focus is on connecting the existing Input Dictionary with financial formulas, margin rules, sample calculations, assumptions, and technical implementation.
 
----
 
 ## 2. What is Financial Logic?
 
@@ -27,7 +26,6 @@ For Free Fall 2.0, the main financial logic includes:
 
 No additional player input is required. Financial states are calculated from the existing inputs.
 
----
 
 ## 3. Completing the Project Logic Chain
 
@@ -41,7 +39,6 @@ For Free Fall 2.0:
 
 The system automatically updates the player's financial state after each order and market phase.
 
----
 
 ## 4. Formalizing the Input–Logic–Output Mapping
 
@@ -56,90 +53,42 @@ The system automatically updates the player's financial state after each order a
 
 The outputs are calculated states, not additional player inputs.
 
----
 
 ## 5. Formula, Rules, and Scoring
 
-### 5.1 Maximum Position
+The financial state of the player is calculated using the following rules.
 
-The player's `initial_margin_ratio` determines the maximum position:
+| **Component** | **Formula / Rule** | **Interpretation** |
+|---|---|---|
+| **Maximum Position** | `Initial Capital / Initial Margin Ratio` | The `initial_margin_ratio` determines the maximum position. A lower margin ratio allows greater leverage and therefore greater risk. |
+| **Portfolio Value** | `Shares × Current Price` | For each stock. The current price comes from the existing `fixed_price_path`. |
+| **Total Portfolio Value** | `Σ (Shares_i × Current Price_i)` | Used when the player holds multiple stocks. |
+| **Equity / Net Worth** | `Cash + Portfolio Value − Margin Debt` | Represents the player's remaining financial position after accounting for borrowed money. |
+| **Leverage** | `Portfolio Value / Equity` | Higher leverage means greater market exposure relative to the player's own equity. |
+| **Margin Ratio** | `Equity / Portfolio Value` | Compared with the predefined maintenance threshold to determine margin health. |
+| **Margin Call Price** | `Margin Debt / [Shares × (1 − Maintenance Margin)]` | The price at which the player's margin ratio reaches the maintenance margin. |
+| **Mini Apartment Target** | `2 × Initial Capital` | Determined by the existing `target_house_type`. |
+| **Gangnam Villa Target** | `8 × Initial Capital` | Determined by the existing `target_house_type`. |
+| **Target Progress** | `Equity / Target Value × 100%` | Measures progress toward the selected property target. |
 
-**Maximum Position = Initial Capital / Initial Margin Ratio**
-
-For example:
+### Maximum Leverage
 
 | **Initial Margin Ratio** | **Maximum Leverage** |
-|---|---|
+|---:|---:|
 | 50% | 2× |
 | 40% | 2.5× |
 | 33.3% | 3× |
 | 25% | 4× |
 
-A lower margin ratio allows greater leverage and therefore greater risk.
+### Margin Health
 
----
+The calculated margin ratio is compared with the predefined maintenance threshold:
 
-### 5.2 Portfolio Value
-
-For each stock:
-
-**Portfolio Value = Shares × Current Price**
-
-For multiple stocks:
-
-**Portfolio Value = Σ (Shares_i × Current Price_i)**
-
-The current price comes from the existing `fixed_price_path`.
-
----
-
-### 5.3 Equity / Net Worth
-
-**Equity = Cash + Portfolio Value − Margin Debt**
-
-Equity represents the player's remaining financial position after accounting for borrowed money.
-
----
-
-### 5.4 Leverage
-
-**Leverage = Portfolio Value / Equity**
-
-Higher leverage means greater market exposure relative to the player's own equity.
-
----
-
-### 5.5 Margin Ratio
-
-For the simulation:
-
-**Margin Ratio = Equity / Portfolio Value**
-
-The calculated margin ratio is compared with the predefined maintenance threshold.
-
-Healthy  
-↓  
-Warning  
-↓  
-Below Maintenance Threshold  
-↓  
-Margin Call  
-↓  
-Unresolved Margin Call  
-↓  
-Forced Liquidation
+**Healthy → Warning → Below Maintenance Threshold → Margin Call → Unresolved Margin Call → Forced Liquidation**
 
 The maintenance threshold should be clearly stated as either a sourced rule or an MVP assumption.
 
----
-
-### 5.6 Margin Call Price
-
-The price at which the margin ratio reaches the maintenance margin can be calculated as:
-
-**Margin Call Price = Margin Debt / [Shares × (1 − Maintenance Margin)]**
-
-Where:
+For the Margin Call Price:
 
 - `Margin Debt` = outstanding borrowed amount;
 - `Shares` = shares currently held;
@@ -147,161 +96,93 @@ Where:
 
 No additional player input is required because shares and margin debt are generated from the player's existing `orders`.
 
----
-
-### 5.7 Property Target
-
-The existing `target_house_type` determines the target:
-
-**Mini Apartment Target = 2 × Initial Capital**
-
-**Gangnam Villa Target = 8 × Initial Capital**
-
-Target progress:
-
-**Target Progress = Equity / Target Value × 100%**
-
----
 
 ## 6. Explainability
 
 The game should explain why each financial outcome occurs.
 
-Example:
-
 > “You selected a 25% margin ratio, allowing up to 4× leverage. After the market declined, your portfolio value decreased while margin debt remained. This reduced your equity and margin ratio, triggering a margin call.”
 
-The player can therefore understand:
+The player can therefore understand the financial chain:
 
-Margin Ratio  
-↓  
-Leverage  
-↓  
-Position Size  
-↓  
-Market Loss  
-↓  
-Equity Loss  
-↓  
-Margin Health  
-↓  
-Liquidation Risk
+**Margin Ratio → Leverage → Position Size → Market Loss → Equity Loss → Margin Health → Liquidation Risk**
 
 The simulation demonstrates financial consequences but does not predict real market outcomes.
 
----
 
 ## 7. Sample Calculation and Logic Test
 
+Two cases are used to test whether the financial logic produces the expected outcomes.
+
 ### Case 1 — High Leverage
 
-Existing inputs:
+**Existing inputs:** Initial Capital = ₩10m | Initial Margin Ratio = 25% | Orders = Maximum Leveraged Position | Market Shock = −20%
 
-Initial Capital = ₩10m  
-Initial Margin Ratio = 25%  
-Orders = Maximum Leveraged Position  
-Market Shock = −20%
+| **Calculation** | **Result** |
+|---|---:|
+| Maximum Position = ₩10m / 25% | **₩40m** |
+| Margin Debt = ₩40m − ₩10m | **₩30m** |
+| Market Loss = ₩40m × 20% | **₩8m** |
+| Remaining Equity = ₩40m − ₩30m − ₩8m | **₩2m** |
+| Remaining Portfolio Value = ₩40m − ₩8m | **₩32m** |
 
-Maximum position:
-
-**Maximum Position = ₩10m / 25% = ₩40m**
-
-Margin debt:
-
-**Margin Debt = ₩40m − ₩10m = ₩30m**
-
-Market loss:
-
-**Loss = ₩40m × 20% = ₩8m**
-
-Remaining equity:
-
-**Equity = ₩40m − ₩30m − ₩8m = ₩2m**
-
-Remaining portfolio value:
-
-**Portfolio Value = ₩40m − ₩8m = ₩32m**
-
-Margin Breach  
-↓  
-Margin Call  
-↓  
-Forced Liquidation
+**Outcome:** Margin Breach → Margin Call → Forced Liquidation
 
 This tests whether leverage, portfolio loss, and margin logic work correctly.
 
----
-
 ### Case 2 — No Margin
 
-Existing inputs:
+**Existing inputs:** Initial Capital = ₩50m | Orders = Cash-only | Market Shock = −10% | Margin Debt = ₩0
 
-Initial Capital = ₩50m  
-Orders = Cash-only  
-Market Shock = −10%  
-Margin Debt = ₩0
+| **Calculation** | **Result** |
+|---|---:|
+| Portfolio Value = ₩50m × 90% | **₩45m** |
+| Equity = ₩45m − ₩0 | **₩45m** |
 
-Portfolio value:
-
-**Portfolio Value = ₩50m × 90% = ₩45m**
-
-Equity:
-
-**Equity = ₩45m − ₩0 = ₩45m**
-
-Result:
-
-Portfolio Loss  
-↓  
-No Margin Debt  
-↓  
-No Margin Call  
-↓  
-Remains Solvent
+**Outcome:** Portfolio Loss → No Margin Debt → No Margin Call → Remains Solvent
 
 This provides a baseline comparison against leveraged trading.
 
----
-
 ## 8. Technical Readiness
+
+The technical structure connects the user interface directly to the simulation engine and financial logic.
 
 ### Main Route
 
-React  
-↓  
-Trading Interface  
-↓  
-Simulation Engine  
-↓  
-Financial Logic  
-↓  
-Results
+| **Layer** | **Function** |
+|---|---|
+| **React** | Main development framework |
+| **Trading Interface** | Receives and displays player decisions |
+| **Simulation Engine** | Processes the existing inputs and updates the game state |
+| **Financial Logic** | Calculates portfolio, debt, equity, leverage, margin health, and target progress |
+| **Results** | Displays the player's financial outcome |
 
-The simulation engine uses the existing inputs:
+**System flow:** React → Trading Interface → Simulation Engine → Financial Logic → Results
 
-Scenario  
-+ Initial Capital  
-+ Margin Ratio  
-+ Orders  
-+ Price Path  
-+ House Type
+### Simulation Engine
 
-and calculates:
+The engine uses the six existing inputs and converts them into calculated financial states:
 
-Holdings  
-→ Cash  
-→ Portfolio Value  
-→ Margin Debt  
-→ Equity  
-→ Leverage  
-→ Margin Health  
-→ Target Progress  
-→ Final Outcome
+| **Existing Inputs** | **Calculated States** |
+|---|---|
+| Scenario | Holdings |
+| Initial Capital | Cash |
+| Margin Ratio | Portfolio Value |
+| Orders | Margin Debt |
+| Price Path | Equity |
+| House Type | Leverage |
+|  | Margin Health |
+|  | Target Progress |
+|  | Final Outcome |
 
-The predefined market paths can be stored as JSON/JavaScript data because the MVP uses deterministic scenarios.
+**Logic flow:**  
+Scenario + Initial Capital + Margin Ratio + Orders + Price Path + House Type  
+→ Holdings → Cash → Portfolio Value → Margin Debt → Equity → Leverage → Margin Health → Target Progress → Final Outcome
+
+The predefined market paths can be stored as **JSON/JavaScript data** because the MVP uses deterministic scenarios.
 
 ### Fallback
 
-Streamlit + Python
+**Streamlit + Python** can be used as the fallback implementation.
 
 The fallback uses the same financial logic with a simpler interface.
