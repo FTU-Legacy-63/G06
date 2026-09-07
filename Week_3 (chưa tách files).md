@@ -70,7 +70,7 @@ This file demonstrates how fixed scenarios combined with different player decisi
 | Financial Target | Gangnam Villa |
 | Target Value | 80,000,000 KRW |
 | Market Path | Aggressive bull run followed by a sudden crash |
-| Phase 5 Shock | −20% |
+| Phase 5 Shock | −30% |
 | Player Strategy | Maximum margin exposure |
 | Maximum Leverage | 1:4 |
 
@@ -98,7 +98,7 @@ When the predetermined **−20% market shock** occurs, the leveraged position su
 | Financial Target | Mini Apartment |
 | Target Value | 100,000,000 KRW |
 | Market Path | Moderate growth followed by a correction |
-| Market Shock | −10% |
+| Market Shock | −30% |
 | Player Strategy | Cash-only investment |
 | Margin Used | 0% |
 
