@@ -2,187 +2,335 @@
 
 ## 1. Week 4 Objective
 
-Week 4 formalizes how the six existing MVP inputs are converted into financial outcomes.
+Week 4 formalizes how the **six existing MVP inputs** are converted into measurable financial outcomes.
 
-The main question is:
+The central question is:
 
-> How are the defined inputs converted into outputs through financial logic, and can this logic be tested?
+> **How are the defined inputs converted into outputs through financial logic, and can this logic be tested?**
 
-The focus is on connecting the existing Input Dictionary with financial formulas, margin rules, sample calculations, assumptions, and technical implementation.
+The focus is not on creating new inputs or redesigning the MVP. Instead, Week 4 connects the existing **Input Dictionary**, assumptions, and sample data with:
 
+- financial formulas;
+- margin rules;
+- outcome classification;
+- sample calculations;
+- logic testing;
+- technical implementation.
 
-## 2. What is Financial Logic?
+---
 
-For Free Fall 2.0, the main financial logic includes:
+## 2. Financial Logic
 
-- portfolio valuation;
-- cash and margin debt calculation;
-- equity / net worth calculation;
-- leverage calculation;
-- margin ratio and margin health;
-- margin call and forced liquidation;
-- property target progress;
-- final outcome classification.
+For **Free Fall 2.0**, financial logic represents the rules that continuously transform player decisions and market movements into financial states.
 
-No additional player input is required. Financial states are calculated from the existing inputs.
+The main calculations include:
 
+| **Financial Logic** | **Purpose** |
+|---|---|
+| Portfolio Valuation | Revalue current holdings after each market movement |
+| Cash & Margin Debt | Track available cash and borrowed funds |
+| Equity / Net Worth | Measure the player's remaining financial position |
+| Leverage | Measure market exposure relative to player equity |
+| Margin Ratio | Determine margin health |
+| Margin Call & Liquidation | Identify when leveraged positions become unsustainable |
+| Property Target Progress | Measure progress toward the selected financial goal |
+| Final Outcome Classification | Determine the player's end-game financial status |
 
-## 3. Completing the Project Logic Chain
+> **No additional player input is required.**  
+> These financial states are calculated automatically from the six existing MVP inputs.
 
-The project logic chain is:
+---
 
-> Problem → Target User → User Task → Input → Financial Logic → Output → User Action
+## 3. Project Logic Chain
 
-For Free Fall 2.0:
+The project follows the logic chain:
 
-> Leverage blindness → Inexperienced investors → Manage a leveraged portfolio → Scenario + Capital + Margin Ratio + Orders + Price Path → Portfolio, debt, equity, and margin calculations → Net Worth + Target Progress + Liquidation Status → Adjust leverage and trading decisions
+> **Problem → Target User → User Task → Input → Financial Logic → Output → User Action**
 
-The system automatically updates the player's financial state after each order and market phase.
+For **Free Fall 2.0**:
 
+> **Leverage Blindness**  
+> → Inexperienced Investors  
+> → Manage a Leveraged Portfolio  
+> → Scenario + Capital + Margin Ratio + Orders + Price Path + House Type  
+> → Portfolio, Debt, Equity, Leverage and Margin Calculations  
+> → Net Worth + Target Progress + Liquidation Status  
+> → Adjust Leverage and Trading Decisions
 
-## 4. Formalizing the Input–Logic–Output Mapping
+After every **order** and **market phase**, the system automatically recalculates the player's financial state.
 
-| **Input** | **Financial Meaning** | **Financial Logic / Process** | **Output** |
+---
+
+## 4. Input → Logic → Output Mapping
+
+The six existing MVP inputs are directly connected to financial calculations.
+
+| **Input** | **Financial Meaning** | **Financial Logic / Process** | **Main Output** |
 |---|---|---|---|
-| `assigned_scenario_capital` | Determines starting scenario | Assigns capital and corresponding market path | Initial Capital + Market Conditions |
-| `fixed_price_path` | Market movement | Updates stock prices and revalues holdings | Portfolio Value + P&L |
-| `target_house_type` | Player's financial goal | Sets target at 2× or 8× initial capital | Target Value + Target Progress |
-| `initial_capital` | Starting cash/equity | Determines initial purchasing power | Initial Net Worth |
-| `initial_margin_ratio` | Player's leverage choice | Determines borrowing capacity and maximum position | Leverage + Margin Risk |
-| `orders` | Buy/Sell/Hold decisions | Updates holdings, cash, and margin borrowing | Portfolio Value + Cash + Margin Debt + Return |
+| `assigned_scenario_capital` | Determines the starting scenario | Assigns starting capital and the corresponding predetermined market scenario | Initial Capital, Market Conditions |
+| `fixed_price_path` | Represents market movements | Updates security prices and revalues current holdings | Portfolio Value, P&L |
+| `target_house_type` | Defines the player's financial target | Converts the selected property into a target value | Target Value, Target Progress |
+| `initial_capital` | Player's starting equity | Determines initial purchasing power | Initial Net Worth |
+| `initial_margin_ratio` | Determines leverage capacity | Defines maximum allowable position size and borrowing capacity | Maximum Leverage, Margin Risk |
+| `orders` | Represents Buy / Sell / Hold decisions | Updates holdings, cash balance and margin debt | Holdings, Cash, Debt, Return |
 
-The outputs are calculated states, not additional player inputs.
+> **Outputs are calculated financial states, not additional player inputs.**
 
+---
 
-## 5. Formula, Rules, and Scoring
+## 5. Core Financial Logic
 
-The financial state of the player is calculated using the following rules.
+### 5.1 Portfolio and Leverage
 
-| **Component** | **Formula / Rule** | **Interpretation** |
+| **Metric** | **Formula** | **Meaning** |
 |---|---|---|
-| **Maximum Position** | `Initial Capital / Initial Margin Ratio` | The `initial_margin_ratio` determines the maximum position. A lower margin ratio allows greater leverage and therefore greater risk. |
-| **Portfolio Value** | `Shares × Current Price` | For each stock. The current price comes from the existing `fixed_price_path`. |
-| **Total Portfolio Value** | `Σ (Shares_i × Current Price_i)` | Used when the player holds multiple stocks. |
-| **Equity / Net Worth** | `Cash + Portfolio Value − Margin Debt` | Represents the player's remaining financial position after accounting for borrowed money. |
-| **Leverage** | `Portfolio Value / Equity` | Higher leverage means greater market exposure relative to the player's own equity. |
-| **Margin Ratio** | `Equity / Portfolio Value` | Compared with the predefined maintenance threshold to determine margin health. |
-| **Margin Call Price** | `Margin Debt / [Shares × (1 − Maintenance Margin)]` | The price at which the player's margin ratio reaches the maintenance margin. |
-| **Mini Apartment Target** | `2 × Initial Capital` | Determined by the existing `target_house_type`. |
-| **Gangnam Villa Target** | `8 × Initial Capital` | Determined by the existing `target_house_type`. |
-| **Target Progress** | `Equity / Target Value × 100%` | Measures progress toward the selected property target. |
+| **Maximum Position** | `Initial Capital / Initial Margin Ratio` | Maximum market exposure allowed by the selected margin level |
+| **Position Value** | `Shares × Current Price` | Market value of each security position |
+| **Portfolio Value** | `Σ(Shares_i × Current Price_i)` | Total value of all securities held |
+| **Equity / Net Worth** | `Cash + Portfolio Value − Margin Debt` | Player wealth after deducting borrowing |
+| **Leverage** | `Portfolio Value / Equity` | Market exposure relative to player-owned capital |
+| **Margin Ratio** | `Equity / Portfolio Value` | Current equity cushion supporting the leveraged position |
 
-### Maximum Leverage
+### 5.2 Maximum Leverage
+
+The selected initial margin ratio directly determines the player's maximum leverage.
 
 | **Initial Margin Ratio** | **Maximum Leverage** |
 |---:|---:|
-| 50% | 2× |
-| 40% | 2.5× |
-| 33.3% | 3× |
-| 25% | 4× |
+| 50.0% | 2.0× |
+| 40.0% | 2.5× |
+| 33.3% | 3.0× |
+| 25.0% | 4.0× |
 
-### Margin Health
+Therefore:
 
-The calculated margin ratio is compared with the predefined maintenance threshold:
+> **Lower Initial Margin Ratio → Higher Leverage → Larger Position → Greater Sensitivity to Market Losses**
 
-**Healthy → Warning → Below Maintenance Threshold → Margin Call → Unresolved Margin Call → Forced Liquidation**
+---
 
-The maintenance threshold should be clearly stated as either a sourced rule or an MVP assumption.
+### 5.3 Margin Health and Liquidation
 
-For the Margin Call Price:
+The calculated margin ratio is compared with a predefined **Maintenance Margin Threshold**.
+
+The margin state follows the sequence:
+
+> **Healthy → Warning → Below Maintenance → Margin Call → Unresolved Margin Call → Forced Liquidation**
+
+The maintenance threshold must be explicitly documented as either:
+
+- a sourced market rule; or
+- an MVP assumption.
+
+#### Margin Call Price
+
+For a single-security position:
+
+`Margin Call Price = Margin Debt / [Shares × (1 − Maintenance Margin)]`
+
+Where:
 
 - `Margin Debt` = outstanding borrowed amount;
-- `Shares` = shares currently held;
-- `Maintenance Margin` = minimum required margin ratio.
+- `Shares` = number of shares currently held;
+- `Maintenance Margin` = minimum required equity-to-position ratio.
 
-No additional player input is required because shares and margin debt are generated from the player's existing `orders`.
+Shares and margin debt are generated automatically from the player's existing `orders`.
 
+---
+
+### 5.4 Property Target
+
+The selected house type determines the player's financial objective.
+
+| **Target** | **Rule** |
+|---|---:|
+| **Mini Apartment** | `2 × Initial Capital` |
+| **Gangnam Villa** | `8 × Initial Capital` |
+
+Target progress is calculated as:
+
+`Target Progress = Equity / Target Value × 100%`
+
+This allows the game to continuously show how trading decisions affect progress toward the player's goal.
+
+---
 
 ## 6. Explainability
 
-The game should explain why each financial outcome occurs.
+Every major financial outcome should be traceable to the player's previous decisions.
 
-> “You selected a 25% margin ratio, allowing up to 4× leverage. After the market declined, your portfolio value decreased while margin debt remained. This reduced your equity and margin ratio, triggering a margin call.”
+For example:
 
-The player can therefore understand the financial chain:
+> *“You selected a 25% initial margin ratio, allowing up to 4× leverage. After the market declined, your portfolio value fell while margin debt remained unchanged. Your equity therefore declined faster than the portfolio itself, reducing the margin ratio and triggering a margin call.”*
 
-**Margin Ratio → Leverage → Position Size → Market Loss → Equity Loss → Margin Health → Liquidation Risk**
+The financial chain is:
 
-The simulation demonstrates financial consequences but does not predict real market outcomes.
+> **Initial Margin Ratio → Leverage → Position Size → Market Movement → Portfolio P&L → Equity → Margin Ratio → Liquidation Risk**
 
+The simulator therefore explains **why** the player's financial condition changes rather than displaying only the final result.
+
+> **Limitation:** Free Fall 2.0 demonstrates financial mechanics under predefined scenarios. It does not predict actual market prices or future investment performance.
+
+---
 
 ## 7. Sample Calculation and Logic Test
 
-Two cases are used to test whether the financial logic produces the expected outcomes.
+The logic is tested using manually verifiable cases.
 
 ### Case 1 — High Leverage
 
-**Existing inputs:** Initial Capital = ₩10m | Initial Margin Ratio = 25% | Orders = Maximum Leveraged Position | Market Shock = −20%
+**Inputs**
 
-| **Calculation** | **Result** |
-|---|---:|
-| Maximum Position = ₩10m / 25% | **₩40m** |
-| Margin Debt = ₩40m − ₩10m | **₩30m** |
-| Market Loss = ₩40m × 20% | **₩8m** |
-| Remaining Equity = ₩40m − ₩30m − ₩8m | **₩2m** |
-| Remaining Portfolio Value = ₩40m − ₩8m | **₩32m** |
+`Initial Capital = ₩10m`  
+`Initial Margin Ratio = 25%`  
+`Order = Maximum Leveraged Position`  
+`Market Shock = −20%`
 
-**Outcome:** Margin Breach → Margin Call → Forced Liquidation
+| **Step** | **Calculation** | **Result** |
+|---:|---|---:|
+| 1 | Maximum Position = ₩10m / 25% | **₩40m** |
+| 2 | Margin Debt = ₩40m − ₩10m | **₩30m** |
+| 3 | Market Loss = ₩40m × 20% | **₩8m** |
+| 4 | Remaining Portfolio = ₩40m − ₩8m | **₩32m** |
+| 5 | Remaining Equity = ₩32m − ₩30m | **₩2m** |
+| 6 | Margin Ratio = ₩2m / ₩32m | **6.25%** |
 
-This tests whether leverage, portfolio loss, and margin logic work correctly.
+**Expected Outcome**
 
-### Case 2 — No Margin
+> **Margin Breach → Margin Call → Forced Liquidation**
 
-**Existing inputs:** Initial Capital = ₩50m | Orders = Cash-only | Market Shock = −10% | Margin Debt = ₩0
+This case tests whether:
 
-| **Calculation** | **Result** |
-|---|---:|
-| Portfolio Value = ₩50m × 90% | **₩45m** |
-| Equity = ₩45m − ₩0 | **₩45m** |
+- leverage is calculated correctly;
+- losses are amplified through leverage;
+- margin debt remains outstanding after the price decline;
+- equity falls correctly;
+- the margin threshold triggers the expected liquidation logic.
 
-**Outcome:** Portfolio Loss → No Margin Debt → No Margin Call → Remains Solvent
+---
 
-This provides a baseline comparison against leveraged trading.
+### Case 2 — Cash-Only Position
+
+**Inputs**
+
+`Initial Capital = ₩50m`  
+`Margin Debt = ₩0`  
+`Order = Cash-Only Position`  
+`Market Shock = −10%`
+
+| **Step** | **Calculation** | **Result** |
+|---:|---|---:|
+| 1 | Portfolio Value = ₩50m × 90% | **₩45m** |
+| 2 | Equity = ₩45m − ₩0 | **₩45m** |
+| 3 | Margin Debt | **₩0** |
+
+**Expected Outcome**
+
+> **Portfolio Loss → No Margin Debt → No Margin Call → Remains Solvent**
+
+This case provides a baseline comparison showing that a market loss alone does not create a margin call when the player has no leveraged debt.
+
+---
 
 ## 8. Technical Readiness
 
-The technical structure connects the user interface directly to the simulation engine and financial logic.
+### 8.1 Main Technical Route
 
-### Main Route
+The MVP uses a lightweight architecture in which the interface passes player actions directly into the simulation and financial-logic layer.
 
-| **Layer** | **Function** |
+> **React → Trading Interface → Simulation Engine → Financial Logic → Results**
+
+| **Layer** | **Role** |
 |---|---|
-| **React** | Main development framework |
-| **Trading Interface** | Receives and displays player decisions |
-| **Simulation Engine** | Processes the existing inputs and updates the game state |
-| **Financial Logic** | Calculates portfolio, debt, equity, leverage, margin health, and target progress |
-| **Results** | Displays the player's financial outcome |
+| **React** | Main development framework and application structure |
+| **Trading Interface** | Receives Buy / Sell / Hold decisions and displays the portfolio |
+| **Simulation Engine** | Controls phases, scenarios, orders and game-state updates |
+| **Financial Logic** | Calculates portfolio value, cash, debt, equity, leverage, margin health and target progress |
+| **Results Layer** | Displays financial outcomes and final performance |
 
-**System flow:** React → Trading Interface → Simulation Engine → Financial Logic → Results
+---
 
-### Simulation Engine
+### 8.2 Simulation Engine
 
-The engine uses the six existing inputs and converts them into calculated financial states:
+The engine transforms the six existing inputs into calculated game states.
 
 | **Existing Inputs** | **Calculated States** |
 |---|---|
 | Scenario | Holdings |
 | Initial Capital | Cash |
-| Margin Ratio | Portfolio Value |
+| Initial Margin Ratio | Portfolio Value |
 | Orders | Margin Debt |
-| Price Path | Equity |
+| Price Path | Equity / Net Worth |
 | House Type | Leverage |
-|  | Margin Health |
+|  | Margin Ratio / Margin Health |
 |  | Target Progress |
 |  | Final Outcome |
 
-**Logic flow:**  
-Scenario + Initial Capital + Margin Ratio + Orders + Price Path + House Type  
-→ Holdings → Cash → Portfolio Value → Margin Debt → Equity → Leverage → Margin Health → Target Progress → Final Outcome
+The processing sequence is:
 
-The predefined market paths can be stored as **JSON/JavaScript data** because the MVP uses deterministic scenarios.
+> **Scenario + Initial Capital + Margin Ratio + Orders + Price Path + House Type**  
+> ↓  
+> **Holdings + Cash + Portfolio Value + Margin Debt**  
+> ↓  
+> **Equity + Leverage + Margin Ratio**  
+> ↓  
+> **Margin Health + Target Progress**  
+> ↓  
+> **Final Outcome**
 
-### Fallback
+Because the MVP uses deterministic scenarios, predefined market paths can be stored directly as **JSON or JavaScript objects**.
 
-**Streamlit + Python** can be used as the fallback implementation.
+---
 
-The fallback uses the same financial logic with a simpler interface.
+### 8.3 Technical Principle
+
+The financial engine should remain separate from the interface.
+
+This allows the team to:
+
+- test formulas independently;
+- compare manual calculations with system outputs;
+- change the interface without rewriting financial logic;
+- reuse the same calculations in a fallback implementation.
+
+---
+
+### 8.4 Fallback Route
+
+If the React implementation becomes technically infeasible within the MVP timeline:
+
+> **Streamlit + Python**
+
+can be used as the fallback.
+
+The fallback preserves:
+
+- the same six inputs;
+- the same deterministic price paths;
+- the same financial formulas;
+- the same margin rules;
+- the same output metrics.
+
+Only the user interface is simplified.
+
+---
+
+## 9. Week 4 Validation
+
+Week 4 is considered complete when the team can demonstrate the full chain:
+
+> **Input → Financial Logic → Calculated State → Output → Player Interpretation**
+
+The repository should therefore contain enough evidence to show that:
+
+- all six MVP inputs have a defined financial role;
+- formulas and rules are explicitly documented;
+- leverage and margin mechanics are explainable;
+- at least one leveraged and one non-leveraged case can be manually verified;
+- assumptions and thresholds are visible;
+- financial logic can be implemented independently from the interface;
+- the React route is feasible;
+- a simpler technical fallback exists.
+
+The goal is not to complete the final game in Week 4.
+
+The goal is to prove that the MVP's **financial mechanics are logically defined, testable, explainable, and technically implementable**.
