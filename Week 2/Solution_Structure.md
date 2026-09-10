@@ -4,7 +4,6 @@
 
 > **Core Structure:** User → Input → Process → Output → User Action
 
----
 
 ## 1. User → Input → Process → Output → User Action
 
@@ -19,7 +18,6 @@
 **Core learning loop:**  
 `Decision → Financial Consequence → Market Stress → Risk Feedback → New Decision`
 
----
 
 ## 2. Initial Required Information
 
@@ -34,7 +32,6 @@
 
 The market path is **system-generated rather than user-defined**, allowing the same scenario to be tested and replayed consistently.
 
----
 
 ## 3. Core Process Type
 
@@ -50,7 +47,6 @@ One Korean trading day (**09:00–15:30**) is compressed into approximately **30
 | **Risk Control** | Equity / Portfolio Value → Margin Health |
 | **Downturn** | Asset Depreciation → Margin Violation → Margin Call → Forced Liquidation |
 
----
 
 ## 4. MVP Flow
 
@@ -68,7 +64,6 @@ One Korean trading day (**09:00–15:30**) is compressed into approximately **30
 
 **Available decisions:** `Buy` · `Sell` · `Hold` · `Use Margin` · `Deleverage` · `Preserve Cash`
 
----
 
 ## 5. Target / Fallback / Out of Scope
 
@@ -82,7 +77,6 @@ The fallback must preserve the core relationship:
 
 > **Leverage → Market Movement → Margin Risk → User Decision → Financial Outcome**
 
----
 
 ## 6. Initial Route Hypothesis
 
@@ -104,7 +98,6 @@ The fallback must preserve the core relationship:
 
 The financial engine should remain separate from the interface so that calculations can be independently tested.
 
----
 
 ## 7. Responsibility by Output
 
@@ -126,7 +119,6 @@ Responsibility is assigned by **reviewable output**, not only by general team ro
 
 > **Member ownership:** Assign specific member names to each output once team responsibilities are finalized.
 
----
 
 ## Solution Summary
 
