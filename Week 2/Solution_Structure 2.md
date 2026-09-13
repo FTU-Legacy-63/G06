@@ -1,7 +1,7 @@
 # SOLUTION_STRUCTURE.md
 
-## Korean Stock Market Simulation Game
-> **Core Structure:** User → Input → Process → Output → User Action
+## Korean Stock Market Simulation Game (Seoul 2026 Crisis Simulator)
+> **Core Structure:** User → Input → Process → Output → User Action[cite: 4]
 
 ---
 
@@ -9,14 +9,14 @@
 
 | Stage | Definition |
 | :--- | :--- |
-| **User** | Retail investors, inexperienced day traders, and finance/banking students. |
-| **Input** | Randomly assigned scenario (`1` or `2`), selected house difficulty target (`Small House`, `Normal House`, `Big-Ass Villa`), trading orders (Buy/Sell/Hold), and leverage selection. |
-| **Process** | Deterministic price advance → Portfolio revaluation → Margin health check → Margin Call / Forced Liquidation assessment → Phase countdown check. |
-| **Output** | Liquid cash, share volume, margin debt, net equity, margin ratio gauge, property target progress %, and narrative ending result. |
-| **User Action** | Submit Buy/Sell orders, toggle cash vs. margin borrowing, deleverage, or cut positions before margin calls execute. |
+| **User** | Retail investors, day traders, and finance students practicing leverage risk management[cite: 4]. |
+| **Input** | Randomly assigned scenario (`1` or `2`), chosen house target difficulty (`Small House`, `Normal House`, `ToLam Villa`), selected margin tier (`2x`, `3x`, `4x` or Cash 1.0x), and active Buy/Sell/Hold trading orders[cite: 4]. |
+| **Process** | Real-time tick engine (1,800s time-series) → Continuous asset revaluation across 50 tickers → Margin health ratio check → Margin Call warning / Forced Liquidation execution → Phase transition[cite: 4]. |
+| **Output** | Cash balance, portfolio valuation, margin debt, net equity, margin health gauge, property target progress %, and narrative debrief[cite: 4]. |
+| **User Action** | Submit Buy/Sell market orders, toggle margin tiers, deleverage positions, hold cash reserves, or respond to margin stress before forced liquidation executes[cite: 4]. |
 
 **Core learning loop:**  
-`Scenario Assignment → House Target Selection → Market Stress → Leverage Decision → Financial Consequence → Behavioral Feedback`
+`Scenario & Capital Assignment → House Target Selection → Market Stress & Traps → Leverage Decisions → Financial Consequence → Behavioral Feedback`[cite: 4]
 
 ---
 
@@ -24,48 +24,95 @@
 
 | Input Variable | Meaning | Source |
 | :--- | :--- | :--- |
-| `assigned_scenario_id` | Selects Scenario 1 or 2, determining starting cash and fixed market path. | System-generated (Random at launch) |
-| `initial_capital` | Starting liquid balance (e.g., 20m KRW in Scenario 1; 50m KRW in Scenario 2). | System-defined by Scenario |
-| `target_house_type` | Selected lifestyle goal acting as game difficulty ($1.5\times$, $3.5\times$, or $8\times$ capital). | User Selection |
-| `property_target_value` | Exact KRW wealth needed to win the selected house ending. | Calculated (`initial_capital` × Multiplier) |
-| `orders` | Buy / Sell / Hold + Volume + Cash / Margin financing. | User Input |
-| `fixed_price_path` | Predetermined 6-phase market sequence with embedded news and traps. | System-defined by Scenario |
+| `assigned_scenario_id` | Determines starting cash and locks the deterministic market path (`1` or `2`)[cite: 4]. | System-generated (Random at launch)[cite: 4] |
+| `initial_capital` | Starting liquid balance ($10,000 USD / 20,000,000 KRW equivalent baseline)[cite: 4]. | System-defined by scenario[cite: 4] |
+| `target_house_type` | Lifestyle target defining game difficulty and required multiplier ($3\times$, $20\times$, or $200\times$). | User Selection[cite: 4] |
+| `property_target_value` | Exact KRW/USD equity required to win the selected ending (`initial_capital` × Multiplier). | Calculated Parameter |
+| `margin_tier` | Discrete leverage multiplier tier chosen by player: `2x`, `3x`, `4x` (or Cash 1.0x)[cite: 4]. | User Selection |
+| `orders` | Buy / Sell / Hold orders with designated volume and asset ticker[cite: 4]. Unlimited volume execution bounded by available balance. | User Input[cite: 4] |
+| `fixed_price_path` | 1,800-second deterministic tick series spanning 50 assets and 6 market phases (`market_scenario.csv`)[cite: 4]. | System Dataset (`market_scenario.csv`)[cite: 4] |
 
 ---
 
-## 3. Core Process & Game Architecture
+## 3. Core Process & Financial Risk Engine
 
-> **Deterministic, event-driven financial market simulation with real-time user decisions.**
+> **Deterministic, event-driven financial market simulation with real-time user decisions.**[cite: 4]
 
-One trading day is compressed into **30 minutes** across **6 distinct phases** (approx. 5 minutes per phase).
+One trading day is compressed into **30 minutes (1,800 seconds)** across **6 distinct phases** (300 seconds per phase)[cite: 4].
 
-### Financial Logic Pipeline
-1. **Trading Execution:** Validates order volume against cash and available margin borrowing limit.
-2. **Valuation Engine:** Recalculates Net Equity on every tick and user trade:
-   $$\text{Total Assets} = \text{Liquid Cash} + (\text{Shares} \times \text{Current Price})$$
+### Valuation Pipeline (Executed on every price tick and user action)
+1. **Gross Asset Valuation:**
+   $$\text{Total Assets} = \text{Liquid Cash} + \sum (\text{Shares}_i \times \text{Current Price}_i)$$
+2. **Net Equity & Debt Accounting:**
    $$\text{Net Equity} = \text{Total Assets} - \text{Margin Debt}$$
-   $$\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Shares} \times \text{Current Price}}$$
+3. **Margin Health Calculation:**
+   $$\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Stock Exposure}} = \frac{\text{Net Equity}}{\sum (\text{Shares}_i \times \text{Current Price}_i)}$$
+4. **Target Progress Tracking:**
    $$\text{Target Progress \%} = \left(\frac{\text{Net Equity}}{\text{Property Target Value}}\right) \times 100$$
-3. **Risk Enforcement:**
-   * **Healthy:** Margin Ratio $\ge 30\%$ maintenance threshold.
-   * **Liquidation Triggered:** If Margin Ratio $< 30\%$, the system automatically sells shares at market price, repays margin debt, and records remaining equity.
-   * **Solvency Check:** If Equity $\le 0$, session terminates immediately (**Total Wipeout**).
+
+### Risk Enforcement Rules
+* **Safe Zone:** Margin Ratio $\ge 50\%$.
+* **Margin Warning:** Margin Ratio between $30\%$ and $50\%$. Visual amber warning displayed on dashboard.
+* **Maintenance Breach (Forced Liquidation):**
+  $$\text{IF Margin Ratio} < 30\%$$
+  The broker automatically liquidates 100% of open equity holdings at the current tick price to repay `Margin Debt`. All slippage and losses are absorbed by the player's remaining equity[cite: 4].
+* **Solvency Check:**
+  $$\text{IF Net Equity} \le 0 \implies \text{Total Wipeout / Bankruptcy (Game Over)}$$
 
 ---
 
 ## 4. MVP Flow & 6-Phase Narrative Structure
 
-| Phase | Market Tone | News Authenticity | Core Educational Mechanism |
-| :---: | :--- | :--- | :--- |
-| **1** | Slightly Green | **Fake / Rumors** | Overhyped leaks bait players into opening margin accounts and early leveraged buys. |
-| **2** | Steady Green | **True / Fundamental** | Solid corporate earnings build genuine confidence in the uptrend. |
-| **3** | Euphoric Bull | **True / Bullish** | Market hits peak; players with high targets (Big-Ass Villa) are heavily tempted to max out leverage. |
-| **4** | Slightly Red | **True / Mild Bear** | A mild dip tempts players into complacency or "buying the dip" on margin rather than de-risking. |
-| **5** | Crisis Outbreak | **Fakeouts / Bull Traps** | Sharp crash with deceptive recovery headlines; liquidity freezes and Margin Calls begin. |
-| **6** | The Cascade | **Panic / Systemic Shock** | Unchecked leverage breaches maintenance margins, triggering broker forced liquidations and final endings. |
+Based on empirical data from `market_scenario.csv`:
+
+| Phase | Phase Name | Duration | Market Dynamics | Primary Behavioral Mechanism |
+| :---: | :--- | :---: | :--- | :--- |
+| **1** | **Fake Positive News** | Sec 1–300 | Deceptive bullish rumors; initial asset uptick. | Bating players into opening margin accounts and taking early leveraged exposure[cite: 4]. |
+| **2** | **True Positive News** | Sec 301–600 | Broad rally validated by corporate fundamentals. | Reinforcing confidence; rewarding early risk-takers[cite: 4]. |
+| **3** | **Bull Market** | Sec 601–900 | Momentum acceleration across tech/semiconductors. | Tempting players chasing high targets (ToLam Villa) to switch to 3x/4x margin tiers[cite: 4]. |
+| **4** | **Strong Growth (FOMO)** | Sec 901–1200 | Rapid valuation surge; high volatility. | Fear Of Missing Out (FOMO); peak borrowing occurs[cite: 4]. |
+| **5** | **Market Euphoria** | Sec 1201–1500 | Peak valuations followed by sharp intraday fakeouts and bull traps. | Greed trap; optimal strategies take profits here, while greedy players hold max margin into the close[cite: 4]. |
+| **6** | **Negative Shock** | Sec 1501–1800 | Severe systemic crash (Samsung, Vintrumite drop **−57%**). | High leverage accounts breach 30% maintenance margin, triggering broker forced liquidations[cite: 4]. |
 
 ---
 
-## 5. Difficulty Levels & Narrative Endings
+## 5. Calibrated Difficulty Levels & Narrative Endings
 
-The player's initial choice of house sets the difficulty and determines the final ending screen:
+Empirical backtesting (`best_case_portfolio_summary.csv`) confirms that un-leveraged investing yields up to $5.20\times$, while optimal 4x margin compounding achieves up to **$217.45\times$ (~200×)**:
+
+| Target House | Multiplier | Feasible Leverage | Narrative Ending Consequence |
+| :--- | :---: | :---: | :--- |
+| **Small House** *(Easy)* | **$3.0\times$ Capital** | Cash Only (1.0x) | **Normie Ending:** Survived the crash safely with zero debt, but wealth growth barely beats inflation. A secure but completely mundane, uninspiring life. |
+| **Normal House** *(Medium)* | **$20.0\times$ Capital** | 2.0x – 3.0x Margin | **Middle-Class Stability Ending:** Successfully balanced risk and return. Achieved comfortable home ownership and solid financial security. |
+| **ToLam Villa** *(Hard)* | **$200.0\times$ Capital** | 4.0x Margin (Extreme) | **Extravagant Luxury Ending:** Flawless market execution unlocks supreme multi-generational wealth and endless fun. <br>**Failure Consequence:** Total liquidation wipeout and bankruptcy. |
+
+---
+
+## 6. Technical Route & System Architecture
+
+### Technical Route
+`Scenario Dataset (CSV) → Core State Engine (React/Next.js) → Valuation & Risk Model → Trading Interface → Post-Game Consequence Debrief`[cite: 4]
+
+| Component | Function | Implementation Responsibility |
+| :--- | :--- | :--- |
+| **Market Data Architecture** | Stores the 1,800-second price matrix across 50 assets and news queue (`market_scenario.csv`). | **Nguyễn Hồng Nguyên** *(Data Gatherer)* |
+| **Financial Risk Engine** | Implements equity revaluation, margin debt tracking, 30% maintenance trigger, and liquidation calculations. | **Trần Hữu Dụ** *(Mechanism Designer)* |
+| **Scenario & Narrative Controller** | Scripts phase transitions, deceptive/true headlines, decision matrices, and 3 ending consequences. | **Cáp Phan Quang Khánh** *(Scenario Designer)* |
+| **Dashboard UI/UX** | Renders live price ticker, margin health gauge, visual liquidation alerts, and order entry interface. | **Triệu Đức Lương** *(UI/UX Designer)* |
+| **Core Simulation Engine** | Controls the 1,800s timer loop, order execution (unlimited volume matching), and state synchronization. | **Nguyễn Quang Minh** *(Technical Developer)* |
+
+---
+
+## 7. Scope Boundaries (Target vs. Fallback vs. Out of Scope)
+
+| Scope Tier | Boundaries |
+| :--- | :--- |
+| **Target MVP** | Single-player web simulator with 2 scenarios, 50 Korean assets, 3 house difficulties ($3\times$, $20\times$, $200\times$), 3 margin tiers (`2x`, `3x`, `4x`), real-time 1,800s tick progression, automatic liquidation at $<30\%$ margin, and educational debrief[cite: 4]. |
+| **Fallback** | Turn-based phase evaluation (6 discrete phase decisions rather than second-by-second ticks), simplified asset basket (top 5 core assets instead of 50), and manual margin call check[cite: 4]. |
+| **Out of Scope** | Real-money brokerage integration, order-book depth/slippage modeling, multiplayer lobbies, derivative options contracts, and institutional/regulator playable roles[cite: 4]. |
+
+---
+
+## 8. Solution Summary
+
+`Retail Investor → Assigned Capital ($10k/20m KRW) → Select House Target (3x / 20x / 200x) → Select Margin Tier (Cash / 2x / 3x / 4x) → 1,800s Compressed Simulation → Continuous Margin Health Valuation → Phase 6 Shock & Cascade → Consequence Debrief (Normie / Stability / Luxury / Wipeout)`[cite: 4]
