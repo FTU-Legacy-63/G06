@@ -20,7 +20,7 @@ This file defines the minimum inputs and state variables required by the MVP bef
 | :--- | :---: | :--- | :--- |
 | **Small House** *(Easy / Safe)* | **$3.0\times$ Capital** | Achievable using **Cash Only (1.0×)**. Benchmark yield is $2.92\times$ (1 trade/phase) to $5.20\times$ (AM/PM rotation). | **Normie Ending:** Survived the crisis safely with zero margin debt, but wealth growth is modest. Life remains plain, mundane, and unexciting. |
 | **Normal House** *(Medium / Balanced)* | **$20.0\times$ Capital** | Requires active trading with **2.0× or 3.0× Margin**. Benchmark yield spans $7.02\times$ to $72.84\times$. | **Middle-Class Stability Ending:** Navigated market turbulence with disciplined leverage. Enjoy comfortable suburban living and solid financial security. |
-| **ToLam Villa** *(Extreme / Hard)* | **$200.0\times$ Capital** | Mathematically impossible without **4.0× Margin**. Theoretical ceiling reaches **$217.45\times$ (+21,645%)** under perfect 10-trade execution before Phase 6 collapse. | **Extravagant Luxury Ending:** Flawless timing generates supreme multi-generational wealth and endless fun. A single misstep triggers total wipeout. |
+| **ToLam Villa** *(Extreme / Hard)* | **$100.0\times$ Capital** | Mathematically with **4.0× Margin** the player could reach a maximum of over $2.17 million - theoretical ceiling reaches **$217.45\times$ (+21,645%)** under perfect 10-trade execution before Phase 6 collapse. | **Extravagant Luxury Ending:** Flawless timing generates supreme multi-generational wealth and endless fun. A single misstep triggers total wipeout. |
 
 ## Margin Tier Specification
 
