@@ -18,20 +18,19 @@ This file defines the minimum inputs and state variables required by the MVP bef
 
 | House Type (`target_house_type`) | Target Multiplier | Required Strategy / Benchmark Feasibility | Consequence / Ending Narrative |
 | :--- | :---: | :--- | :--- |
-| **Small House** *(Easy / Safe)* | **$3.0\times$ Capital** | Achievable using **Cash Only (1.0×)**. Benchmark yield is $2.92\times$ (1 trade/phase) to $5.20\times$ (AM/PM rotation). | **Normie Ending:** Survived the crisis safely with zero margin debt, but wealth growth is modest. Life remains plain, mundane, and unexciting. |
-| **Normal House** *(Medium / Balanced)* | **$20.0\times$ Capital** | Requires active trading with **2.0× or 3.0× Margin**. Benchmark yield spans $7.02\times$ to $72.84\times$. | **Middle-Class Stability Ending:** Navigated market turbulence with disciplined leverage. Enjoy comfortable suburban living and solid financial security. |
-| **ToLam Villa** *(Extreme / Hard)* | **$100.0\times$ Capital** | Mathematically with **4.0× Margin** the player could reach a maximum of over $2.17 million - theoretical ceiling reaches **$217.45\times$ (+21,645%)** under perfect 10-trade execution before Phase 6 collapse. | **Extravagant Luxury Ending:** Flawless timing generates supreme multi-generational wealth and endless fun. A single misstep triggers total wipeout. |
+| **Small House** *(Easy / Safe)* | **3.0× Capital** | Achievable using **Cash Only (1.0×)**. Benchmark yield is 2.92× (1 trade/phase) to 5.20× (AM/PM rotation). | **Normie Ending:** Survived the crisis safely with zero margin debt, but wealth growth is modest. Life remains plain, mundane, and unexciting. |
+| **Normal House** *(Medium / Balanced)* | **20.0× Capital** | Requires active trading with **2.0× or 3.0× Margin**. Benchmark yield spans 7.02× to 72.84×. | **Middle-Class Stability Ending:** Navigated market turbulence with disciplined leverage. Enjoy comfortable suburban living and solid financial security. |
+| **ToLam Villa** *(Extreme / Hard)* | **100.0× Capital** | Mathematically impossible without **4.0× Margin** (3.0× peaks at 72.84×). Requires near-flawless multi-phase compounding before the Phase 6 collapse. | **Extravagant Luxury Ending:** Flawless timing generates supreme multi-generational wealth and elite status. A single misstep triggers total wipeout. |
 
 ## Margin Tier Specification
-*The assumed margin maintenance level is 20%*
 
-| Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Benchmark Wealth Ceiling (Phase 1–5) | Margin Call Trigger (20% Maintenance Margin) | Risk Profile |
-|---|---|---|---|---|---|---|
-| **Cash (1.0×)** | 1.0× Buying Power | 1.0× Equity | 0.0× Equity | **2.92× – 5.20×** | **N/A** | Zero liquidation risk; immune to broker margin calls. |
-| **2×** | 2.0× Buying Power | 2.0× Equity | 1.0× Equity | **7.02× – 21.27×** | **−37.50%** | Moderate Risk: A 10% asset decline produces approximately a 20% equity loss. Theoretical equity wipeout occurs at a 50% decline. |
-| **3×** | 3.0× Buying Power | 3.0× Equity | 2.0× Equity | **14.72× – 72.84×** | **−16.67%** | High Risk: A 10% asset decline produces approximately a 30% equity loss. Theoretical equity wipeout occurs at a 33.3% decline. |
-| **4×** | 4.0× Buying Power | 4.0× Equity | 3.0× Equity | **27.99× – 217.45×** | **−6.25%** | Extreme Risk: A 10% asset decline produces approximately a 40% equity loss. Theoretical equity wipeout occurs at a 25% decline. |
+| Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Drop to Breach 20% Maintenance Margin | Risk Profile |
+| :---: | :---: | :---: | :---: | :---: | :--- |
+| **Cash (1.0x)** | 1.0× Buying Power | 1.0 × Equity | 0.0 × Equity | N/A (Cannot Liquidate) | Zero liquidation risk; immune to broker margin calls. |
+| **2x** | 2.0× Buying Power | 2.0 × Equity | 1.0 × Equity | **-37.50%** | Moderate: High cushion against normal intraday volatility; liquidates in catastrophic systemic shocks. |
+| **3x** | 3.0× Buying Power | 3.0 × Equity | 2.0 × Equity | **-16.67%** | High Risk: Vulnerable to sharp corrections and Phase 5 bull traps (max yield: 72.84×). |
+| **4x** | 4.0× Buying Power | 4.0 × Equity | 3.0 × Equity | **-6.25%** | Extreme Risk (CFD-level): Unlocks the 100.0× ceiling; highly fragile to even minor price dips. |
 
 ## Core Input Flow
 
-> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` (`market_scenario.csv`) → User selects `target_house_type` (Difficulty: $3\times$, $20\times$, or $100\times$) → Sets `property_target_value` → User executes `orders` with selected `margin_tier` (`2x`, `3x`, `4x`) → Real-time Margin & Equity Valuation → Financial & Narrative Outcome
+> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` (`market_scenario.csv`) → User selects `target_house_type` (Difficulty: 3×, 20×, or 100×) → Sets `property_target_value` → User executes `orders` with selected `margin_tier` (`2x`, `3x`, `4x`) → Real-time Margin & Equity Valuation → Financial & Narrative Outcome
