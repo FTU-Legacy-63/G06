@@ -15,7 +15,7 @@ The MVP intentionally simplifies several market mechanisms to maintain technical
 * **Disclosure:** *"Market conditions follow an intensified historical simulation model. Replay variety is provided across distinct scenario tracks."*
 
 ## Assumption 3: Fixed Multiplier Housing Targets
-* **Assumption:** Property targets are strictly pegged to fixed initial-capital multipliers ($3.0\times$, $20.0\times$, and $200.0\times$) derived from benchmark feasibility models.
+* **Assumption:** Property targets are strictly pegged to fixed initial-capital multipliers ($3.0\times$, $20.0\times$, and $100.0\times$) derived from benchmark feasibility models.
 * **Reason:** Establishes clear, indisputable mathematical targets that force players to evaluate the trade-off between safe, modest returns and high-risk leverage.
 * **Risk:** Real-world property markets do not scale proportionally to an individual investor's initial capital.
 * **Disclosure:** *"Housing targets represent lifestyle aspirations mathematically scaled to initial starting wealth."*
