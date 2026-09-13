@@ -1,50 +1,53 @@
 # Sample Input–Output
 
-This file demonstrates how fixed scenarios combined with different player decisions produce predictable financial consequences.
+This file demonstrates how the scenario data, margin tiers, and house targets produce predictable financial consequences.
 
-## Sample Case 1: Scenario 1 + Gangnam Villa — The Wipeout
+## Sample Case 1: Scenario 1 + ToLam Villa (Extreme Difficulty — The Wipeout)
 
 ### Sample Input
-
-| Input | Value |
+| Variable | Value |
 | :--- | :--- |
-| Scenario | Scenario 1 |
-| Initial Capital | 10,000,000 KRW |
-| Financial Target | Gangnam Villa |
-| Target Value | 80,000,000 KRW |
-| Market Path | Aggressive bull run followed by a sudden crash |
-| Phase 5 Shock | −30% |
-| Player Strategy | Maximum margin exposure |
-| Maximum Leverage | 1:4 |
+| `assigned_scenario_id` | Scenario 1 (`market_scenario.csv`) |
+| `initial_capital` | $10,000 USD (or 20,000,000 KRW) |
+| `target_house_type` | ToLam Villa (Extreme Difficulty) |
+| `property_target_value` | **$2,000,000 USD** ($200.0\times$ Initial Capital) |
+| `margin_tier` Selected | **4x Tier** (Maximum Leverage) |
+| Strategy Pursued | Attempting the empirical AM/PM rotation strategy to hit the ~200× ceiling |
+| Execution Failure | Player holds a full leveraged position into Phase 6 rather than rotating out |
+| Phase 6 Market Shock | Systemic crash across holdings: Vintrumite drops −57.8%, Samsung drops −56.9% |
 
-### Intended Consequence
+### Expected Consequence
+1. In Phase 5, the player rides the euphoric wave with 4× leverage, temporarily growing equity toward seven figures.
+2. In Phase 6 (Second 1501–1800), the systemic collapse hits: asset values plummet by over **−56%** within 300 seconds.
+3. Because the position is leveraged 4× ($3.0\text{ debt} : 1.0\text{ equity}$), a price drop greater than **10%** severely damages equity, and a drop exceeding **25%** completely erases net worth.
+4. Net Equity falls below the 30% maintenance threshold within seconds of Phase 6 opening:
+   $$\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Exposure}} < 30\%$$
+5. **Trigger:** Forced Liquidation. The broker sells all shares at collapsed market prices.
+6. Gross proceeds fail to cover margin debt after severe intra-tick drops, driving Net Equity to **$0 (or negative)**.
 
-The player uses maximum leverage during the bull market to pursue the 8× financial target.
-
-When the predetermined **−20% market shock** occurs, the leveraged position suffers a disproportionately large equity loss. Equity falls below the required maintenance level, triggering:
-
-> **Market Crash → Maintenance Margin Breach → Margin Call → Forced Liquidation**
-
-**Final Outcome:** Forced Liquidation / Wipeout  
-**Financial Target:** Failed
+* **Final Result:** Forced Liquidation / Total Account Wipeout.
+* **Ending:** Failed Target. Complete financial insolvency.
 
 ---
 
-## Sample Case 2: Scenario 3 + Mini Apartment — The Normie
+## Sample Case 2: Scenario 1 + Small House (Easy Difficulty — The Normie)
 
 ### Sample Input
-
-| Input | Value |
+| Variable | Value |
 | :--- | :--- |
-| Scenario | Scenario 3 |
-| Initial Capital | 50,000,000 KRW |
-| Financial Target | Mini Apartment |
-| Target Value | 100,000,000 KRW |
-| Market Path | Moderate growth followed by a correction |
-| Market Shock | −30% |
-| Player Strategy | Cash-only investment |
-| Margin Used | 0% |
+| `assigned_scenario_id` | Scenario 1 (`market_scenario.csv`) |
+| `initial_capital` | $10,000 USD (or 20,000,000 KRW) |
+| `target_house_type` | Small House (Easy Difficulty) |
+| `property_target_value` | **$30,000 USD** ($3.0\times$ Initial Capital) |
+| `margin_tier` Selected | **Cash Only (1.0x / 0% Margin Debt)** |
+| Position Allocation | Conservative 1-trade-per-phase strategy across Phases 1–4, shifting to cash prior to Phase 6 |
+| Phase 6 Market Shock | −57% systemic crash occurs while player holds safe cash reserve |
 
-### Intended Consequence
+### Expected Consequence
+1. Across Phases 1–4, the player selects solid fundamental uptrends using pure cash, achieving benchmark equity of approximately **$29,247 USD** ($2.92\times$ capital preservation baseline).
+2. Recognizing market euphoria in Phase 5, the player liquidates positions to hold pure cash heading into Phase 6.
+3. During Phase 6, stock prices collapse by −57%. Because the player holds zero margin debt and has de-risked into cash, portfolio value remains stable at ~$29,000 – $30,000 USD.
+4. Margin Ratio remains at **100% (No Debt)** throughout the entire crisis. No margin call or liquidation can physically trigger.
 
-The player's portfolio declines during the predetermined correction. However, because the player has no Margin Debt, the decline does not trigger a Margin Call or Forced Liquidation.
+* **Final Result:** Solvent; capital fully preserved, achieving the baseline target (~$3.0\times$).
+* **Ending:** Normie Ending — Survived the crisis safely with zero liquidation stress, but lived a modest, unexciting, and strictly ordinary life.
