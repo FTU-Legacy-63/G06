@@ -33,34 +33,39 @@ This file defines the minimum inputs and state variables required by the MVP bef
 
 ### 4× Margin Benchmark
 
-At the maximum **4× leverage**, every **$1 of player equity supports $4 of market exposure**, consisting of **$1 equity + $3 margin debt**.
+At **4× leverage**, the player controls a position equal to **4× equity**, funded by:
 
-For example, with **$10,000 initial equity**:
+- **1× player equity**
+- **3× margin debt**
 
-\[
-\text{Purchasing Power} = \$10,000 \times 4 = \$40,000
-\]
+A market decline therefore cannot be evaluated using the asset-price percentage alone. As the asset price falls, **portfolio value decreases while margin debt remains unchanged**, causing the player's equity and margin ratio to fall much faster.
 
-\[
-\text{Margin Debt} = \$40,000 - \$10,000 = \$30,000
-\]
+For example, starting with **$10,000 equity**:
 
-Before transaction costs and liquidation, equity return is approximately:
+| Market State | Position Value | Margin Debt | Player Equity | Margin Ratio |
+|---|---:|---:|---:|---:|
+| Initial | $40,000 | $30,000 | $10,000 | **25.00%** |
+| Price −5% | $38,000 | $30,000 | $8,000 | **21.05%** |
+| Price −10% | $36,000 | $30,000 | $6,000 | **16.67%** |
+| Price −20% | $32,000 | $30,000 | $2,000 | **6.25%** |
+| Price −25% | $30,000 | $30,000 | $0 | **0.00%** |
 
-\[
-R_{\text{Equity}} = 4R_{\text{Asset}}
-\]
+Therefore:
 
-Therefore, a **+10% asset return ≈ +40% equity return**, while a **−10% asset return ≈ −40% equity return**. A **−25% asset decline** represents the theoretical equity wipeout point before forced liquidation.
+> **−25% is the theoretical equity wipeout point, not the forced-liquidation threshold.**
 
-The **27.99× – 217.45×** benchmark is calculated from the current 50-ticker market scenario:
+Actual forced liquidation occurs earlier when the player's **margin ratio falls below the predefined maintenance-margin threshold**.
 
-- **27.99×:** best single trade in each phase, compounded across Phases 1–5 at 4× leverage;
-- **217.45×:** best AM/PM trade rotation, compounded across 10 trading sessions at 4× leverage.
+For a 4× position:
 
-Starting from **$10,000**, these correspond to theoretical final equity of approximately **$279,941 – $2,174,523**.
+$$
+\text{Margin Ratio}
+=
+\frac{\text{Portfolio Value} - \text{Margin Debt}}
+{\text{Portfolio Value}}
+$$
 
-> These values represent perfect-foresight upper-bound benchmarks for stress testing, not expected player outcomes. Actual margin calls and forced liquidation depend on the MVP maintenance-margin rule.
+Therefore, Phase 6 liquidation is determined dynamically from **portfolio value, outstanding margin debt, and the maintenance-margin rule**, rather than by assuming that a fixed market decline such as −10% or −20% automatically causes liquidation.
 
 ## Core Input Flow
 
