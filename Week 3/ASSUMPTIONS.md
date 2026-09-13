@@ -71,14 +71,3 @@ The resulting margin-call sensitivity is:
 | **4×** | 25.00% | **−6.25%** | −25.00% |
 
 The **20% threshold represents the margin-call point, not the theoretical equity wipeout point**. At 4× leverage, for example, a decline of approximately **6.25% from the position's entry price** is sufficient to trigger a margin call even though the player's equity does not theoretically reach zero until a 25% decline.
-
-## Assumption 7: Margin Tier Specification
-
-| Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Benchmark Wealth Ceiling (Phase 1–5) | Margin Call Trigger (20% Maintenance Margin) | Risk Profile |
-|---|---|---|---|---|---|---|
-| **Cash (1.0×)** | 1.0× Buying Power | 1.0× Equity | 0.0× Equity | **2.92× – 5.20×** | **N/A** | Zero margin-liquidation risk; no broker margin calls. |
-| **2×** | 2.0× Buying Power | 2.0× Equity | 1.0× Equity | **7.02× – 21.27×** | **−37.50%** | Moderate Risk: A 10% asset decline produces approximately a 20% equity loss. Theoretical equity wipeout occurs at a 50% decline. |
-| **3×** | 3.0× Buying Power | 3.0× Equity | 2.0× Equity | **14.72× – 72.84×** | **−16.67%** | High Risk: A 10% asset decline produces approximately a 30% equity loss. Theoretical equity wipeout occurs at a 33.3% decline. |
-| **4×** | 4.0× Buying Power | 4.0× Equity | 3.0× Equity | **27.99× – 217.45×** | **−6.25%** | Extreme Risk: A 10% asset decline produces approximately a 40% equity loss. Theoretical equity wipeout occurs at a 25% decline. |
-
-The Phase 1–5 benchmark wealth ceilings represent **perfect-foresight upper-bound outcomes** calculated from the current market scenario. They are used for stress testing and target calibration rather than as expected player outcomes.
