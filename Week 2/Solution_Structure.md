@@ -58,8 +58,8 @@ The system tracks dynamic borrowing risk in terms of leverage multiples ($x$):
 | Financial State | Condition / Formula | System Output & Immediate Action |
 | :--- | :--- | :--- |
 | **Safe Zone** | $\text{Effective Leverage} \le \mathbf{2.5\times}$ *(Margin Ratio $\ge 40\%$)* | Collateral buffer is healthy; normal gameplay proceeds without intervention. |
-| **Margin Warning (Amber Alert)** | $\mathbf{2.5\times} < \text{Effective Leverage} \le \mathbf{5.0\times}$ | Visual warning banner flashes on dashboard; prompts voluntary de-risking or position cuts. |
-| **Maintenance Breach (Forced Liquidation)** | $\text{Effective Leverage} > \mathbf{5.0\times}$ *(equivalent to Margin Ratio < 20%)* | Broker automatically executes a market fire-sale of 100% of open equity holdings at current tick price to settle `Margin Debt`. Losses deduct from remaining equity. |
+| **Margin Warning (Amber Alert)** | $\mathbf{2.5\times} < \text{Effective Leverage} < \mathbf{5.0\times}$ | Visual warning banner flashes on dashboard; prompts voluntary de-risking or position cuts. |
+| **Maintenance Breach (Forced Liquidation)** | $\text{Effective Leverage} \ge \mathbf{5.0\times}$ *(equivalent to Margin Ratio $\le 20\%$)* | Broker automatically executes a market fire-sale of 100% of open equity holdings at current tick price to settle `Margin Debt`. Losses deduct from remaining equity. |
 | **Solvency Check (Bankruptcy)** | $\text{Net Equity} \le 0$ | Terminal state: **Total Account Wipeout / Game Over**. |
 
 ---
@@ -110,7 +110,7 @@ Empirical backtesting (`best_case_portfolio_summary.csv`) confirms that un-lever
 
 | Scope Tier | Boundaries |
 | :--- | :--- |
-| **Target MVP** | Single-player web simulator with 2 scenarios, 50 Korean assets, 3 house difficulties ($3.0\times$, $20.0\times$, $100.0\times$), 3 margin tiers (`2x`, `3x`, `4x`), real-time 1,800s tick progression, automatic liquidation at $> 5.0\times$ leverage, and educational debrief. |
+| **Target MVP** | Single-player web simulator with 2 scenarios, 50 Korean assets, 3 house difficulties ($3.0\times$, $20.0\times$, $100.0\times$), 3 margin tiers (`2x`, `3x`, `4x`), real-time 1,800s tick progression, automatic liquidation at $\ge 5.0\times$ leverage, and educational debrief. |
 | **Fallback** | Turn-based phase evaluation (6 discrete phase decisions rather than second-by-second ticks), simplified asset basket (top 5 core assets instead of 50), and manual margin call check. |
 | **Out of Scope** | Real-money brokerage integration, order-book depth/slippage modeling, multiplayer lobbies, derivative options contracts, and institutional/regulator playable roles. |
 
