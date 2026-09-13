@@ -56,7 +56,7 @@ Five assets are designated as the primary market drivers in the current scenario
 
 | Driver | Simulation Role |
 |---|---|
-| **SK hynix** | Primary high-volatility driver with strong upside movements before the crash |
+| **Vintrumite** | Primary high-volatility driver with strong upside movements before the crash |
 | **Samsung Electronics** | Major technology-market driver following the broader bullish-to-crash cycle |
 | **KODEX Leverage** | Leveraged market exposure that amplifies major market movements |
 | **KODEX Semiconductor** | Semiconductor-sector exposure linked to the technology rally |
