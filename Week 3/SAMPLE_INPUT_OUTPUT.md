@@ -11,7 +11,7 @@ This file demonstrates how the scenario data, margin tiers, and house targets pr
 | `assigned_scenario_id` | Scenario 1 (`market_scenario.csv`) |
 | `initial_capital` | $10,000 USD |
 | `target_house_type` | ToLam Villa (Extreme Difficulty) |
-| `property_target_value` | **$2,000,000 USD** ($200.0\times$ Initial Capital) |
+| `property_target_value` | **$1,000,000 USD** ($100.0\times$ Initial Capital) |
 | `leverage_per_order` | **4x Tier** (Maximum Leverage) applied to each selected leveraged order |
 | Strategy Pursued | Attempting the empirical AM/PM rotation strategy to hit the ~200× ceiling |
 | Execution Failure | Player opens and holds a full 4× leveraged position into Phase 6 rather than rotating out |
@@ -24,9 +24,9 @@ This file demonstrates how the scenario data, margin tiers, and house targets pr
 3. Because the active position is leveraged 4× ($3.0\text{ debt} : 1.0\text{ equity}$), a price drop of approximately **6.25%** from the position's entry price reduces the Margin Ratio to the fixed **20% maintenance threshold**.
 4. The Margin Ratio reaches or falls below the 20% maintenance threshold within Phase 6:
 
-   $$
-   \text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Exposure}} \leq 20\%
-   $$
+$$
+\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Exposure}} \leq 20\%
+$$
 
 5. **Trigger:** Margin Call = Instant Forced Liquidation. The broker immediately sells the active leveraged position at the current executable market price.
 6. If the market has already fallen sufficiently before liquidation execution, gross proceeds may fail to cover outstanding margin debt, driving Net Equity to **$0 (or negative)**.
