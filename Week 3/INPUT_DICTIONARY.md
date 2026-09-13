@@ -23,6 +23,7 @@ This file defines the minimum inputs and state variables required by the MVP bef
 | **ToLam Villa** *(Extreme / Hard)* | **$100.0\times$ Capital** | Mathematically with **4.0× Margin** the player could reach a maximum of over $2.17 million - theoretical ceiling reaches **$217.45\times$ (+21,645%)** under perfect 10-trade execution before Phase 6 collapse. | **Extravagant Luxury Ending:** Flawless timing generates supreme multi-generational wealth and endless fun. A single misstep triggers total wipeout. |
 
 ## Margin Tier Specification
+*The assumed margin maintenance level is 20%*
 
 | Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Benchmark Wealth Ceiling (Phase 1–5) | Margin Call Trigger (20% Maintenance Margin) | Risk Profile |
 |---|---|---|---|---|---|---|
