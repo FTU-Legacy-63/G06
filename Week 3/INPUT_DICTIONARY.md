@@ -25,12 +25,43 @@ This file defines the minimum inputs and state variables required by the MVP bef
 ## Margin Tier Specification
 
 | Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Benchmark Wealth Ceiling (Phase 1–5) | Risk Profile |
-| :---: | :---: | :---: | :---: | :---: | :--- |
-| **Cash (1.0x)** | $1.0\times$ Buying Power | $1.0 \times \text{Equity}$ | $0.0 \times \text{Equity}$ | **$2.92\times – 5.20\times$** | Zero liquidation risk; immune to broker margin calls. |
-| **2x** | $2.0\times$ Buying Power | $2.0 \times \text{Equity}$ | $1.0 \times \text{Equity}$ | **$7.02\times – 21.27\times$** | Moderate: Standard retail brokerage tier. Requires a $35\%$ crash to trigger liquidation. |
-| **3x** | $3.0\times$ Buying Power | $3.0 \times \text{Equity}$ | $2.0 \times \text{Equity}$ | **$14.72\times – 72.84\times$** | High Risk: Breaches 30% maintenance threshold on a $15\% - 20\%$ price decline. |
-| **4x** | $4.0\times$ Buying Power | $4.0 \times \text{Equity}$ | $3.0 \times \text{Equity}$ | **$27.99\times – 217.45\times$** | Extreme Risk (CFD-level): Maximum upside potential (~200×); vulnerable to instant liquidation on a $10\% - 15\%$ shock. |
+|---|---|---|---|---|---|
+| **Cash (1.0×)** | 1.0× Buying Power | 1.0× Equity | 0.0× Equity | **2.92× – 5.20×** | Zero margin-liquidation risk; no broker margin calls. |
+| **2×** | 2.0× Buying Power | 2.0× Equity | 1.0× Equity | **7.02× – 21.27×** | Moderate Risk: A 10% asset decline produces approximately a 20% equity loss. Theoretical equity wipeout occurs at a 50% decline. |
+| **3×** | 3.0× Buying Power | 3.0× Equity | 2.0× Equity | **14.72× – 72.84×** | High Risk: A 10% asset decline produces approximately a 30% equity loss. Theoretical equity wipeout occurs at a 33.3% decline. |
+| **4×** | 4.0× Buying Power | 4.0× Equity | 3.0× Equity | **27.99× – 217.45×** | Extreme Risk: A 10% asset decline produces approximately a 40% equity loss. Theoretical equity wipeout occurs at a 25% decline. |
+
+### 4× Margin Benchmark
+
+At the maximum **4× leverage**, every **$1 of player equity supports $4 of market exposure**, consisting of **$1 equity + $3 margin debt**.
+
+For example, with **$10,000 initial equity**:
+
+\[
+\text{Purchasing Power} = \$10,000 \times 4 = \$40,000
+\]
+
+\[
+\text{Margin Debt} = \$40,000 - \$10,000 = \$30,000
+\]
+
+Before transaction costs and liquidation, equity return is approximately:
+
+\[
+R_{\text{Equity}} = 4R_{\text{Asset}}
+\]
+
+Therefore, a **+10% asset return ≈ +40% equity return**, while a **−10% asset return ≈ −40% equity return**. A **−25% asset decline** represents the theoretical equity wipeout point before forced liquidation.
+
+The **27.99× – 217.45×** benchmark is calculated from the current 50-ticker market scenario:
+
+- **27.99×:** best single trade in each phase, compounded across Phases 1–5 at 4× leverage;
+- **217.45×:** best AM/PM trade rotation, compounded across 10 trading sessions at 4× leverage.
+
+Starting from **$10,000**, these correspond to theoretical final equity of approximately **$279,941 – $2,174,523**.
+
+> These values represent perfect-foresight upper-bound benchmarks for stress testing, not expected player outcomes. Actual margin calls and forced liquidation depend on the MVP maintenance-margin rule.
 
 ## Core Input Flow
 
-> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` (`market_scenario.csv`) → User selects `target_house_type` (Difficulty: $3\times$, $20\times$, or $200\times$) → Sets `property_target_value` → User executes `orders` with selected `margin_tier` (`2x`, `3x`, `4x`) → Real-time Margin & Equity Valuation → Financial & Narrative Outcome
+> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` (`market_scenario.csv`) → User selects `target_house_type` (Difficulty: $3\times$, $20\times$, or $100\times$) → Sets `property_target_value` → User executes `orders` with selected `margin_tier` (`2x`, `3x`, `4x`) → Real-time Margin & Equity Valuation → Financial & Narrative Outcome
