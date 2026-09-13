@@ -24,48 +24,12 @@ This file defines the minimum inputs and state variables required by the MVP bef
 
 ## Margin Tier Specification
 
-| Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Benchmark Wealth Ceiling (Phase 1–5) | Risk Profile |
-|---|---|---|---|---|---|
-| **Cash (1.0×)** | 1.0× Buying Power | 1.0× Equity | 0.0× Equity | **2.92× – 5.20×** | Zero margin-liquidation risk; no broker margin calls. |
-| **2×** | 2.0× Buying Power | 2.0× Equity | 1.0× Equity | **7.02× – 21.27×** | Moderate Risk: A 10% asset decline produces approximately a 20% equity loss. Theoretical equity wipeout occurs at a 50% decline. |
-| **3×** | 3.0× Buying Power | 3.0× Equity | 2.0× Equity | **14.72× – 72.84×** | High Risk: A 10% asset decline produces approximately a 30% equity loss. Theoretical equity wipeout occurs at a 33.3% decline. |
-| **4×** | 4.0× Buying Power | 4.0× Equity | 3.0× Equity | **27.99× – 217.45×** | Extreme Risk: A 10% asset decline produces approximately a 40% equity loss. Theoretical equity wipeout occurs at a 25% decline. |
-
-### 4× Margin Benchmark
-
-At **4× leverage**, the player controls a position equal to **4× equity**, funded by:
-
-- **1× player equity**
-- **3× margin debt**
-
-A market decline therefore cannot be evaluated using the asset-price percentage alone. As the asset price falls, **portfolio value decreases while margin debt remains unchanged**, causing the player's equity and margin ratio to fall much faster.
-
-For example, starting with **$10,000 equity**:
-
-| Market State | Position Value | Margin Debt | Player Equity | Margin Ratio |
-|---|---:|---:|---:|---:|
-| Initial | $40,000 | $30,000 | $10,000 | **25.00%** |
-| Price −5% | $38,000 | $30,000 | $8,000 | **21.05%** |
-| Price −10% | $36,000 | $30,000 | $6,000 | **16.67%** |
-| Price −20% | $32,000 | $30,000 | $2,000 | **6.25%** |
-| Price −25% | $30,000 | $30,000 | $0 | **0.00%** |
-
-Therefore:
-
-> **−25% is the theoretical equity wipeout point, not the forced-liquidation threshold.**
-
-Actual forced liquidation occurs earlier when the player's **margin ratio falls below the predefined maintenance-margin threshold**.
-
-For a 4× position:
-
-$$
-\text{Margin Ratio}
-=
-\frac{\text{Portfolio Value} - \text{Margin Debt}}
-{\text{Portfolio Value}}
-$$
-
-Therefore, Phase 6 liquidation is determined dynamically from **portfolio value, outstanding margin debt, and the maintenance-margin rule**, rather than by assuming that a fixed market decline such as −10% or −20% automatically causes liquidation.
+| Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Benchmark Wealth Ceiling (Phase 1–5) | Margin Call Trigger (20% Maintenance Margin) | Risk Profile |
+|---|---|---|---|---|---|---|
+| **Cash (1.0×)** | 1.0× Buying Power | 1.0× Equity | 0.0× Equity | **2.92× – 5.20×** | **N/A** | Zero liquidation risk; immune to broker margin calls. |
+| **2×** | 2.0× Buying Power | 2.0× Equity | 1.0× Equity | **7.02× – 21.27×** | **−37.50%** | Moderate Risk: A 10% asset decline produces approximately a 20% equity loss. Theoretical equity wipeout occurs at a 50% decline. |
+| **3×** | 3.0× Buying Power | 3.0× Equity | 2.0× Equity | **14.72× – 72.84×** | **−16.67%** | High Risk: A 10% asset decline produces approximately a 30% equity loss. Theoretical equity wipeout occurs at a 33.3% decline. |
+| **4×** | 4.0× Buying Power | 4.0× Equity | 3.0× Equity | **27.99× – 217.45×** | **−6.25%** | Extreme Risk: A 10% asset decline produces approximately a 40% equity loss. Theoretical equity wipeout occurs at a 25% decline. |
 
 ## Core Input Flow
 
