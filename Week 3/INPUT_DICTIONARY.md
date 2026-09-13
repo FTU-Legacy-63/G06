@@ -4,13 +4,33 @@ This file defines the minimum inputs and state variables required by the MVP bef
 
 | Variable | Meaning | Unit / Format | Source | Output Affected |
 | :--- | :--- | :--- | :--- | :--- |
-| `assigned_scenario_capital` | Randomly assigned scenario (1, 2, or 3) that determines both starting capital and the fixed market path. | Integer: `1`, `2`, or `3` | System-generated at launch | Initial wealth and market conditions |
-| `fixed_price_path` | Predetermined sequence of stock-price changes across Phases 1–6 for the assigned scenario. | Array of percentage changes | Team-created | Portfolio valuation across all phases |
-| `target_house_type` | Player's selected financial goal. Mini Apartment requires 2× initial capital; Gangnam Villa requires 8× initial capital. | Categorical: `Mini Apartment` / `Gangnam Villa` | User input | Financial target and ending |
-| `initial_capital` | Starting cash balance assigned to the player. | KRW, numeric | System-generated based on scenario | Starting Net Worth and purchasing power |
-| `initial_margin_ratio` | Margin ratio selected by the player. | Percentage: 25%–50% | User input | Leverage, Margin Call and Forced Liquidation risk |
-| `orders` | Trading decisions submitted by the player during each phase. | Buy / Sell / Hold + Volume + Cash/Margin | User input | Portfolio holdings, cash, debt and investment return |
+| `assigned_scenario_id` | Randomly assigned scenario (`1` or `2`) that determines initial cash balance and the locked six-phase price path (`market_scenario.csv`). | Integer: `1` or `2` | System-generated at launch | Sets `initial_capital` and `fixed_price_path` |
+| `initial_capital` | Starting liquid cash balance assigned to the player based on the scenario. | KRW/USD (Numeric: e.g., $10,000 USD / 20,000,000 KRW) | System-generated via `assigned_scenario_id` | Starting Net Worth and initial purchasing power |
+| `fixed_price_path` | Predetermined 1,800-second sequence (30 minutes across 6 phases) covering 50 asset tickers, phase states, and news triggers. | CSV time-series (`market_scenario.csv`) | Team-created data structure | Real-time portfolio revaluation, margin alerts, and liquidation checks |
+| `target_house_type` | Selected financial goal defining game difficulty, required multiplier, and final narrative ending. | Categorical: `Small House` / `Normal House` / `ToLam Villa` | User input at start screen | Sets `property_target_value` and ending narrative |
+| `property_target_value` | Mandatory financial threshold required to purchase the chosen house and win. | Numeric: Multiplier × `initial_capital` | Calculated (`initial_capital` × house multiplier) | Target Progress UI gauge and Win/Loss state |
+| `margin_tier` | Selected margin financing tier determining maximum purchasing power and debt capacity. | Categorical / Tier: `2x`, `3x`, `4x` (or Cash-only / 1.0x) | User input | Purchasing power, Margin Debt, Margin Call, and Forced Liquidation triggers |
+| `orders` | Player trading actions executed during each phase window. | Categorical (Buy / Sell / Hold) + Asset Ticker + Volume + Margin Toggle | User input | Cash balance, asset share volume, margin debt, and net equity |
+
+## Calibrated House Target Difficulty Matrix
+
+*Empirically calibrated against benchmark backtests (`best_case_portfolio_summary.csv`).*
+
+| House Type (`target_house_type`) | Target Multiplier | Required Strategy / Benchmark Feasibility | Consequence / Ending Narrative |
+| :--- | :---: | :--- | :--- |
+| **Small House** *(Easy / Safe)* | **$3.0\times$ Capital** | Achievable using **Cash Only (1.0×)**. Benchmark yield is $2.92\times$ (1 trade/phase) to $5.20\times$ (AM/PM rotation). | **Normie Ending:** Survived the crisis safely with zero margin debt, but wealth growth is modest. Life remains plain, mundane, and unexciting. |
+| **Normal House** *(Medium / Balanced)* | **$20.0\times$ Capital** | Requires active trading with **2.0× or 3.0× Margin**. Benchmark yield spans $7.02\times$ to $72.84\times$. | **Middle-Class Stability Ending:** Navigated market turbulence with disciplined leverage. Enjoy comfortable suburban living and solid financial security. |
+| **ToLam Villa** *(Extreme / Hard)* | **$200.0\times$ Capital** | Mathematically impossible without **4.0× Margin**. Theoretical ceiling reaches **$217.45\times$ (+21,645%)** under perfect 10-trade execution before Phase 6 collapse. | **Extravagant Luxury Ending:** Flawless timing generates supreme multi-generational wealth and endless fun. A single misstep triggers total wipeout. |
+
+## Margin Tier Specification
+
+| Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Benchmark Wealth Ceiling (Phase 1–5) | Risk Profile |
+| :---: | :---: | :---: | :---: | :---: | :--- |
+| **Cash (1.0x)** | $1.0\times$ Buying Power | $1.0 \times \text{Equity}$ | $0.0 \times \text{Equity}$ | **$2.92\times – 5.20\times$** | Zero liquidation risk; immune to broker margin calls. |
+| **2x** | $2.0\times$ Buying Power | $2.0 \times \text{Equity}$ | $1.0 \times \text{Equity}$ | **$7.02\times – 21.27\times$** | Moderate: Standard retail brokerage tier. Requires a $35\%$ crash to trigger liquidation. |
+| **3x** | $3.0\times$ Buying Power | $3.0 \times \text{Equity}$ | $2.0 \times \text{Equity}$ | **$14.72\times – 72.84\times$** | High Risk: Breaches 30% maintenance threshold on a $15\% - 20\%$ price decline. |
+| **4x** | $4.0\times$ Buying Power | $4.0 \times \text{Equity}$ | $3.0 \times \text{Equity}$ | **$27.99\times – 217.45\times$** | Extreme Risk (CFD-level): Maximum upside potential (~200×); vulnerable to instant liquidation on a $10\% - 15\%$ shock. |
 
 ## Core Input Flow
 
-> `assigned_scenario_capital` → `initial_capital` + `fixed_price_path` → `target_house_type` → `orders` + `initial_margin_ratio` → Financial Outcome
+> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` (`market_scenario.csv`) → User selects `target_house_type` (Difficulty: $3\times$, $20\times$, or $200\times$) → Sets `property_target_value` → User executes `orders` with selected `margin_tier` (`2x`, `3x`, `4x`) → Real-time Margin & Equity Valuation → Financial & Narrative Outcome
