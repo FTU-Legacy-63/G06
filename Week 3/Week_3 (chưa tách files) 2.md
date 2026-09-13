@@ -1,110 +1,142 @@
-# Input Dictionary
+# WEEK 3: INPUT, INFORMATION AND EVIDENCE READINESS
+
+---
+
+# 1. Input Dictionary
 
 This file defines the minimum inputs and state variables required by the MVP before implementation.
 
 | Variable | Meaning | Unit / Format | Source | Output Affected |
 | :--- | :--- | :--- | :--- | :--- |
-| `assigned_scenario_id` | Randomly assigned scenario (`1` or `2`) that determines initial cash balance and the locked six-phase price path. | Integer: `1` or `2` | System-generated at launch | Sets `initial_capital` and `fixed_price_path` |
-| `initial_capital` | Starting liquid cash balance assigned to the player based on the scenario. | KRW (Numeric: e.g., 20m or 50m KRW) | System-generated via `assigned_scenario_id` | Starting Net Worth and initial purchasing power |
-| `fixed_price_path` | Predetermined sequence of stock-price changes and news across Phases 1–6 tied to the assigned scenario. | Array of percentage changes | Team-created data structure | Portfolio revaluation and margin triggers |
-| `target_house_type` | Selected financial goal defining game difficulty, required multiplier, and final narrative ending. | Categorical: `Small House` / `Normal House` / `Big-Ass Villa` | User input at start screen | Sets `property_target_value` and ending narrative |
-| `property_target_value` | Mandatory financial threshold required to purchase the chosen house and win. | KRW (Numeric: Multiplier × `initial_capital`) | Calculated (`initial_capital` × house multiplier) | Target Progress UI gauge and Win/Loss state |
-| `initial_margin_ratio` | Maximum margin leverage ratio selected/unlocked for trading. | Percentage: 20%–50% (Max 1:5 leverage) | User input | Purchasing power, Margin Call, and Forced Liquidation triggers |
-| `orders` | Player trading actions executed during a phase. | Categorical (Buy / Sell / Hold) + Volume + Cash/Margin toggle | User input | Cash, share holdings, margin debt, and net equity |
+| `assigned_scenario_id` | Randomly assigned scenario (`1` or `2`) that determines initial cash balance and the locked six-phase price path (`market_scenario.csv`). | Integer: `1` or `2` | System-generated at launch | Sets `initial_capital` and `fixed_price_path` |
+| `initial_capital` | Starting liquid cash balance assigned to the player based on the scenario. | KRW/USD (Numeric: e.g., $10,000 USD / 20,000,000 KRW) | System-generated via `assigned_scenario_id` | Starting Net Worth and initial purchasing power |
+| `fixed_price_path` | Predetermined 1,800-second sequence (30 minutes across 6 phases) covering 50 asset tickers, phase states, and news triggers. | CSV time-series (`market_scenario.csv`) | Team-created data structure | Real-time portfolio revaluation, margin alerts, and liquidation checks |
+| `target_house_type` | Selected financial goal defining game difficulty, required multiplier, and final narrative ending. | Categorical: `Small House` / `Normal House` / `ToLam Villa` | User input at start screen | Sets `property_target_value` and ending narrative |
+| `property_target_value` | Mandatory financial threshold required to purchase the chosen house and win. | Numeric: Multiplier × `initial_capital` | Calculated (`initial_capital` × house multiplier) | Target Progress UI gauge and Win/Loss state |
+| `margin_tier` | Selected margin financing tier determining maximum purchasing power and debt capacity. | Categorical / Tier: `2x`, `3x`, `4x` (or Cash-only / 1.0x) | User input | Purchasing power, Margin Debt, Margin Call, and Forced Liquidation triggers |
+| `orders` | Player trading actions executed during each phase window. | Categorical (Buy / Sell / Hold) + Asset Ticker + Volume + Margin Toggle | User input | Cash balance, asset share volume, margin debt, and net equity |
 
-## House Target Difficulty Matrix
+## Calibrated House Target Difficulty Matrix
 
-| House Type (`target_house_type`) | Target Multiplier | Required Strategy / Constraint | Consequence / Ending Narrative |
+*Empirically calibrated against benchmark backtests (`best_case_portfolio_summary.csv`).*
+
+| House Type (`target_house_type`) | Target Multiplier | Required Strategy / Benchmark Feasibility | Consequence / Ending Narrative |
 | :--- | :---: | :--- | :--- |
-| **Small House** *(Easy / Safe)* | $1.5\times \text{Capital}$ | Achievable with cash or very conservative leverage. | **Normie Ending:** Survived safely, but life remains plain, restrictive, and completely boring. |
-| **Normal House** *(Medium / Balanced)* | $3.5\times \text{Capital}$ | Requires moderate margin use; vulnerable to major market corrections. | **Middle-Class Stability Ending:** Comfortable suburban life with balanced security. |
-| **Big-Ass Villa** *(Hard / Degenerate)* | $8.0\times \text{Capital}$ | Mathematically forces maximum leverage (1:4 or 1:5); extreme liquidation vulnerability. | **Extravagant Luxury Ending:** Endless fun and elite status if won; total wipeout if margin-called. |
+| **Small House** *(Easy / Safe)* | **$3.0\times$ Capital** | Achievable using **Cash Only (1.0×)**. Benchmark yield is $2.92\times$ (1 trade/phase) to $5.20\times$ (AM/PM rotation). | **Normie Ending:** Survived the crisis safely with zero margin debt, but wealth growth is modest. Life remains plain, mundane, and unexciting. |
+| **Normal House** *(Medium / Balanced)* | **$20.0\times$ Capital** | Requires active trading with **2.0× or 3.0× Margin**. Benchmark yield spans $7.02\times$ to $72.84\times$. | **Middle-Class Stability Ending:** Navigated market turbulence with disciplined leverage. Enjoy comfortable suburban living and solid financial security. |
+| **ToLam Villa** *(Extreme / Hard)* | **$200.0\times$ Capital** | Mathematically impossible without **4.0× Margin**. Theoretical ceiling reaches **$217.45\times$ (+21,645%)** under perfect 10-trade execution before Phase 6 collapse. | **Extravagant Luxury Ending:** Flawless timing generates supreme multi-generational wealth and endless fun. A single misstep triggers total wipeout. |
+
+## Margin Tier Specification
+
+| Tier Level | Multiplier / Borrowing Capacity | Max Purchasing Power | Max Margin Debt (per $1 Equity) | Benchmark Wealth Ceiling (Phase 1–5) | Risk Profile |
+| :---: | :---: | :---: | :---: | :---: | :--- |
+| **Cash (1.0x)** | $1.0\times$ Buying Power | $1.0 \times \text{Equity}$ | $0.0 \times \text{Equity}$ | **$2.92\times – 5.20\times$** | Zero liquidation risk; immune to broker margin calls. |
+| **2x** | $2.0\times$ Buying Power | $2.0 \times \text{Equity}$ | $1.0 \times \text{Equity}$ | **$7.02\times – 21.27\times$** | Moderate: Standard retail brokerage tier. Requires a $35\%$ crash to trigger liquidation. |
+| **3x** | $3.0\times$ Buying Power | $3.0 \times \text{Equity}$ | $2.0 \times \text{Equity}$ | **$14.72\times – 72.84\times$** | High Risk: Breaches 30% maintenance threshold on a $15\% - 20\%$ price decline. |
+| **4x** | $4.0\times$ Buying Power | $4.0 \times \text{Equity}$ | $3.0 \times \text{Equity}$ | **$27.99\times – 217.45\times$** | Extreme Risk (CFD-level): Maximum upside potential (~200×); vulnerable to instant liquidation on a $10\% - 15\%$ shock. |
 
 ## Core Input Flow
 
-> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` → User selects `target_house_type` (Difficulty: $1.5\times$, $3.5\times$, or $8\times$) → Sets `property_target_value` → `orders` + `initial_margin_ratio` → Financial & Behavioral Consequence
+> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` (`market_scenario.csv`) → User selects `target_house_type` (Difficulty: $3\times$, $20\times$, or $200\times$) → Sets `property_target_value` → User executes `orders` with selected `margin_tier` (`2x`, `3x`, `4x`) → Real-time Margin & Equity Valuation → Financial & Narrative Outcome
 
 ---
 
-# Source–Use Map
+# 2. Source–Use Map
 
-This file records where external information is used in the MVP and the limitations of each source.
+This file records where external information is used in the MVP, how it was modified, and the limitations of each source.
 
-| Source | Claim / Use in Product | Limitation |
+| Source | Claim / Use in Product | Limitation & Team Modification |
 | :--- | :--- | :--- |
-| Historical KOSPI and CFD market reports from the April 2023 Korea margin crisis | Used as problem evidence and empirical basis for the two 6-phase price crash and bull-trap scripts. | The historical crash unfolded over several days, whereas the game compresses the timeline into ~30 minutes. Real-world regulatory exchange halts (circuit breakers) are excluded for simplicity. |
-| Standard Korean brokerage margin rules (e.g., Kiwoom Securities) | Used to parameterize authentic initial margin rates (e.g., 40%–50%) and maintenance margin thresholds (30%). | Applies a single universal regulatory threshold across all assets, ignoring VIP client fee/rate tiers. |
+| Historical KOSPI, CFD, and tech-stock price action from the April 2023 Korea margin crisis | Used as empirical problem evidence and historical baseline for modeling systemic cascade liquidations across 50 Korean equity and ETF tickers (`market_scenario.csv`). | **Team Modification:** The historical crisis unfolded over multiple weeks. The team **synthetically intensified the price series and compressed it into an 1,800-second (30-minute), 6-phase sequence**. Phase 5 features aggressive bull-trap fakeouts, followed by an extreme Phase 6 systemic collapse where core assets drop over **−57%** within 300 seconds. Circuit breakers are omitted. |
+| Empirical Strategy Optimization Dataset (`best_case_portfolio_summary.csv` & `best_case_portfolio_combos.csv`) | Used to verify maximum mathematical wealth ceilings and establish defensible house target multipliers ($3\times$, $20\times$, and $200\times$). | **Benchmark Limitation:** Assumes frictionless instant execution, perfect trade timing (capturing exact AM/PM local peaks across tickers like Vintrumite, POSCO Future M, and Kakao), and full compounding without slippage. |
+| Standard Korean brokerage margin regulations (e.g., Kiwoom Securities) | Used as a regulatory baseline for defining initial margin tiers (`2x`, `3x`, `4x`) and the 30% maintenance margin threshold. | The MVP standardizes margin into 3 discrete borrowing multipliers and applies a universal liquidation rule across all 50 assets, omitting tiered interest rate brackets. |
+
+## Source-Use Principle
+
+External crisis data provided the **historical foundation**, which was **modified by the team into an intensified deterministic simulation model**. Benchmark algorithmic runs confirmed that peak margin returns can reach **~200×** under optimal conditions, providing empirical justification for the ToLam Villa difficulty tier.
 
 ---
 
-# Assumptions
+# 3. Assumptions
 
 The MVP intentionally simplifies several market mechanisms to maintain technical feasibility and preserve the intended behavioral lesson.
 
 ## Assumption 1: Instant Market Liquidity
-* **Assumption:** Forced-liquidation orders are executed immediately at the current simulated market price.
-* **Reason:** Avoids requiring an order-book matching engine and complex liquidity-depth calculations.
-* **Risk:** Real-world fire sales cause substantial slippage, executing at far worse prices than displayed.
+* **Assumption:** Forced-liquidation orders and user trades are executed immediately at the current tick price without delay.
+* **Reason:** Avoids requiring an order-book depth matching engine and complex liquidity-pool modeling.
+* **Risk:** Real-world fire sales cause substantial slippage, executing at prices far lower than displayed.
 * **Disclosure:** *"This simulation assumes instant liquidity. Real-world liquidations often incur severe price slippage."*
 
-## Assumption 2: Deterministic Market Paths
-* **Assumption:** Each of the 2 scenarios follows a predetermined, hardcoded six-phase price path rather than real-time stochastic/random price movements.
-* **Reason:** Guarantees that players experience the intended behavioral finance traps (e.g., Phase 1 deceptive green, Phase 4 correction, Phase 5 bull-trap bounce).
-* **Risk:** Players replaying the same scenario ID can anticipate future price moves.
-* **Disclosure:** *"Market conditions follow a controlled historical simulation model. Replay variety is provided across the 2 distinct scenario tracks."*
+## Assumption 2: Amplified Deterministic Market Paths
+* **Assumption:** The simulation strictly follows the 1,800-second scripted price series in `market_scenario.csv` across all 6 phases rather than real-time stochastic random walks.
+* **Reason:** Guarantees that players experience the intended behavioral finance traps (e.g., Phase 1 deceptive green, Phase 4 correction, Phase 5 bull-trap bounce, and Phase 6 systemic plunge) without RNG variance diluting the lesson.
+* **Risk:** Replaying the same scenario allows players to memorize asset price peaks.
+* **Disclosure:** *"Market conditions follow an intensified historical simulation model. Replay variety is provided across distinct scenario tracks."*
 
-## Assumption 3: Fixed Difficulty Multipliers
-* **Assumption:** Property targets are strictly tied to fixed initial-capital multipliers ($1.5\times$, $3.5\times$, $8.0\times$) rather than dynamic real-estate market fluctuations.
-* **Reason:** Creates a clear mathematical constraint that forces the user to choose between safe, modest returns and high-risk leverage.
-* **Risk:** Real-world housing prices fluctuate independently of stock portfolio values.
-* **Disclosure:** *"Housing targets represent fixed lifestyle aspirations relative to starting wealth."*
+## Assumption 3: Fixed Multiplier Housing Targets
+* **Assumption:** Property targets are strictly pegged to fixed initial-capital multipliers ($3.0\times$, $20.0\times$, and $200.0\times$) derived from benchmark feasibility models.
+* **Reason:** Establishes clear, indisputable mathematical targets that force players to evaluate the trade-off between safe, modest returns and high-risk leverage.
+* **Risk:** Real-world property markets do not scale proportionally to an individual investor's initial capital.
+* **Disclosure:** *"Housing targets represent lifestyle aspirations mathematically scaled to initial starting wealth."*
+
+## Assumption 4: Unlimited Order Volume Matching (Balance-Constrained Only)
+* **Assumption:** Any Buy or Sell order submitted by the player matches instantly at 100% fill rate without volume caps or order-book supply limits, constrained solely by available cash and margin borrowing capacity.
+* **Reason:** Eliminates the need for order-book queues and partial fills, keeping gameplay focused squarely on leverage risk and solvency management.
+* **Risk:** In real-world market crashes, bids evaporate completely (limit-down freeze), making it impossible to offload large positions.
+* **Disclosure:** *"The simulation assumes infinite market liquidity for player orders. Orders are bounded only by available account balance and margin capacity, ignoring market-depth volume limits."*
 
 ---
 
-# Sample Input–Output
+# 4. Sample Input–Output
 
-This file demonstrates how the 2 scenarios combined with the 3 difficulty choices produce predictable financial consequences.
+This file demonstrates how the scenario data, margin tiers, and house targets produce predictable financial consequences.
 
-## Sample Case 1: Scenario 1 + Big-Ass Villa (High Difficulty — The Wipeout)
+## Sample Case 1: Scenario 1 + ToLam Villa (Extreme Difficulty — The Wipeout)
 
 ### Sample Input
 | Variable | Value |
 | :--- | :--- |
-| `assigned_scenario_id` | Scenario 1 |
-| `initial_capital` | 20,000,000 KRW |
-| `target_house_type` | Big-Ass Villa (Hard Difficulty) |
-| `property_target_value` | 160,000,000 KRW ($8.0\times$) |
-| Strategy | Max leverage (1:5) in Phase 3 to hit the 160m target |
-| Phase 5 Market Event | Severe shock (−20%) masked by deceptive bounce headline |
+| `assigned_scenario_id` | Scenario 1 (`market_scenario.csv`) |
+| `initial_capital` | $10,000 USD (or 20,000,000 KRW) |
+| `target_house_type` | ToLam Villa (Extreme Difficulty) |
+| `property_target_value` | **$2,000,000 USD** ($200.0\times$ Initial Capital) |
+| `margin_tier` Selected | **4x Tier** (Maximum Leverage) |
+| Strategy Pursued | Attempting the empirical AM/PM rotation strategy to hit the ~200× ceiling |
+| Execution Failure | Player holds a full leveraged position into Phase 6 rather than rotating out |
+| Phase 6 Market Shock | Systemic crash across holdings: Vintrumite drops −57.8%, Samsung drops −56.9% |
 
 ### Expected Consequence
-1. In Phase 3, player borrows 80,000,000 KRW in margin to hold a 100,000,000 KRW position.
-2. In Phase 5, the stock drops 20%. Position value falls to 80,000,000 KRW while margin debt remains 80,000,000 KRW.
-3. Net Equity reaches 0 KRW ($\text{Margin Ratio} = 0\% < 30\%$ maintenance threshold).
-4. **Trigger:** Forced Liquidation. The broker liquidates all shares at market price.
+1. In Phase 5, the player rides the euphoric wave with 4× leverage, temporarily growing equity toward seven figures.
+2. In Phase 6 (Second 1501–1800), the systemic collapse hits: asset values plummet by over **−56%** within 300 seconds.
+3. Because the position is leveraged 4× ($3.0\text{ debt} : 1.0\text{ equity}$), a price drop greater than **10%** severely damages equity, and a drop exceeding **25%** completely erases net worth.
+4. Net Equity falls below the 30% maintenance threshold within seconds of Phase 6 opening:
+   $$\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Exposure}} < 30\%$$
+5. **Trigger:** Forced Liquidation. The broker sells all shares at collapsed market prices.
+6. Gross proceeds fail to cover margin debt after severe intra-tick drops, driving Net Equity to **$0 (or negative)**.
 
-* **Final Result:** Total Wipeout / Bankruptcy.
+* **Final Result:** Forced Liquidation / Total Account Wipeout.
 * **Ending:** Failed Target. Complete financial insolvency.
 
 ---
 
-## Sample Case 2: Scenario 2 + Small House (Easy Difficulty — The Normie)
+## Sample Case 2: Scenario 1 + Small House (Easy Difficulty — The Normie)
 
 ### Sample Input
 | Variable | Value |
 | :--- | :--- |
-| `assigned_scenario_id` | Scenario 2 |
-| `initial_capital` | 50,000,000 KRW |
+| `assigned_scenario_id` | Scenario 1 (`market_scenario.csv`) |
+| `initial_capital` | $10,000 USD (or 20,000,000 KRW) |
 | `target_house_type` | Small House (Easy Difficulty) |
-| `property_target_value` | 75,000,000 KRW ($1.5\times$) |
-| Strategy | Cash-only investing (0% margin debt), selective rebalancing |
-| Phase 5 Market Event | Moderate drop (−15%) with high volatility |
+| `property_target_value` | **$30,000 USD** ($3.0\times$ Initial Capital) |
+| `margin_tier` Selected | **Cash Only (1.0x / 0% Margin Debt)** |
+| Position Allocation | Conservative 1-trade-per-phase strategy across Phases 1–4, shifting to cash prior to Phase 6 |
+| Phase 6 Market Shock | −57% systemic crash occurs while player holds safe cash reserve |
 
 ### Expected Consequence
-1. Player allocates 40,000,000 KRW in cash shares and holds 10,000,000 KRW cash reserve.
-2. In Phase 5, market drops 15%. Stock value falls to 34,000,000 KRW.
-3. Total equity equals 44,000,000 KRW. Because margin debt is 0, margin health remains $100\%$.
-4. No liquidation is triggered. Player recovers modestly in Phase 6 to end at 52,000,000 KRW.
+1. Across Phases 1–4, the player selects solid fundamental uptrends using pure cash, achieving benchmark equity of approximately **$29,247 USD** ($2.92\times$ capital preservation baseline).
+2. Recognizing market euphoria in Phase 5, the player liquidates positions to hold pure cash heading into Phase 6.
+3. During Phase 6, stock prices collapse by −57%. Because the player holds zero margin debt and has de-risked into cash, portfolio value remains stable at ~$29,000 – $30,000 USD.
+4. Margin Ratio remains at **100% (No Debt)** throughout the entire crisis. No margin call or liquidation can physically trigger.
 
-* **Final Result:** Solvent; capital preserved, but fails the $1.5\times$ target.
-* **Ending:** Normie Ending — Survived the crash safely, but locked into a completely mundane, uninspiring lifestyle.
+* **Final Result:** Solvent; capital fully preserved, achieving the baseline target (~$3.0\times$).
+* **Ending:** Normie Ending — Survived the crisis safely with zero liquidation stress, but lived a modest, unexciting, and strictly ordinary life.
