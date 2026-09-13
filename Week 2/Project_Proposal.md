@@ -13,7 +13,7 @@ The simulator converts these concepts into an interactive environment where fina
 
 | | Definition |
 |---|---|
-| **Target Users** | Retail investors, inexperienced day traders, and finance students |
+| **Target Users** | Retail investors, inexperienced day traders, and finance and banking students |
 | **Primary Task** | Manage a leveraged stock portfolio during a highly volatile simulated market session |
 | **Risk Task** | Monitor leverage and margin health, maintain liquidity, and reduce exposure before forced liquidation |
 | **Decision Task** | Buy, Sell, Hold, select margin tiers, deleverage positions, or preserve cash under time pressure |
@@ -76,7 +76,7 @@ The simulation produces measurable financial outcomes including final net equity
 
 The Target MVP consists of:
 
-- **2 deterministic market scenarios**;
+- **1 (out of 2) deterministic market scenarios**;
 - **50 simulated Korean-market assets**;
 - **6 market phases** across a 30-minute / 1,800-second session;
 - **3 property-target difficulties:** Small House, Normal House, and ToLam Villa;
@@ -88,47 +88,20 @@ The Target MVP consists of:
 
 The financial risk engine continuously evaluates:
 
-$$
-\text{Gross Exposure}
-=
-\sum_i
-(\text{Shares}_i \times \text{Current Price}_i)
-$$
-
-$$
-\text{Net Equity}
-=
-\text{Liquid Cash}
-+
-\text{Gross Exposure}
--
-\text{Margin Debt}
-$$
-
-$$
-\text{Effective Leverage}
-=
-\frac{\text{Gross Exposure}}
-{\text{Net Equity}}
-$$
+| Financial Metric | Formula |
+|---|---|
+| **Gross Exposure** | $\text{Gross Exposure} = \sum_i (\text{Shares}_i \times \text{Current Price}_i)$ |
+| **Net Equity** | $\text{Net Equity} = \text{Liquid Cash} + \text{Gross Exposure} - \text{Margin Debt}$ |
+| **Effective Leverage** | $\text{Effective Leverage} = \frac{\text{Gross Exposure}}{\text{Net Equity}}$ |
+| **Margin Ratio** | $\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Exposure}}$ |
 
 A maintenance breach occurs when:
 
-$$
-\text{Effective Leverage} > 5.0\times
-$$
+| Trigger | Condition | System Action |
+|---|---|---|
+| **Maintenance Breach** | $\text{Effective Leverage} > 5.0\times$ or $\text{Margin Ratio} < 20\%$ | Automatic forced liquidation of all open equity holdings at the current simulated market price |
 
-equivalent to:
-
-$$
-\text{Margin Ratio}
-=
-\frac{\text{Net Equity}}
-{\text{Gross Exposure}}
-<20\%
-$$
-
-At this point, the broker automatically executes forced liquidation of the player's open equity holdings at the current simulated market price.
+At this point, the "broker" automatically executes forced liquidation of the player's open equity holdings at the current simulated market price.
 
 ### Feasibility
 
