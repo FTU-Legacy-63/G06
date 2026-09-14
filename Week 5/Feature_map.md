@@ -1,31 +1,35 @@
 # FEATURE_MAP.md
 
-
 ## 1. Purpose
 
-This document defines the Week 5 feature structure of **Free Fall 2.0**.
+This document defines the **Week 5 feature structure of Free Fall 2.0**, translating the financial logic developed in Weeks 1–4 into a clear and usable product experience.
 
-It maps the existing Weeks 1–4 financial logic into product features that users can directly interact with and understand.
+The feature map answers three questions:
 
-Each feature is classified along three separate dimensions:
+| Dimension | Classification | Purpose |
+|---|---|---|
+| **Feature Role** | Main / Supporting | Identifies whether a feature directly delivers the core user task or supports its usability and understanding |
+| **MVP Priority** | Core / Optional / Out of Scope | Determines whether the feature is required for the working MVP |
+| **Implementation Decision** | Keep / Postpone / Remove | Defines what the team will actually build within the current development scope |
 
-1. **Feature Role**
-   - Main Feature
-   - Supporting Feature
+> **Important:** Feature Role and MVP Priority are different concepts.  
+> A **Supporting Feature** may still be **Core** if the user cannot complete or understand the main task without it.
 
-2. **MVP Priority**
-   - Core
-   - Optional
-   - Out of Scope
+### Week 5 Focus
 
-3. **Implementation Decision**
-   - Keep
-   - Postpone
-   - Remove
+The purpose is not to redefine the financial model, but to connect the existing logic into a complete user-facing loop:
 
-This separation avoids treating "supporting" as "optional."  
-A supporting feature may still be essential to the core user flow.
+**User Goal → Input → Action → Financial Process → Output → Explanation → Next Action**
 
+The feature map therefore focuses on:
+
+- what the user can do;
+- what the system must calculate;
+- what information must be visible;
+- what happens when risk increases;
+- what feedback the user receives;
+- which features are required for the MVP;
+- which features should be postponed or removed.
 
 ## 2. Core User Goal
 
@@ -97,61 +101,67 @@ If this feature is removed, the product can no longer fulfill its core user task
 
 ## 5. Core User-Facing Feature Flow
 
-```text
-Start
-  ↓
-Scenario & Initial Capital Assigned
-  ↓
-Select Property Target
-  ↓
-Select Margin Tier
-  ↓
-Start 1,800s Simulation
-  ↓
-Observe Market Price + Phase News
-  ↓
-Select Asset
-  ↓
-Buy / Sell / Hold
-  ↓
-Order Validation
-  │
-  ├── Invalid → Show Error → Return to Order Entry
-  │
-  └── Valid
-        ↓
-    Execute Order
-        ↓
-    Update Portfolio State
-        ↓
-    Recalculate:
-    - Cash
-    - Gross Exposure
-    - Margin Debt
-    - Net Equity
-    - Effective Leverage
-    - Target Progress
-        ↓
-    Evaluate Margin Health
-        │
-        ├── Safe
-        │     ↓
-        │   Continue Trading
-        │
-        ├── Warning
-        │     ↓
-        │   Show Risk Alert
-        │     ↓
-        │   User may Deleverage / Hold Cash / Continue Risk
-        │
-        └── Maintenance Breach
-              ↓
-          Forced Liquidation
-              ↓
-          Solvency Check
-        ↓
-Continue / End Session
-        ↓
-Post-Simulation Risk & Decision Review
-        ↓
-End
+The core flow shows how the user moves from initial setup to trading, risk monitoring, financial consequences, and final review.
+
+```mermaid
+flowchart TD
+
+    A[Start] --> B[Scenario & Initial Capital Assigned]
+
+    B --> C[Select Property Target]
+    C --> D[Select Margin Tier]
+    D --> E[Start 1,800s Simulation]
+
+    E --> F[Observe Market Prices<br/>Phase News & Events]
+
+    F --> G[Select Asset]
+    G --> H[Buy / Sell / Hold]
+    H --> I{Order Valid?}
+
+    I -- No --> J[Show Validation Error]
+    J --> H
+
+    I -- Yes --> K[Execute Order]
+
+    K --> L[Update Portfolio State]
+
+    L --> M[Recalculate Financial Metrics]
+
+    M --> M1[Cash]
+    M --> M2[Gross Exposure]
+    M --> M3[Margin Debt]
+    M --> M4[Net Equity]
+    M --> M5[Effective Leverage]
+    M --> M6[Target Progress]
+
+    M1 --> N{Evaluate Margin Health}
+    M2 --> N
+    M3 --> N
+    M4 --> N
+    M5 --> N
+    M6 --> N
+
+    N -- Safe --> O[Continue Trading]
+
+    N -- Warning --> P[Show Risk Alert]
+    P --> Q[Deleverage / Hold Cash / Continue Risk]
+
+    O --> R{Session Ended?}
+    Q --> R
+
+    R -- No --> F
+
+    N -- Maintenance Breach --> S[Automatic Forced Liquidation]
+    S --> T[Solvency Check]
+
+    T --> U{Net Equity > 0?}
+
+    U -- Yes --> V[Remaining Financial Outcome]
+    U -- No --> W[Bankruptcy / Account Wipeout]
+
+    V --> X[Post-Simulation<br/>Risk & Decision Review]
+    W --> X
+
+    R -- Yes --> X
+
+    X --> Y[End]
