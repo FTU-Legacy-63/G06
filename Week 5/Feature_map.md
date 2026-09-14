@@ -1,6 +1,5 @@
 # FEATURE_MAP.md
 
-# Free Fall 2.0 — Feature Map
 
 ## 1. Purpose
 
