@@ -101,67 +101,149 @@ If this feature is removed, the product can no longer fulfill its core user task
 
 ## 5. Core User-Facing Feature Flow
 
-The core flow shows how the user moves from initial setup to trading, risk monitoring, financial consequences, and final review.
+The core user-facing flow follows the existing **Phase 1 system architecture**.  
+Phase 1 operates through a **5-minute (300-second) countdown**, while market prices update automatically every second according to the assigned scenario's `fixed_price_path`.
 
 ```mermaid
-flowchart TD
+flowchart LR
 
-    A[Start] --> B[Scenario & Initial Capital Assigned]
+    %% ─────────────────────────────
+    %% 1. INITIAL SETUP
+    %% ─────────────────────────────
 
-    B --> C[Select Property Target]
-    C --> D[Select Margin Tier]
-    D --> E[Start 1,800s Simulation]
+    subgraph SETUP["1 · Initial Setup"]
+        A([Start Screen])
+        B[Initiate Phase 1<br/>Start 5-min Countdown]
+        C[Set Beginning-of-Period Cash<br/>based on initial_capital]
+        D[Initialize Account<br/>Stock Shares = 0<br/>Bank Savings = 0<br/>Margin Debt = 0]
+        E[Set Maximum Leverage<br/>based on initial_margin_ratio]
+        F[Set Financial Goal<br/>Buying House]
 
-    E --> F[Observe Market Prices<br/>Phase News & Events]
+        A --> B
+        B --> C
+        C --> D
+        D --> E
+        E --> F
+    end
 
-    F --> G[Select Asset]
-    G --> H[Buy / Sell / Hold]
-    H --> I{Order Valid?}
 
-    I -- No --> J[Show Validation Error]
-    J --> H
+    %% ─────────────────────────────
+    %% 2. MARKET ENGINE
+    %% ─────────────────────────────
 
-    I -- Yes --> K[Execute Order]
+    subgraph MARKET["2 · Phase 1 Market Engine"]
+        G[Display Trading Dashboard<br/>Run Background 5-min Timer]
+        H[News Queue]
+        I[1-Second Background Trigger<br/>Price Chart Moves 1 Tick / Second]
+        J{Tick > 300?}
+        K[Fetch Current Price<br/>from fixed_price_path]
 
-    K --> L[Update Portfolio State]
+        G --> I
+        H --> G
+        I --> J
+        J -- No --> K
+    end
 
-    L --> M[Recalculate Financial Metrics]
+    F --> G
 
-    M --> M1[Cash]
-    M --> M2[Gross Exposure]
-    M --> M3[Margin Debt]
-    M --> M4[Net Equity]
-    M --> M5[Effective Leverage]
-    M --> M6[Target Progress]
 
-    M1 --> N{Evaluate Margin Health}
-    M2 --> N
-    M3 --> N
-    M4 --> N
-    M5 --> N
-    M6 --> N
+    %% ─────────────────────────────
+    %% 3. PLAYER ORDER
+    %% ─────────────────────────────
 
-    N -- Safe --> O[Continue Trading]
+    subgraph ORDER["3 · Player Order & Execution"]
+        L[Player Submits Order<br/>Buy / Sell / Put Money into Savings]
+        M{Sufficient<br/>Purchasing Power?}
+        N[Deduct Cash<br/>Update Stock Shares & Bank Savings<br/>Record New Margin Debt]
 
-    N -- Warning --> P[Show Risk Alert]
-    P --> Q[Deleverage / Hold Cash / Continue Risk]
+        L --> M
+        M -- Yes --> N
+        M -- No --> L
+    end
 
-    O --> R{Session Ended?}
-    Q --> R
+    K --> L
 
-    R -- No --> F
 
-    N -- Maintenance Breach --> S[Automatic Forced Liquidation]
-    S --> T[Solvency Check]
+    %% ─────────────────────────────
+    %% 4. FINANCIAL STATE
+    %% ─────────────────────────────
 
-    T --> U{Net Equity > 0?}
+    subgraph RISK["4 · Portfolio & Margin Evaluation"]
+        O["Recalculate Financial State<br/><br/>1. Total Portfolio Value = Stock Value + Bank Savings<br/>2. Equity / Net Worth = Cash + Total Portfolio − Margin Debt<br/>3. Margin Ratio = Equity / Stock Exposure"]
 
-    U -- Yes --> V[Remaining Financial Outcome]
-    U -- No --> W[Bankruptcy / Account Wipeout]
+        P{Current Stock Price ><br/>Margin Call Price?}
 
-    V --> X[Post-Simulation<br/>Risk & Decision Review]
-    W --> X
+        Q[Forcefully Sell Stock Shares<br/>Repay Margin Debt<br/>Apply Liquidation Penalty to Cash / Equity]
 
-    R -- Yes --> X
+        R{Equity > 0?}
 
-    X --> Y[End]
+        S([Game Over])
+
+        T[Refresh UI Immediately<br/>New Balances · Equity · Margin Status]
+
+        N --> O
+        O --> P
+
+        P -- Breach --> Q
+        Q --> R
+
+        R -- No --> S
+        R -- Yes --> T
+
+        P -- No Breach --> T
+    end
+
+
+    %% ─────────────────────────────
+    %% 5. SETTLEMENT & PHASE END
+    %% ─────────────────────────────
+
+    subgraph ENDING["5 · Settlement & Phase Transition"]
+        U{Tick < 150?}
+
+        V[T+0.5 Settlement Delay<br/>Shares remain exposed to price action<br/>but cannot be sold]
+
+        W[Stocks Delivered to Account<br/>Shares Convert to Active Holdings]
+
+        X[Log as Pending for Phase 2 Delivery<br/>Shares Locked but Exposed to Live Price Action]
+
+        Y[Phase 1 Conclusion<br/>Calculate Target Progress<br/>Equity / Target Value × 100]
+
+        Z([Proceed to Phase 2])
+
+        T --> U
+
+        U -- Yes --> V
+        V --> W
+
+        U -- No --> X
+
+        W --> I
+        X --> Y
+        Y --> Z
+    end
+
+
+    %% ─────────────────────────────
+    %% TIMER EXIT
+    %% ─────────────────────────────
+
+    J -- Yes --> Y
+```
+
+### Phase 1 Flow Summary
+
+| Stage | User / System Activity | Main Result |
+|---|---|---|
+| **1. Initial Setup** | Start Phase 1, initialize cash, holdings, savings, margin debt, leverage limit, and financial goal | Initial account state |
+| **2. Market Engine** | Run 5-minute countdown with 1-second price updates and news queue | Live simulated market |
+| **3. Player Order** | Buy, Sell, or Put Money into Savings | Order submitted for purchasing-power validation |
+| **4. Order Execution** | Validate purchasing power and update cash, shares, savings, and margin debt | Updated account position |
+| **5. Financial Evaluation** | Recalculate portfolio value, equity/net worth, and margin ratio | Updated financial state |
+| **6. Margin Check** | Compare current stock price with Margin Call Price | Continue normally or trigger forced liquidation |
+| **7. Liquidation / Solvency** | Sell shares, repay margin debt, apply liquidation penalty, and check remaining equity | Continue if solvent or Game Over |
+| **8. Settlement** | Apply T+0.5 settlement treatment to purchased shares | Active holdings or pending Phase 2 delivery |
+| **9. Phase Conclusion** | Calculate `Equity / Target Value × 100` after the 300-second Phase 1 period | Target Progress |
+| **10. Transition** | Complete Phase 1 | Proceed to Phase 2 |
+
+> **Continuous background process:** Market prices move once per second throughout Phase 1 according to the scenario's predetermined `fixed_price_path`. Player holdings therefore remain exposed to market price movements during the settlement period.
