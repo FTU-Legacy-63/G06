@@ -107,15 +107,16 @@ The core user-facing flow follows the existing **Phase 1 system architecture**. 
 flowchart TD
 
     A([Start Screen])
-    A --> B[Initiate Phase 1<br/>Start 5-min Countdown]
+    A --> B[Initiate Phase 1]
 
     B --> C[Initialize Account State]
     C --> C1[Beginning-of-Period Cash<br/>based on initial_capital]
     C --> C2[Stock Shares = 0<br/>Bank Savings = 0<br/>Margin Debt = 0]
     C --> C3[Maximum Leverage<br/>based on initial_margin_ratio]
     C --> C4[Set Financial Goal<br/>Buying House]
+    C --> C5[News Queue]
 
-    C1 --> D[Display Trading Dashboard]
+    C1 --> D[Display Trading Dashboard. Run background 5-minute countdown timer.]
     C2 --> D
     C3 --> D
     C4 --> D
@@ -138,9 +139,9 @@ flowchart TD
 
     L --> M[Recalculate Financial State]
 
-    M --> M1[Total Portfolio Value<br/>Stock Value + Bank Savings]
-    M --> M2[Equity / Net Worth<br/>Cash + Total Portfolio − Margin Debt]
-    M --> M3[Margin Ratio<br/>Equity / Stock Exposure]
+    M --> M1[Total Portfolio Value =<br/>Stock Value + Bank Savings]
+    M --> M2[Equity / Net Worth =<br/>Cash + Total Portfolio − Margin Debt]
+    M --> M3[Margin Ratio =<br/>Equity / Stock Exposure]
 
     M1 --> N{Current Stock Price ><br/>Margin Call Price?}
     M2 --> N
