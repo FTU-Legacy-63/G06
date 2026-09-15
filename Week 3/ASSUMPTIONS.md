@@ -71,3 +71,14 @@ The resulting margin-call sensitivity is:
 | **4×** | 25.00% | **−6.25%** | −25.00% |
 
 The **20% threshold represents the margin-call point, not the theoretical equity wipeout point**. At 4× leverage, for example, a decline of approximately **6.25% from the position's entry price** is sufficient to trigger a margin call even though the player's equity does not theoretically reach zero until a 25% decline.
+
+## Assumption 7: Fixed Bank Savings Return
+
+- **Assumption:** Money deposited in Bank Savings earns a fixed **4.75% return after each completed AM or PM session**. Returns are automatically compounded if the balance remains in savings.
+- **Reason:** Provides a simple safe-return alternative to stock and margin trading without adding unnecessary banking complexity.
+- **Risk:** The 4.75% session return is intentionally amplified for gameplay and does not represent a realistic bank deposit rate.
+- **Disclosure:** *"Bank Savings earns a simulated 4.75% return per completed AM/PM session for gameplay purposes."*
+
+The savings balance is updated as:
+
+`Bank Savings (Next Session) = Bank Savings × 1.0475`
