@@ -11,6 +11,8 @@ This file defines the minimum inputs and state variables required by the MVP bef
 | `property_target_value` | Mandatory financial threshold required to purchase the chosen house and win. | Numeric: Multiplier × `initial_capital` | Calculated (`initial_capital` × house multiplier) | Target Progress UI gauge and Win/Loss state |
 | `margin_tier` | Selected margin financing tier determining maximum purchasing power and debt capacity. | Categorical / Tier: `2x`, `3x`, `4x` (or Cash-only / 1.0x) | User input | Purchasing power, Margin Debt, Margin Call, and Forced Liquidation triggers |
 | `orders` | Player trading actions executed during each phase window. | Categorical (Buy / Sell / Hold) + Asset Ticker + Volume + Margin Toggle | User input | Cash balance, asset share volume, margin debt, and net equity |
+| `bank_savings` | Amount of player funds currently allocated to Bank Savings. | KRW/USD (Numeric) | User action / System-updated | Savings balance, Net Worth, and available liquidity |
+| `savings_return_rate` | Fixed return credited to Bank Savings after each completed AM or PM session. | Percentage: **4.75% per session** | System-defined constant | Bank Savings balance and Net Worth |
 
 ## Calibrated House Target Difficulty Matrix
 
