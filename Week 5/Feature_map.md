@@ -83,6 +83,7 @@ If this feature is removed, the product can no longer fulfill its core user task
 | **Forced Liquidation Engine** | Main | Core | Enforce excessive leverage consequence | Automatically liquidates open equity positions when the maintenance threshold is breached | **Keep** |
 | **Solvency Check** | Supporting | Core | Determine whether the player remains financially viable | Checks remaining Net Equity after liquidation | **Keep** |
 | **Cash / Liquidity Display** | Supporting | Core | Monitor available financial flexibility | Shows current liquid cash balance | **Keep** |
+| **Bank Savings** | Supporting | Core | Preserve funds outside market exposure while earning a safe simulated return | Allows deposit/withdrawal and automatically credits **+4.75% after each completed AM/PM session** | **Keep** |
 | **Property Target Progress** | Supporting | Core | Track progress toward the selected goal | Calculates Net Equity relative to Property Target Value | **Keep** |
 | **Recent Order Log** | Supporting | Core | Understand recent actions and execution | Displays recent trades, prices, and quantities | **Keep** |
 | **Post-Simulation Risk & Decision Review** | Supporting | Core | Understand final financial outcome | Summarizes wealth, leverage, liquidation status, target result, and key decisions | **Keep** |
@@ -182,7 +183,8 @@ flowchart TD
 | **8. Forced Liquidation** | Sell shares, repay margin debt, and apply liquidation penalty | Updated Equity |
 | **9. Solvency Check** | Check whether Equity remains positive | Continue or Game Over |
 | **10. Settlement** | Apply T+0.5 settlement treatment | Active Holdings or Pending Phase 2 Delivery |
-| **11. Phase Conclusion** | Calculate `Equity / Target Value × 100` | Target Progress |
-| **12. Transition** | Complete Phase 1 | Proceed to Phase 2 |
+| **11. Savings Accrual** | Credit **+4.75%** to Bank Savings after each completed AM/PM session | Updated Bank Savings balance |
+| **12. Phase Conclusion** | Calculate `Equity / Target Value × 100` | Target Progress |
+| **13. Transition** | Complete Phase 1 | Proceed to Phase 2 |
 
 > **Background process:** The News Queue and 1-second price trigger operate automatically throughout Phase 1. Stock prices follow the scenario's predetermined `fixed_price_path`, including while purchased shares are waiting for settlement.
