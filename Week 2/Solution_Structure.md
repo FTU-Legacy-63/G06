@@ -46,7 +46,7 @@ One trading day is compressed into **30 minutes (1,800 seconds)** across **6 dis
    $$\text{Total Assets} = \text{Liquid Cash} + \text{Bank Savings} + \text{Gross Exposure}$$
    $$\text{Net Equity} = \text{Total Assets} - \text{Margin Debt}$$
 3. **Bank Savings Accrual (at the end of each AM/PM session):**
-   $$\text{Bank Savings}_{t+1} = \text{Bank Savings}_{t} \times 1.0475$$
+   `Bank Savings(t+1) = Bank Savings(t) × 1.0475`
 4. **Dynamic Leverage Calculation:**
    $$\text{Effective Leverage} = \frac{\text{Gross Exposure}}{\text{Net Equity}}$$
 5. **Target Progress Tracking:**
