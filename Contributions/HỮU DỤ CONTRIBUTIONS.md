@@ -65,7 +65,11 @@ Utilized the empirical backtest dataset (`best_case_portfolio_summary.csv`) to s
 3. **Where the Evidence is Located:**  
    In the repository files `SOLUTION_STRUCTURE.md`, `ASSUMPTIONS.md`, `INPUT_DICTIONARY.md`, `FEATURE_MAP.md`, `SAMPLE_INPUT_OUTPUT.md`, and `MIDTERM_REVIEW.md`.
 4. **How My Output Supports the Group Product:**  
-   My financial models and logic flowcharts provide the exact mathematical blueprint and state-transition logic that the Technical Developer (Nguyễn Quang Minh) programs into the backend engine, ensuring the game is robust and behavioral lessons on leverage are accurate.
+   My financial models and logic flowcharts provide the foundational framework that supports all four of my team members:
+   - It provides the exact mathematical blueprint and state-transition logic that the **Technical Developer (Nguyễn Quang Minh)** programs into the backend engine.
+   - It defines the financial thresholds, margin tiers, and house targets that the **Scenario Designer (Cáp Phan Quang Khánh)** uses to script player decisions and narrative consequences.
+   - It establishes the mathematical and timeline constraints (such as 1-second intervals and ±30% volatility limits) that guide the **Data Gatherer (Nguyễn Hồng Nguyên)** in structuring the dataset.
+   - It determines the specific metrics (Net Equity, Target Progress, Leverage) and risk states (Margin Warnings) that the **UI/UX Designer (Triệu Đức Lương)** must visualize on the dashboard.
 5. **What I Will Improve or Complete Next (Post-Midterm):**  
    - Refine the execution penalty logic during the Phase 6 cascade plunge.
    - Map out the precise Target Progress % calculations for the UI dashboard.
