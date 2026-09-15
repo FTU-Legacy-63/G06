@@ -48,14 +48,17 @@ $$
 | `property_target_value` | **$30,000 USD** ($3.0\times$ Initial Capital) |
 | `leverage_per_order` | **Cash Only (1.0x / 0% Margin Debt)** for each selected order |
 | Position Allocation | Conservative 1-trade-per-phase strategy across Phases 1–5, shifting to cash prior to Phase 6 |
+| Bank Savings Action | Player transfers the remaining safe cash balance into Bank Savings before Phase 6 |
+| Savings Return | **+4.75% after each completed AM/PM session** |
 | Phase 6 Market Shock | Approximately −49% to −51% systemic driver crash occurs while player holds safe cash reserve |
 
 ### Expected Consequence
 
 1. Across Phases 1–5, the player selects the best cash-only trade in each phase, achieving benchmark equity of approximately **$29,247 USD** ($2.92\times$ initial capital).
-2. At the end of Phase 5, the player liquidates all positions and holds pure cash heading into Phase 6.
-3. During Phase 6, major driver stock prices collapse by approximately −49% to −51%. Because the player holds zero margin debt and has de-risked into cash, account equity remains approximately **$29,247 USD**.
-4. Margin Ratio is **N/A (no leveraged exposure / no margin debt)** throughout the crisis. No margin call or forced liquidation can trigger.
+2. At the end of Phase 5, the player liquidates all positions and transfers the safe balance into Bank Savings heading into Phase 6.
+3. Bank Savings earns **4.75% after each completed AM/PM session**, with returns automatically compounded while the funds remain deposited.
+4. During Phase 6, major driver stock prices collapse by approximately −49% to −51%. Because the player holds zero margin debt and has de-risked into cash, account equity remains approximately **$29,247 USD**.
+5. Margin Ratio is **N/A (no leveraged exposure / no margin debt)** throughout the crisis. No margin call or forced liquidation can trigger.
 
 * **Final Result:** Solvent; capital preserved at approximately **2.92×** initial capital, just below the **3.0×** target.
 * **Ending:** Normie Ending — Survived the crisis safely with zero liquidation stress, but narrowly missed the target.
