@@ -2453,13 +2453,13 @@
 <div id="screen-1" class="screen active">
     <!-- Base Background Image Layer (Monochrome Financial Chart) -->
     <div style="pointer-events: none; position: absolute; inset: 0; z-index: 0; overflow: hidden;">
-        <img src="bg_base.png" alt="Base Financial Market Background" style="height: 100%; width: 100%; object-fit: cover; object-position: center; opacity: 0.45;">
+        <img src="bg_base.png" onerror="this.onerror=null; this.src='web/bg_base.png';" alt="Base Financial Market Background" style="height: 100%; width: 100%; object-fit: cover; object-position: center; opacity: 0.45;">
         <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.45), rgba(0,0,0,0.9));"></div>
     </div>
 
     <!-- Cursor-Following Reveal Layer (Spotlight Reveal) -->
     <div id="spotlight-reveal-layer">
-        <img src="bg_reveal.png" alt="Spotlight Color Reveal" style="height: 100%; width: 100%; object-fit: cover; object-position: center;">
+        <img src="bg_reveal.png" onerror="this.onerror=null; this.src='web/bg_reveal.png';" alt="Spotlight Color Reveal" style="height: 100%; width: 100%; object-fit: cover; object-position: center;">
     </div>
 
     <!-- Subtle Terminal Grid Background -->
@@ -2658,12 +2658,12 @@
 <div id="screen-2" class="screen">
     <!-- Base Background Image Layer (Monochrome Financial Chart) -->
     <div style="pointer-events: none; position: absolute; inset: 0; z-index: 0; overflow: hidden;">
-        <img src="bg_base.png" alt="Base Financial Market Background" style="height: 100%; width: 100%; object-fit: cover; object-position: center; opacity: 0.35;">
+        <img src="bg_base.png" onerror="this.onerror=null; this.src='web/bg_base.png';" alt="Base Financial Market Background" style="height: 100%; width: 100%; object-fit: cover; object-position: center; opacity: 0.35;">
         <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(10,16,28,0.7) 0%, #000000 90%);"></div>
     </div>
     <!-- Cursor-Following Reveal Layer (Spotlight Reveal) -->
     <div id="s2-spotlight-layer" class="spotlight-reveal-layer" style="position: absolute; inset: 0; z-index: 5; overflow: hidden; pointer-events: none; user-select: none; display: none;">
-        <img src="bg_reveal.png" alt="Spotlight Color Reveal" style="height: 100%; width: 100%; object-fit: cover; object-position: center;">
+        <img src="bg_reveal.png" onerror="this.onerror=null; this.src='web/bg_reveal.png';" alt="Spotlight Color Reveal" style="height: 100%; width: 100%; object-fit: cover; object-position: center;">
     </div>
     <!-- Subtle Terminal Grid Background -->
     <div class="terminal-grid" style="pointer-events: none; position: absolute; inset: 0; z-index: 6; opacity: 0.55;"></div>
@@ -2919,12 +2919,12 @@
                  onmouseleave="onDifficultyLeave()" 
                  onclick="selectPropertyTarget('Small House', 3, this)">
                 <!-- Background house image silhouette -->
-                <div class="target-card-bg-layer" style="background-image: url('assets/house_small.jpg');"></div>
+                <div class="target-card-bg-layer" style="background-image: url('web/assets/house_small.jpg'), url('assets/house_small.jpg');"></div>
                 <div class="target-card-veil"></div>
 
                 <!-- Top 16:9 Showcase Preview Window -->
                 <div class="target-card-img-box">
-                    <img src="assets/house_small.jpg" alt="Small House Goal" class="target-card-img">
+                    <img src="web/assets/house_small.jpg" onerror="this.onerror=null; this.src='assets/house_small.jpg';" alt="Small House Goal" class="target-card-img">
                     <div class="target-scanner-line"></div>
                     <div class="target-img-overlay-top">
                         <span class="target-loc-badge">📍 MAPO-GU, SEOUL</span>
@@ -2975,12 +2975,12 @@
                  onmouseleave="onDifficultyLeave()" 
                  onclick="selectPropertyTarget('Normal House', 20, this)">
                 <!-- Background house image silhouette -->
-                <div class="target-card-bg-layer" style="background-image: url('assets/house_normal.jpg');"></div>
+                <div class="target-card-bg-layer" style="background-image: url('web/assets/house_normal.jpg'), url('assets/house_normal.jpg');"></div>
                 <div class="target-card-veil"></div>
 
                 <!-- Top 16:9 Showcase Preview Window -->
                 <div class="target-card-img-box">
-                    <img src="assets/house_normal.jpg" alt="Normal House Goal" class="target-card-img">
+                    <img src="web/assets/house_normal.jpg" onerror="this.onerror=null; this.src='assets/house_normal.jpg';" alt="Normal House Goal" class="target-card-img">
                     <div class="target-scanner-line"></div>
                     <div class="target-img-overlay-top">
                         <span class="target-loc-badge">📍 YEOUIDO SKY TOWER</span>
@@ -3031,12 +3031,12 @@
                  onmouseleave="onDifficultyLeave()" 
                  onclick="selectPropertyTarget('ToLam Villa', 100, this)">
                 <!-- Background house image silhouette -->
-                <div class="target-card-bg-layer" style="background-image: url('assets/house_tolam.jpg');"></div>
+                <div class="target-card-bg-layer" style="background-image: url('web/assets/house_tolam.jpg'), url('assets/house_tolam.jpg');"></div>
                 <div class="target-card-veil"></div>
 
                 <!-- Top 16:9 Showcase Preview Window -->
                 <div class="target-card-img-box">
-                    <img src="assets/house_tolam.jpg" alt="To-Lam Villa Goal" class="target-card-img">
+                    <img src="web/assets/house_tolam.jpg" onerror="this.onerror=null; this.src='assets/house_tolam.jpg';" alt="To-Lam Villa Goal" class="target-card-img">
                     <div class="target-scanner-line"></div>
                     <div class="target-img-overlay-top">
                         <span class="target-loc-badge">📍 SEONGBUK CLIFFTOP</span>
@@ -4391,6 +4391,23 @@
 </div>
 
 <script>
+// Universal asset auto-healer for GitHub Pages & Localhost
+window.addEventListener('error', (e) => {
+    if (e.target && e.target.tagName === 'IMG') {
+        const img = e.target;
+        if (img.dataset.hasHealed) return;
+        img.dataset.hasHealed = 'true';
+        const src = img.getAttribute('src') || '';
+        if (src.startsWith('assets/')) {
+            img.src = 'web/' + src;
+        } else if (src.startsWith('web/assets/')) {
+            img.src = src.replace('web/', '');
+        } else if (!src.includes('/')) {
+            img.src = 'web/' + src;
+        }
+    }
+}, true);
+
 let gameState = {
     playerName: 'MINH',
     targetType: 'Normal House',
@@ -4802,7 +4819,7 @@ window.addEventListener('keydown', (e) => {
 function onDifficultyHover(imgKey) {
     const bg = document.getElementById('diff-ambient-bg');
     if (!bg) return;
-    bg.style.backgroundImage = `url('assets/${imgKey}.jpg')`;
+    bg.style.backgroundImage = `url('web/assets/${imgKey}.jpg'), url('assets/${imgKey}.jpg')`;
     bg.style.opacity = '0.32';
 }
 
@@ -4810,16 +4827,14 @@ function onDifficultyLeave() {
     const bg = document.getElementById('diff-ambient-bg');
     if (!bg) return;
     const selected = document.querySelector('.target-card.selected');
+    let imgKey = 'house_normal';
     if (selected && selected.classList.contains('card-theme-safe')) {
-        bg.style.backgroundImage = `url('assets/house_small.jpg')`;
-        bg.style.opacity = '0.18';
+        imgKey = 'house_small';
     } else if (selected && selected.classList.contains('card-theme-extreme')) {
-        bg.style.backgroundImage = `url('assets/house_tolam.jpg')`;
-        bg.style.opacity = '0.18';
-    } else {
-        bg.style.backgroundImage = `url('assets/house_normal.jpg')`;
-        bg.style.opacity = '0.18';
+        imgKey = 'house_tolam';
     }
+    bg.style.backgroundImage = `url('web/assets/${imgKey}.jpg'), url('assets/${imgKey}.jpg')`;
+    bg.style.opacity = '0.18';
 }
 
 function selectPropertyTarget(type, mult, cardEl) {
