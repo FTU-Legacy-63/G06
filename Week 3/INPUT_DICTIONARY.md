@@ -36,4 +36,4 @@ This file defines the minimum inputs and state variables required by the MVP bef
 
 ## Core Input Flow
 
-> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` (`market_scenario.csv`) → User selects `target_house_type` (Difficulty: $3\times$, $20\times$, or $100\times$) → Sets `property_target_value` → User executes `orders` with selected `margin_tier` (`2x`, `3x`, `4x`) → Real-time Margin & Equity Valuation → Financial & Narrative Outcome
+> `assigned_scenario_id` (Random 1 or 2) → Sets `initial_capital` + `fixed_price_path` (`market_scenario.csv`) → User selects `target_house_type` (Difficulty: $3\times$, $20\times$, or $100\times$) → Sets `property_target_value` → User executes `orders` with selected `margin_tier` (`2x`, `3x`, `4x`) or allocates cash to `bank_savings` → Bank Savings earns 4.75% after each completed AM/PM session → Real-time Portfolio, Margin & Equity Valuation → Financial & Narrative Outcome
