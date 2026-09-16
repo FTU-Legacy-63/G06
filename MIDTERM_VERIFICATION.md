@@ -1,4 +1,38 @@
-.
+# MIDTERM VERIFICATION — PART A: GROUP VERIFICATION
+
+## 1. What is the biggest issue your team still needs to solve before Week 6?
+
+Our biggest issue is clearly differentiating **Free Fall 2.0 (K63)** from **Free Fall 1 (K62)**. Although both projects are financial learning games based on market-crisis scenarios and require players to make investment decisions, K63 needs to establish a clearly distinct core gameplay experience and learning objective.
+
+Free Fall 2.0 focuses on **leverage blindness and the consequences of margin trading**. Its core mechanics involve **Initial Capital, Margin Tier, Margin Debt, Equity, Effective Leverage, Margin Ratio, Margin Calls, Forced Liquidation, and Property Target Progress**. The player experiences how leverage can amplify both gains and losses and create liquidity and solvency pressure during a market downturn.
+
+Therefore, our main issue before Week 6 is ensuring that these **margin-trading and leverage mechanics remain central to K63**, rather than allowing the game to appear too similar to K62's broader financial decision-making structure.
+
+
+## 2. Why is this issue important?
+
+This issue is important because the core identity of Free Fall 2.0 depends on its specific learning objective and financial mechanics. If the similarities between K63 and K62 are not clearly addressed, our project may be perceived as a variation of the same product rather than a distinct simulation.
+
+For K63, the player should understand the relationship between **leverage, market price movements, equity, margin requirements, margin calls, and forced liquidation**. If these elements are not sufficiently central to the gameplay, the project could lose its intended focus on **leverage blindness**.
+
+
+## 3. What has your team done about this issue so far?
+
+Our team has reviewed the existing K63 structure and identified the main elements that distinguish it from K62. We focused on K63's **financial logic, player inputs, market price paths, and margin-related outcomes**.
+
+We identified that K63 is centered on direct portfolio actions such as **Buy, Sell, and Hold**, with **Bank Savings as a supporting allocation option**, while its financial engine continuously tracks **Portfolio Value, Cash, Bank Savings, Margin Debt, Equity, Effective Leverage, and Margin Ratio**. We also incorporated the **Margin Call and Forced Liquidation sequence** and connected the player's financial position to **Property Target Progress**.
+
+Through this review, we found that the strongest differentiation for K63 is its focus on the **financial consequences of leveraged trading**, rather than simply making investment decisions during a market crisis.
+
+
+## 4. What will your team do next about this issue?
+
+Before or during Week 6, our team will review the **MVP flow and interface** to ensure that the margin-trading mechanism remains the central gameplay element.
+
+We will specifically test whether the player can clearly experience the sequence of **selecting initial capital and a margin tier → placing trades → experiencing market movements → observing changes in equity and margin ratio → responding to margin pressure → potentially experiencing forced liquidation**.
+
+We will also remove or avoid features that make K63 unnecessarily similar to K62 and keep the MVP focused on its own learning objective: **demonstrating how leverage can amplify potential gains while also increasing the risk of rapid financial loss and forced liquidation**.
+
 
 ## B. MEMBER CONTRIBUTION VERIFICATION
 
