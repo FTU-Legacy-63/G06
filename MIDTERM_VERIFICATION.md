@@ -9,13 +9,11 @@
 **Repository:** https://github.com/FTU-Legacy-63/G06  
 **Instructor:** Assoc. Prof., Dr. Phan Tran Trung Dzung  
 
----
 
 ## Purpose
 This exam is a short verification of the project evidence already available in your repository. Do not rewrite Week 1–Week 5 submissions. Focus only on what still needs to be clarified before moving into Week 6.  
 **Submission:** Submit one file to your team repository: `MIDTERM_VERIFICATION.md`
 
----
 
 # A. GROUP VERIFICATION
 
@@ -29,7 +27,6 @@ Free Fall 2.0 focuses specifically on **leverage blindness and the destructive c
 
 Therefore, our main issue before Week 6 is ensuring that these **margin-trading, debt obligations, and forced-liquidation mechanics remain central to K63**, rather than allowing the MVP to appear too similar to K62's broader, debt-free macroeconomic decision-making structure.
 
----
 
 ### 2. Why is this issue important?
 *(Explain what part of your core product depends on it and what may go wrong if the issue is not solved.)*
@@ -39,7 +36,6 @@ This issue is critical because the core identity and academic value of Free Fall
 
 For K63, the user must viscerally experience the direct mathematical relationship connecting **Leverage → Market Price Drops → Shrinking Equity → Margin Calls → Involuntary Broker Liquidation**. In K62, players can underperform and receive a lower decision score, but they never experience solvency ruin or broker-enforced fire-sales. If these margin-trading elements are not placed front and center in K63's gameplay, the project will lose its intended focus on **leverage blindness** and fail to teach retail investors and students why borrowed money turns manageable market downturns into total capital wipeouts.
 
----
 
 ### 3. What has your team done about this issue so far?
 *(Briefly describe what you have already done to understand or solve it—for example: checked a source, tested a calculation, compared options, built a sample case, tried a prototype, changed the design, or simplified the scope.)*
@@ -56,7 +52,6 @@ Our team has audited the K63 architecture against K62 to establish structural an
 4. **Target Incentive Structure:** Tied leverage decisions directly to **Property Target Progress** (Small House 3×, Normal House 20×, ToLam Villa 100×), creating an authentic behavioral driver that induces the greed and FOMO necessary for leverage blindness to take root.
 5. **Executable Verification:** Validated this logic via 4 automated unit tests (`tests/test_simulation_engine.py`) and an interactive terminal prototype (`interactive_demo.py`).
 
----
 
 ### 4. What will your team do next about this issue?
 *(State the next concrete action before or during Week 6—for example: test more cases, replace a data source, change a rule, simplify the MVP, remove a feature, build a small prototype, or validate a calculation.)*
@@ -73,7 +68,6 @@ To reinforce this distinction, we will:
 2. **Dynamic Margin Health Visualization:** Bind backend margin ratios directly to the UI's dynamic **Margin Health Gauge** (`web/index.html`), ensuring flashing visual warning states at 25% and immediate liquidation alerts below 20%.
 3. **Keep the Educational Core Uncompromised:** Ensure every player exit state directly diagnoses whether the user succumbed to **leverage blindness** or successfully practiced prudent solvency management.
 
----
 
 # B. MEMBER CONTRIBUTION VERIFICATION
 
