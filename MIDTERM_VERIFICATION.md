@@ -1,58 +1,84 @@
-# MIDTERM VERIFICATION
+﻿# MIDTERM VERIFICATION
 
-**Course:** Technology Applications in Finance and Banking (NHA408E)  
-**Project:** Free Fall 2.0  
-**Group:** 6  
-**Date:**  16/09/2026
-**Team Representative:**  
-**Repository:**  https://github.com/FTU-Legacy-63/G06
+**Course:** Technology Applications in Finance and Banking (NHA408E) — FTU 2026  
+**Exam:** Midterm Exam • Week 5 Readiness & Contribution Verification  
+**Group:** 06  
+**Product:** Free Fall 2.0  
+**Date:** 16/09/2026  
+**Team Representative:** Trần Hữu Dụ (Student ID: 2412380013)  
+**Repository:** https://github.com/FTU-Legacy-63/G06  
+**Instructor / Faculty:** Department of Banking and Finance, Foreign Trade University  
 
+---
+
+## Purpose
+This exam is a short verification of the project evidence already available in your repository. Do not rewrite Week 1–Week 5 submissions. Focus only on what still needs to be clarified before moving into Week 6.  
+**Submission:** Submit one file to your team repository: `MIDTERM_VERIFICATION.md`
+
+---
 
 # A. GROUP VERIFICATION
 
-## 1. What is the biggest issue your team still needs to solve before Week 6?
+### 1. What is the biggest issue your team still needs to solve before Week 6?
+*(Choose one issue only. It may be about financial logic, data, assumptions, scoring, MVP scope, user flow, interface, or technical feasibility.)*
 
-Our biggest issue is clearly differentiating **Free Fall 2.0 (K63)** from **Free Fall 1 (K62)**. Although both projects are financial learning games based on market-crisis scenarios and require players to make investment decisions, K63 needs to establish a clearly distinct core gameplay experience and learning objective.
+**Answer:**  
+Our team's single biggest issue to solve before Week 6 is **calibrating the real-time dynamic margin squeeze and forced-liquidation feedback loop within our MVP scope**, ensuring that player attention remains laser-focused on **"leverage blindness"** rather than treating the product as a generic stock trading simulator.
 
-Free Fall 2.0 focuses on **leverage blindness and the consequences of margin trading**. Its core mechanics involve **Initial Capital, Margin Tier, Margin Debt, Equity, Effective Leverage, Margin Ratio, Margin Calls, Forced Liquidation, and Property Target Progress**. The player experiences how leverage can amplify both gains and losses and create liquidity and solvency pressure during a market downturn.
+While our predecessor project (Free Fall 1 / K62) focused broadly on general macroeconomic crisis decisions and discretionary asset allocation, Free Fall 2.0 (K63) centers specifically on the fatal mechanics of leveraged trading: **Initial Margin, Effective Leverage, Margin Debt, Maintenance Margin (20% threshold), Margin Calls, and Fire-Sale Liquidation Cascades**. The core unresolved challenge is preventing the game from overwhelming the user with raw trading actions, and instead ensuring that the UI and engine tightly communicate the rapid deterioration of Equity relative to Borrowed Debt during Phase 5 and Phase 6 market shocks.
 
-Therefore, our main issue before Week 6 is ensuring that these **margin-trading and leverage mechanics remain central to K63**, rather than allowing the game to appear too similar to K62's broader financial decision-making structure.
+---
 
+### 2. Why is this issue important?
+*(Explain what part of your core product depends on it and what may go wrong if the issue is not solved.)*
 
-## 2. Why is this issue important?
+**Answer:**  
+This issue directly governs the **core learning objective and value proposition** of Free Fall 2.0. The entire simulation revolves around exposing the cognitive vulnerability where investors mistake paper wealth from leveraged gains for actual solvency until a sudden price drop wipes them out.
 
-This issue is important because the core identity of Free Fall 2.0 depends on its specific learning objective and financial mechanics. If the similarities between K63 and K62 are not clearly addressed, our project may be perceived as a variation of the same product rather than a distinct simulation.
+If this feedback loop is not properly calibrated:
+1. **Pedagogical Failure:** Players will treat the game as a standard stock-picking simulator (buy low, sell high) and fail to internalize why a modest -20% market decline causes a catastrophic -100% equity wipeout under 4× leverage.
+2. **Product UX Breakdown:** If the transition from **Healthy ($\ge 25\%$)** $\rightarrow$ **Warning ($20\% - 25\%$)** $\rightarrow$ **Margin Call ($< 20\%$)** $\rightarrow$ **Forced Liquidation** happens too abruptly without clear visual indicators and actionable de-risking windows (e.g., depositing into Bank Savings or voluntarily cutting positions), players will perceive liquidation as an arbitrary system penalty rather than an inevitable mathematical consequence of excessive leverage.
 
-For K63, the player should understand the relationship between **leverage, market price movements, equity, margin requirements, margin calls, and forced liquidation**. If these elements are not sufficiently central to the gameplay, the project could lose its intended focus on **leverage blindness**.
+---
 
+### 3. What has your team done about this issue so far?
+*(Briefly describe what you have already done to understand or solve it—for example: checked a source, tested a calculation, compared options, built a sample case, tried a prototype, changed the design, or simplified the scope.)*
 
-## 3. What has your team done about this issue so far?
+**Answer:**  
+To isolate and solve this issue, our team has implemented and verified the following concrete milestones:
+1. **Mathematical Formalization & Rulebook:** Established the exact margin formulas in `week 4/MIDTERM_REVIEW.md`, `ASSUMPTIONS.md`, and `SOLUTION_STRUCTURE.md`, explicitly defining:
+   $$\text{Margin Ratio} = \frac{\text{Equity}}{\text{Stock Portfolio Value}} = \frac{\text{Cash} + \text{Total Portfolio Value} - \text{Margin Debt}}{\sum \text{Shares}_i \times P_i}$$
+   with a strict maintenance floor at $20.0\%$ and a $5.0\%$ forced liquidation penalty fee.
+2. **Empirical Return & Target Calibration:** Ran quantitative backtests recorded in `market scenario/best_case_portfolio_summary.csv`, benchmarking achievable return multipliers across leverage tiers (Cash 1× $\rightarrow$ 3× Small House; Margin 2×–3× $\rightarrow$ 20× Normal House; Margin 4× $\rightarrow$ 100× ToLam Villa) across 1,800 price ticks in `market_scenario.csv`.
+3. **Core Engine Implementation:** Programmed the calculation core in `src/simulation_engine.py` and `src/game_controller.py`, complete with a T+0.5 settlement delay holding pen (tick 150 cutoff) and a safe-haven Bank Savings module.
+4. **Automated Logic Verification:** Authored automated unit tests in `tests/test_simulation_engine.py` verifying high-leverage wipeout (Case 1: 4× leverage, 20% shock triggering liquidation at 6.25% ratio) and cash-only solvency with a 100% pass rate.
+5. **Interactive Prototype & Wireframes:** Built a playable terminal prototype (`interactive_demo.py`), FastAPI endpoints (`api_server.py`), and designed dynamic visual wireframes featuring live Margin Health gauges and target progress bars.
 
-Our team has reviewed the existing K63 structure and identified the main elements that distinguish it from K62. We focused on K63's **financial logic, player inputs, market price paths, and margin-related outcomes**.
+---
 
-We identified that K63 is centered on direct portfolio actions such as **Buy, Sell, and Hold**, with **Bank Savings as a supporting allocation option**, while its financial engine continuously tracks **Portfolio Value, Cash, Bank Savings, Margin Debt, Equity, Effective Leverage, and Margin Ratio**. We also incorporated the **Margin Call and Forced Liquidation sequence** and connected the player's financial position to **Property Target Progress**.
+### 4. What will your team do next about this issue?
+*(State the next concrete action before or during Week 6—for example: test more cases, replace a data source, change a rule, simplify the MVP, remove a feature, build a small prototype, or validate a calculation.)*
 
-Through this review, we found that the strongest differentiation for K63 is its focus on the **financial consequences of leveraged trading**, rather than simply making investment decisions during a market crisis.
+**Answer:**  
+Before and during Week 6, our team will execute three concrete actions to finalize this feedback loop:
+1. **Connect Simulation Engine to UI via WebSockets/REST (`Week 6 MVP Integration`):** Wire the Python backend (`api_server.py`) directly to the web dashboard (`web/index.html`), replacing static step transitions with real-time visual updates of the **Margin Health Gauge** (pulsing red when Margin Ratio falls below $25\%$).
+2. **Refine Pre-Liquidation Grace Windows & De-risking UX:** Implement an explicit 15-second warning prompt when entering Phase 5/6, allowing users to make an emergency risk-management decision: transfer funds into **Bank Savings**, repay margin debt, or sell partial shares before the clearinghouse executes auto-liquidation.
+3. **Remove Secondary Distractions from Scope:** In accordance with our Week 5 Feature Audit (`WEEK_5_REFINEMENT.md`), completely eliminate complex order-book depth queues and cryptocurrency pairs, keeping the MVP strictly focused on the Korean market crisis and the core leverage survival loop.
 
-
-## 4. What will your team do next about this issue?
-
-Before or during Week 6, our team will review the **MVP flow and interface** to ensure that the margin-trading mechanism remains the central gameplay element.
-
-We will specifically test whether the player can clearly experience the sequence of:
-
-**Selecting Initial Capital and a Margin Tier → Placing Trades → Experiencing Market Movements → Observing Changes in Equity and Margin Ratio → Responding to Margin Pressure → Potentially Experiencing Forced Liquidation**
-
-We will also remove or avoid features that make K63 unnecessarily similar to K62 and keep the MVP focused on its own learning objective: **demonstrating how leverage can amplify potential gains while also increasing the risk of rapid financial loss and forced liquidation**.
-
-
+---
 
 # B. MEMBER CONTRIBUTION VERIFICATION
 
+*Complete one row for each member. Do not list only roles such as "Developer", "Researcher", or "Designer".*
+
 | Member | What did this member actually produce? | How is it used in the project? | What can this member personally explain, calculate, demonstrate, or reproduce? |
 |---|---|---|---|
-| **Trần Hữu Dụ** | Produced the project's **financial-mechanic framework and rulebook**, including portfolio/equity formulas, leverage and Margin Ratio logic, the **20% maintenance-margin threshold**, T+0.5 settlement rules, Bank Savings rule, target matrix, and core Phase 1 feature flow. Main outputs include `SOLUTION_STRUCTURE.md`, `ASSUMPTIONS.md`, `INPUT_DICTIONARY.md`, `FEATURE_MAP.md`, `SAMPLE_INPUT_OUTPUT.md`, and `MIDTERM_REVIEW.md`. | Provides the mathematical and rule-based foundation for the simulator. These rules determine how player actions change cash, savings, exposure, margin debt, equity, leverage, target progress, and forced-liquidation states. They also provide specifications for the backend, scenario, dataset, and UI work. | Can **derive and calculate Gross Exposure, Net Equity, Effective Leverage, Margin Ratio, and Target Progress**; explain the **20% maintenance-margin threshold** and its relationship with effective leverage; reproduce margin-call and liquidation sample cases; and explain the T+0.5 settlement, Bank Savings, margin-tier, and target rules. |
-| **Nguyễn Hồng Nguyên** | Produced `market_scenario.csv`, containing a **1,800-second × 50-asset deterministic market dataset**, and designed/calibrated asset price paths across the six phases. Also produced `best_case_portfolio_combos.csv` and `best_case_portfolio_summary.csv` to benchmark achievable returns under **Cash / 2× / 3× / 4×** strategies. Contributed quantitative feedback to the development of target, margin, market-constraint, liquidation, and savings mechanics. | Provides the market-data backbone consumed by the simulation engine. Portfolio benchmarks are used to test gameplay feasibility and calibrate the **3× / 20× / 100× property targets** and **1× / 2× / 3× / 4× leverage structure**, preventing targets from being either mathematically impossible or trivially easy. | Can **reproduce the market-scenario dataset and portfolio benchmark tests**; explain driver/non-driver asset behavior and six-phase price paths; calculate achievable wealth ceilings under different leverage levels; demonstrate how benchmark results support target and margin calibration; and validate AM/PM price constraints and Phase 6 crash behavior. |
-| **Cáp Phan Quang Khánh** | Produced the **Scenario Tree and user-flow paths**, six-phase player-facing scenario structure, Phase 1 market/company news and event scripts, player-action mapping, and alternative/critical-risk decision paths. Main outputs are reflected in `USER_FLOW.md`, `MARKET_DATASET.md`, `INPUT_DICTIONARY.md`, `FEATURE_MAP.md`, and related scenario materials. | Converts the deterministic market path and financial rules into the player experience: **Scenario → Information → Decision → Financial State Update → Consequence → Feedback → Next Decision**. It determines what information players receive, what decisions they face, and how those decisions connect to subsequent financial and risk states. | Can **reproduce and walk through the Scenario Tree/User Flow**; explain the purpose of each of the six phases; demonstrate Happy, Alternative, and Critical-Risk paths; map Buy/Sell/Hold/Margin/Savings decisions to financial consequences; and explain or recreate the Phase 1 news/event sequence. |
-| **Nguyễn Quang Minh** | Produced the executable backend implementation, including `src/simulation_engine.py`, `src/game_controller.py`, `tests/test_simulation_engine.py`, and `interactive_demo.py`. Integrated the 1,800-tick market dataset and implemented portfolio valuation, margin monitoring, Bank Savings, T+0.5 settlement delays, phase transitions, order execution, forced liquidation, and automated tests. | Converts the project's documented financial rules, workflow, and market dataset into **executable simulation logic**. The engine maintains player state, processes orders and price ticks, evaluates margin conditions, triggers liquidation, and provides backend outputs for the web interface. | Can **run and demonstrate the simulation engine**; trace a player state through price and order updates; explain the code implementation of financial formulas and state transitions; integrate the CSV price data; and reproduce automated tests for leveraged wipeout, cash-only positions, Bank Savings, and T+0.5 settlement. |
-| **Triệu Đức Lương** | Produced the **UI/UX design system and trading-terminal interface architecture**, including the dark-mode visual system, Introduction screen, Account Overview, live market display, order-entry interface, Margin Health and Leverage gauges, Property Target Progress, news display, and frontend component specifications/wireframes. | Translates backend financial states and scenario information into an understandable player-facing interface. It allows players to monitor Net Worth, Cash, Bank Savings, Margin Debt, Effective Leverage, Margin Health, Target Progress, prices, and news, and to execute trading decisions during the simulation. | Can **reproduce and explain the UI hierarchy and wireframes**; demonstrate the live trading interface; explain how backend variables map to visual components; demonstrate Margin Health and Target Progress visualization; and justify the information hierarchy, warning states, and interaction design used in the simulator. |
+| **Trần Hữu Dụ**<br>*(ID: 2412380013)*<br>**Role:** Coordinator & Mechanism Designer | • Authored the project's **financial-mechanic framework and rulebook**, formalizing Gross Exposure, Net Equity, Effective Leverage, and Margin Ratio formulas.<br>• Formulated the **20% maintenance margin floor**, 5% liquidation penalty fee, T+0.5 settlement rules, and Bank Savings mechanism.<br>• Defined property target tiers (3× Small House, 20× Normal House, 100× ToLam Villa).<br>• Authored: [`SOLUTION_STRUCTURE.md`](../week%202/Solution_Structure%20(1).md), [`ASSUMPTIONS.md`](../week%204/MIDTERM_REVIEW.md), and [`MIDTERM_REVIEW.md`](../week%204/MIDTERM_REVIEW.md). | • Provides the mathematical foundation and rule specification for the entire simulation.<br>• Directly dictates account balance state changes, risk triggers, and target evaluations implemented by the backend engine, scenario scripts, and UI gauges. | • **Calculate and derive** Gross Exposure, Net Equity, Effective Leverage, and Margin Ratio step-by-step from raw trade inputs.<br>• **Explain** the economic justification of the 20% maintenance threshold and how leverage amplifies drawdowns.<br>• **Reproduce** the manual calculation of Margin Call and Forced Liquidation benchmark test cases.<br>• Justify the rules for Bank Savings safe haven and T+0.5 settlement delay. |
+| **Nguyễn Hồng Nguyên**<br>*(ID: 2412380038)*<br>**Role:** Data Gatherer & Quantitative Calibration | • Constructed [`market_scenario.csv`](../market%20scenario/market_scenario.csv): a **1,800-second (ticks) × 50-asset** deterministic market dataset covering 6 distinct crisis phases.<br>• Calibrated realistic price paths for driver tickers (Vintrumite, Samsung Electronics, KOSPI ETFs) and market indices.<br>• Built quantitative benchmark models: [`best_case_portfolio_combos.csv`](../market%20scenario/best_case_portfolio_combos.csv) and [`best_case_portfolio_summary.csv`](../market%20scenario/best_case_portfolio_summary.csv) across Cash (1×), 2×, 3×, and 4× strategies. | • Serves as the quantitative market-data backbone ingested directly by the simulation controller to drive tick-by-tick portfolio revaluation.<br>• Benchmark models mathematically prove that target goals (3×, 20×, 100×) are achievable yet appropriately vulnerable to ruin during the Phase 6 crash (-57.8%). | • **Reproduce** the data generation and calibration methodology for all 50 tickers across the 6 market phases.<br>• **Calculate** achievable wealth ceilings and drawdowns under 1×, 2×, 3×, and 4× leverage.<br>• **Explain** driver vs. non-driver price movements, AM/PM price constraints, and the statistical structure of the Phase 6 cascade crash.<br>• Demonstrate how empirical backtest data prevents game targets from being impossible or trivial. |
+| **Cáp Phan Quang Khánh**<br>*(ID: 2412380020)*<br>**Role:** Scenario Designer & Content Lead | • Designed the comprehensive **Scenario Tree** and multi-branching user flow across all 6 phases.<br>• Authored event and news scripts (fake hype, corporate earnings, rumors, bull traps, and crisis alerts) tied to specific tick intervals.<br>• Built the Player Decision Matrix mapping actions (Buy, Sell, Hold, Margin Borrow, Savings) to scenario paths.<br>• Authored: [`USER_FLOW.md`](../WEEK_5_REFINEMENT.md), [`MARKET_DATASET.md`](../market%20scenario/), and Phase 1 scenario documentation. | • Converts raw mathematical rules and price ticks into an engaging behavioral learning loop: *Scenario $\rightarrow$ Information $\rightarrow$ Decision $\rightarrow$ Financial State Update $\rightarrow$ Consequence $\rightarrow$ Feedback*.<br>• Controls the timing of news delivery that triggers player psychological traps (FOMO, overconfidence, panic). | • **Walk through and reproduce** the entire Scenario Tree and narrative progression across the 6 phases.<br>• **Demonstrate** the three audited paths from Week 5: Happy Path (de-risking into Bank Savings), Extreme Risk Path (wipeout), and Error Path (rejected trades).<br>• **Explain** how narrative events directly influence player decision-making and lead to leverage blindness. |
+| **Nguyễn Quang Minh**<br>*(ID: 2412380031)*<br>**Role:** Technical Developer & Engine Lead | • Developed the core simulation software: [`src/simulation_engine.py`](../src/simulation_engine.py) (portfolio valuation, equity, leverage, Bank Savings, T+0.5 holding pen, forced liquidation).<br>• Implemented phase control and CSV pipeline: [`src/game_controller.py`](../src/game_controller.py).<br>• Built automated unittest suite: [`tests/test_simulation_engine.py`](../tests/test_simulation_engine.py) (4/4 passed).<br>• Created playable CLI prototype [`interactive_demo.py`](../interactive_demo.py) and REST API bridge [`api_server.py`](../api_server.py).<br>• Authored [`CONTRIBUTIONS.md`](../CONTRIBUTIONS.md) and [`WEEK_5_REFINEMENT.md`](../WEEK_5_REFINEMENT.md). | • Acts as the functional execution engine connecting financial rules, market data, and user interface.<br>• Guarantees deterministic, verifiable, and bug-free execution of player orders, settlement delays, and solvency checks for both defense demos and frontend consumption. | • **Run and live-demonstrate** the simulation engine via terminal demo and API dashboard.<br>• **Trace and explain** code-level state mutations during trade execution, price ticks, and margin calls.<br>• **Demonstrate and reproduce** the 4 automated unit tests verifying high-leverage liquidation, cash solvency, bank savings, and T+0.5 settlement.<br>• Explain the programmatic architecture of the T+0.5 delivery queue and liquidation routines. |
+| **Triệu Đức Lương**<br>*(ID: 2412380029)*<br>**Role:** UI/UX Designer & Frontend Lead | • Designed the complete trading terminal design system, layout architecture, dark-mode visual hierarchy, and component wireframes.<br>• Architected user-facing layouts: Account Overview, Live Market Ticker, Order Entry Form, News Stream, and Solvency Debrief.<br>• Designed specialized visual risk components: Dynamic **Margin Health Gauge** (Safe/Warning/Margin Call), Effective Leverage meter, and Property Target Progress bar.<br>• Authored UI asset pack and frontend prototypes ([`web/index.html`](../index.html) / [`web/`](../web/)). | • Translates complex backend financial metrics into clear, non-intimidating visual interfaces.<br>• Ensures that critical risk states (approaching margin call) are instantly recognizable to the user, bridging system logic and user experience as required by Week 5. | • **Explain and justify** the UI layout hierarchy, typography, and visual alert states.<br>• **Demonstrate** how backend state variables (Margin Ratio, Leverage, Equity) map to visual components and trigger dynamic warning colors.<br>• **Walk through** the user experience flow from onboarding to game debrief, showing how the interface prevents cognitive overload while reinforcing risk awareness. |
+
+---
+
+> **Verification Note:** Because one person may upload files on behalf of the team, Git commit authorship is not used as proof of individual contribution. The table records each member’s stated output, its use in the project, and what the member should be able to explain or reproduce if clarification is required during the midterm assessment.
