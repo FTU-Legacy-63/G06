@@ -1,172 +1,232 @@
-# TEST CASES — FREE FALL 2.0
+# TEST CASES
 
 ## 1. Purpose
 
-This document verifies that the core gameplay flow of Free Fall 2.0 works correctly and that all financial calculations are consistent with the defined assumptions.
+This document verifies that the integrated Free Fall 2.0 MVP operates consistently with the financial rules, market dataset, and user flow defined by the team.
 
-The testing process focuses on four categories:
+Testing focuses on four areas:
 
-1. Normal Cases
-2. Boundary Cases
-3. Invalid Cases
-4. Financial Consistency Checks
+1. **Core Trading Flow** — Buy, Sell, portfolio updates, and settlement.
+2. **Margin & Financial Logic** — leverage, debt, equity, margin ratio, and forced liquidation.
+3. **Market Data Validation** — price paths, session limits, and scenario integrity.
+4. **Input & Boundary Handling** — invalid orders and critical financial thresholds.
 
-Each test compares the expected result with the actual result produced by the deployed game.
+A test is marked as:
 
-
-## 2. Test Environment
-
-- Initial Capital: $10,000
-- Available Leverage: 1×, 2×, 3×, 4×
-- Maintenance Margin Threshold: 20%
-- Margin Call Rule: Instant Forced Liquidation
-- Market Structure: 6 Phases
-- Phase Duration: 300 ticks
-- Trading Sessions:
-  - AM: Tick 1–150
-  - PM: Tick 151–300
-- Settlement Rule: T+0.5
-- Market Scenarios: Scenario 1 and Scenario 2
+- ✅ **PASS** — Actual result matches the expected result.
+- ❌ **FAIL** — Actual result differs from the expected result.
+- ⬜ **NOT TESTED** — Test has not yet been executed.
 
 
-## 3. Test Case Table
+# 2. Testing Assumptions
 
-| ID | Category | Test Case | Input / Action | Expected Result | Actual Result | Status |
-|---|---|---|---|---|---|---|
-| N01 | Normal | Cash purchase | Buy a stock using 1× leverage with sufficient cash | Order executed; cash decreases; holdings and portfolio value increase; margin debt remains 0 | TBD | ⬜ |
-| N02 | Normal | Leveraged purchase | Buy a stock using 2× leverage | Order executed; gross exposure increases and margin debt is created correctly | TBD | ⬜ |
-| N03 | Normal | Maximum leverage purchase | Buy using 4× leverage within available buying power | Order executed and leverage is calculated correctly | TBD | ⬜ |
-| N04 | Normal | Sell existing shares | Sell shares currently held in portfolio | Holdings decrease; sale proceeds follow settlement rule; portfolio updates | TBD | ⬜ |
-| N05 | Normal | T+0.5 settlement | Sell shares during AM session | Sale proceeds become available according to the defined PM settlement rule | TBD | ⬜ |
-| N06 | Normal | Bank Savings | Transfer available cash into Bank Savings | Cash decreases and Bank Savings balance increases by the same amount | TBD | ⬜ |
-| N07 | Normal | Property Target progress | Increase Net Worth through profitable trading | Property Target Progress updates based on current Net Worth | TBD | ⬜ |
-| N08 | Normal | Scenario switch | Run Scenario 1 and Scenario 2 separately | Correct market dataset is loaded without mixing price paths | TBD | ⬜ |
-
-| B01 | Boundary | Margin Ratio slightly above threshold | Margin Ratio = 20.01% | No margin call; position remains active | TBD | ⬜ |
-| B02 | Boundary | Margin Ratio exactly at threshold | Margin Ratio = 20.00% | Margin call is triggered and forced liquidation occurs immediately | TBD | ⬜ |
-| B03 | Boundary | Margin Ratio below threshold | Margin Ratio = 19.99% | Immediate forced liquidation | TBD | ⬜ |
-| B04 | Boundary | Maximum buying power | Place an order equal to exactly available buying power | Order is accepted | TBD | ⬜ |
-| B05 | Boundary | Market ceiling | Stock price reaches +30% session limit | Price may reach +30% but must not exceed it | TBD | ⬜ |
-| B06 | Boundary | Market floor | Stock price reaches -30% session limit | Price may reach -30% but must not fall below it | TBD | ⬜ |
-
-| I01 | Invalid | Insufficient buying power | Place an order exceeding available buying power | Order rejected; portfolio and cash remain unchanged | TBD | ⬜ |
-| I02 | Invalid | Sell more than holdings | Attempt to sell quantity greater than shares owned | Order rejected | TBD | ⬜ |
-| I03 | Invalid | Zero quantity | Submit Buy/Sell order with quantity = 0 | Order rejected | TBD | ⬜ |
-| I04 | Invalid | Negative quantity | Submit Buy/Sell order with quantity < 0 | Order rejected | TBD | ⬜ |
-| I05 | Invalid | Invalid ticker | Submit an order for a ticker not included in the 50-stock universe | Order rejected without affecting game state | TBD | ⬜ |
-
-| F01 | Financial | Gross Exposure calculation | Hold multiple stock positions | Gross Exposure equals total market value of open stock positions | TBD | ⬜ |
-| F02 | Financial | Margin Debt calculation | Open leveraged position | Margin Debt equals financed portion of leveraged exposure | TBD | ⬜ |
-| F03 | Financial | Net Equity calculation | Portfolio contains leveraged positions | Net Equity = Assets − Margin Debt | TBD | ⬜ |
-| F04 | Financial | Leverage calculation | Open leveraged position | Leverage = Gross Exposure / Net Equity | TBD | ⬜ |
-| F05 | Financial | Margin Ratio calculation | Use manually calculated Equity and Gross Exposure | Margin Ratio = Net Equity / Gross Exposure | TBD | ⬜ |
-| F06 | Financial | Forced liquidation | Market decline causes Margin Ratio ≤ 20% | All affected positions are liquidated immediately according to the defined rule | TBD | ⬜ |
-| F07 | Financial | Post-liquidation state | Complete forced liquidation | Holdings, debt, cash/equity and liquidation status update consistently | TBD | ⬜ |
-| F08 | Financial | Final Net Worth | Reach end of simulation | Final Net Worth equals the value implied by cash, investments, savings and outstanding liabilities | TBD | ⬜ |
-| F09 | Financial | Property Target Progress | Calculate progress at end of simulation | Progress percentage matches Final Net Worth relative to selected Property Target | TBD | ⬜ |
-| F10 | Financial | Scenario price-limit consistency | Run Scenario 1/2 through all sessions | No market price exceeds ±30% of its relevant session reference | TBD | ⬜ |
+| Parameter | Rule |
+|---|---|
+| Initial Capital | $10,000 |
+| Leverage Tiers | 1×, 2×, 3×, 4× |
+| Maintenance Margin | 20% |
+| Margin Call | Triggered when Margin Ratio ≤ 20% |
+| Forced Liquidation | Immediate after Margin Call |
+| Liquidation Penalty | 5% |
+| Market Universe | 50 assets |
+| Number of Phases | 6 |
+| Phase Duration | 300 ticks |
+| Total Simulation | 1,800 ticks |
+| AM Session | Phase Tick 1–150 |
+| PM Session | Phase Tick 151–300 |
+| Settlement | T+0.5 |
+| Bank Savings Yield | 4.75% |
+| Session Price Limit | ±30% |
 
 
-## 4. Manual Financial Verification
+# 3. Core Trading Tests
 
-At least one leveraged portfolio should be recalculated manually and compared with the game output.
+These tests verify whether the basic player interaction flow works correctly.
 
-### Example
+| ID | Test Case | Test Procedure | Expected Result | Actual Result | Status |
+|---|---|---|---|---|---|
+| T01 | Cash Purchase | Select 1× leverage and buy a stock with sufficient cash. | Order executes. Cash decreases and stock holdings increase. No Margin Debt is created. | — | ⬜ |
+| T02 | Leveraged Purchase | Select 2×, 3×, or 4× leverage and execute a valid purchase. | Position is created and the financed portion is recorded as Margin Debt. | — | ⬜ |
+| T03 | Normal Sale | Sell shares currently held by the player. | Holdings decrease correctly and sale proceeds enter the settlement process. | — | ⬜ |
+| T04 | T+0.5 Settlement | Sell shares during the AM session and continue to PM. | Proceeds become available according to the defined T+0.5 settlement rule. | — | ⬜ |
+| T05 | Bank Savings | Transfer available funds into Bank Savings. | Available cash decreases and Bank Savings balance increases by the same amount. | — | ⬜ |
+| T06 | Full Game Flow | Complete the simulation from initial setup through Phase 6. | Player reaches a valid final state without breaking the core flow. | — | ⬜ |
+
+
+# 4. Margin & Financial Logic Tests
+
+These tests verify the core financial engine of Free Fall 2.0.
+
+| ID | Test Case | Test Procedure | Expected Result | Actual Result | Status |
+|---|---|---|---|---|---|
+| F01 | Gross Exposure | Open one or more stock positions. | Gross Exposure equals the total market value of stock positions. | — | ⬜ |
+| F02 | Margin Debt | Execute a leveraged purchase. | Margin Debt equals the financed portion of the position. | — | ⬜ |
+| F03 | Net Equity | Create a portfolio with Margin Debt. | Net Equity = Cash + Portfolio Value − Margin Debt. | — | ⬜ |
+| F04 | Effective Leverage | Create a leveraged portfolio. | Effective Leverage = Gross Exposure / Net Equity. | — | ⬜ |
+| F05 | Margin Ratio | Revalue a leveraged portfolio after a price movement. | Margin Ratio = Net Equity / Stock Portfolio Value. | — | ⬜ |
+| F06 | Margin Above Threshold | Maintain Margin Ratio above 20%. | No forced liquidation occurs. | — | ⬜ |
+| F07 | Margin at Threshold | Reduce Margin Ratio to exactly 20%. | Margin Call is triggered and Forced Liquidation occurs immediately. | — | ⬜ |
+| F08 | Margin Below Threshold | Reduce Margin Ratio below 20%. | Margin Call is triggered and Forced Liquidation occurs immediately. | — | ⬜ |
+| F09 | Liquidation Penalty | Trigger Forced Liquidation. | Liquidated portfolio is charged the defined 5% penalty. | — | ⬜ |
+| F10 | Post-Liquidation State | Observe account immediately after liquidation. | Positions, debt, equity, and liquidation status update consistently. | — | ⬜ |
+
+
+# 5. Boundary & Invalid Input Tests
+
+These tests verify that the system handles edge cases correctly.
+
+| ID | Test Case | Test Procedure | Expected Result | Actual Result | Status |
+|---|---|---|---|---|---|
+| B01 | 20.01% Margin Ratio | Create a state where Margin Ratio = 20.01%. | Position remains active. | — | ⬜ |
+| B02 | 20.00% Margin Ratio | Create a state where Margin Ratio = 20.00%. | Immediate Forced Liquidation. | — | ⬜ |
+| B03 | 19.99% Margin Ratio | Create a state where Margin Ratio = 19.99%. | Immediate Forced Liquidation. | — | ⬜ |
+| B04 | Exact Buying Power | Submit an order equal to available Buying Power. | Order is accepted. | — | ⬜ |
+| I01 | Exceed Buying Power | Submit an order exceeding available Buying Power. | Order is rejected and account state remains unchanged. | — | ⬜ |
+| I02 | Sell More Than Holdings | Attempt to sell more shares than currently owned. | Order is rejected. | — | ⬜ |
+| I03 | Zero Quantity | Submit an order with Quantity = 0. | Order is rejected. | — | ⬜ |
+| I04 | Negative Quantity | Submit an order with Quantity < 0. | Order is rejected. | — | ⬜ |
+
+
+# 6. Market Data Validation
+
+Market data is tested separately from the simulation engine because the price paths are deterministic inputs to the game.
+
+## 6.1 Dataset Structure
+
+| Test | Expected Result | Actual Result | Status |
+|---|---|---|---|
+| 50 assets are present | 50 assets | — | ⬜ |
+| Six phases are present | Phase 1–6 | — | ⬜ |
+| Each phase contains 300 ticks | 300 ticks | — | ⬜ |
+| Total simulation contains 1,800 ticks | 1,800 ticks | — | ⬜ |
+| No missing price observations | 0 missing values | — | ⬜ |
+
+
+## 6.2 Session Price Limit
+
+Each asset is tested against the ±30% session price constraint.
+
+For every price observation:
+
+**Price Change (%) = (Current Price / Session Reference Price) − 1**
+
+Valid range:
+
+**−30% ≤ Price Change ≤ +30%**
+
+Therefore:
+
+- +30.00% → Valid
+- −30.00% → Valid
+- +30.01% → Breach
+- −30.01% → Breach
+
+The `market_scenario_audit.xlsx` workbook is used to automatically calculate the percentage movement of each asset and highlight any observation outside the permitted range.
+
+| ID | Test | Expected Result | Actual Result | Status |
+|---|---|---|---|---|
+| D01 | AM Session Price Limit | No asset exceeds ±30% relative to AM reference price. | — | ⬜ |
+| D02 | PM Session Price Limit | No asset exceeds ±30% relative to PM reference price. | — | ⬜ |
+| D03 | Scenario 1 Integrity | Scenario 1 passes the complete dataset audit. | — | ⬜ |
+| D04 | Scenario 2 Integrity | Scenario 2 passes the complete dataset audit. | — | ⬜ |
+
+
+# 7. Quantitative Calibration Tests
+
+These tests verify that the market dataset produces the intended financial difficulty and achievable wealth range.
+
+| ID | Test | Expected Result | Actual Result | Status |
+|---|---|---|---|---|
+| Q01 | 1× Benchmark | Reproduce the best-case result under Cash / 1× strategy. | Result matches benchmark model. | — | ⬜ |
+| Q02 | 2× Benchmark | Reproduce the best-case result under 2× leverage. | Result matches benchmark model. | — | ⬜ |
+| Q03 | 3× Benchmark | Reproduce the best-case result under 3× leverage. | Result matches benchmark model. | — | ⬜ |
+| Q04 | 4× Benchmark | Reproduce the best-case result under 4× leverage. | Result matches benchmark model. | — | ⬜ |
+| Q05 | Phase 6 Crash | Verify the designed synchronized crash behavior in Phase 6. | Crash magnitude and direction match the calibrated scenario. | — | ⬜ |
+| Q06 | Property Target Feasibility | Compare benchmark wealth with 3×, 20×, and 100× targets. | Targets remain consistent with the intended difficulty structure. | — | ⬜ |
+
+
+# 8. Manual Financial Verification
+
+Automated outputs should be cross-checked against at least one manually calculated portfolio.
+
+### Example — 2× Leverage
 
 Assume:
 
 - Initial Equity = $10,000
-- Leverage = 2×
 - Gross Exposure = $20,000
 - Margin Debt = $10,000
 
-Then:
-
-**Net Equity**
+### Net Equity
 
 Net Equity = Gross Exposure − Margin Debt
 
 Net Equity = $20,000 − $10,000 = $10,000
 
-**Leverage**
+### Effective Leverage
 
-Leverage = Gross Exposure / Net Equity
+Effective Leverage = Gross Exposure / Net Equity
 
-Leverage = $20,000 / $10,000 = 2.00×
+Effective Leverage = $20,000 / $10,000 = 2.00×
 
-**Margin Ratio**
+### Margin Ratio
 
 Margin Ratio = Net Equity / Gross Exposure
 
 Margin Ratio = $10,000 / $20,000 = 50%
 
-Expected game output:
+### Expected Output
 
-- Gross Exposure = $20,000
-- Margin Debt = $10,000
-- Net Equity = $10,000
-- Leverage = 2.00×
-- Margin Ratio = 50%
-- Margin Call = No
-
-
-## 5. Critical Margin Test
-
-The most important boundary test is the 20% Maintenance Margin threshold.
-
-| Margin Ratio | Expected Result |
-|---:|---|
-| 20.01% | Position remains active |
-| 20.00% | Margin Call + Instant Forced Liquidation |
-| 19.99% | Margin Call + Instant Forced Liquidation |
-
-The implementation must follow:
-
-Margin Call Triggered if:
-
-Margin Ratio ≤ 20%
-
-There is no grace period between the Margin Call and Forced Liquidation.
+| Metric | Expected Value | Game Output | Match? |
+|---|---:|---:|---|
+| Gross Exposure | $20,000 | — | ⬜ |
+| Margin Debt | $10,000 | — | ⬜ |
+| Net Equity | $10,000 | — | ⬜ |
+| Effective Leverage | 2.00× | — | ⬜ |
+| Margin Ratio | 50.00% | — | ⬜ |
+| Margin Call | No | — | ⬜ |
 
 
-## 6. Market Data Verification
+# 9. Test Ownership
 
-Scenario datasets are separately audited for the ±30% session price limit.
+Testing responsibilities follow the existing project roles.
 
-For each ticker:
+| Test Area | Primary Responsibility |
+|---|---|
+| Trading engine and order execution | Technical Developer & Engine Architect |
+| Margin Call and Forced Liquidation implementation | Technical Developer & Engine Architect |
+| T+0.5 implementation | Technical Developer & Engine Architect |
+| Invalid input handling | Technical Developer & Engine Architect |
+| Market dataset integrity | Data Gatherer & Quantitative Calibration |
+| ±30% price-limit audit | Data Gatherer & Quantitative Calibration |
+| Best-case portfolio benchmarks | Data Gatherer & Quantitative Calibration |
+| Scenario and user-flow consistency | Scenario Designer & Content Lead |
+| Financial-rule verification | Coordinator & Mechanism Designer |
+| UI state and visual feedback | UI/UX & Frontend Interface Designer |
 
-Price Change (%) = (Current Price / Session Reference Price) − 1
 
-Acceptable range:
-
--30% ≤ Price Change ≤ +30%
-
-A price exactly at +30% or -30% is valid.
-
-A price above +30% or below -30% is classified as a data breach.
-
-The Excel Market Scenario Audit file is used as supporting evidence for this test.
-
-
-## 7. Bug Handling
+# 10. Bug Handling
 
 If a test fails:
 
-1. Record the issue in `BUG_LOG.md`.
-2. Assign the bug to the responsible developer.
-3. Fix the implementation.
-4. Run the same test again.
-5. Record the new Actual Result.
-6. Mark the test as PASS only after verification.
+1. Record the failed test ID.
+2. Record the expected and actual results.
+3. Add the issue to `BUG_LOG.md`.
+4. Assign the issue to the responsible member.
+5. Apply the required fix.
+6. Re-run the same test.
+7. Mark the test as **PASS** only after successful re-verification.
 
 
-## 8. Test Status
+# 11. Completion Criteria
 
-- ⬜ Not Tested
-- ✅ Pass
-- ❌ Fail
+Week 6 testing is considered complete when:
 
-A test is considered passed only when both:
-
-1. The technical behavior matches the expected result; and
-2. The financial result is mathematically consistent.
+- the core trading flow can be completed;
+- financial calculations match the documented formulas;
+- the 20% maintenance margin rule works correctly;
+- Forced Liquidation executes correctly;
+- Scenario 1 and Scenario 2 pass market-data validation;
+- major invalid inputs are handled safely;
+- critical bugs affecting the core flow are resolved or documented; and
+- test results are recorded with reproducible evidence.
