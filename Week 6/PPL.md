@@ -1,24 +1,3 @@
-========================================================================================
-Dependent Variable: CAR_pct [-1, +1] (%) | Sample Size: N = 135 | R-squared = 0.222
-Model F-statistic: 3.081 (p-value = 0.0008) | Standard Errors: MacKinnon-White HC3 Robust
-========================================================================================
-Regressor           Coefficient   Std. Error   z-statistic   p-value   95% Confidence Interval
-----------------------------------------------------------------------------------------
-const                   +0.2371       2.7680         +0.09     0.932       [-5.188, +5.662]
-SOE                     -2.8032       1.4080         -1.99     0.046 *     [-5.562, -0.044]
-NPL_pct                 -0.0903       0.3720         -0.24     0.808       [-0.819, +0.638]
-ROA_pct                 -1.3116       0.6720         -1.95     0.051 **    [-2.628, +0.005]
-LDR_pct                 +0.0212       0.0260         +0.80     0.423       [-0.031, +0.073]
-Size_dev                +1.3963       0.6280         +2.22     0.026 *     [+0.165, +2.628]
-2022_room_exp           +0.5891       1.3950         +0.42     0.673       [-2.145, +3.323]
-... [Remaining 6 event dummy coefficients omitted from screenshot display]
-========================================================================================
-* Statistically significant at the 5% level (p < 0.05).
-** Marginally significant at the 5% level / significant at the 10% level (p = 0.051).
-```[cite: 15]
-
----
-
 #### Economic Mechanisms Behind Each Regressor
 
 * **The State-Ownership Discount (`SOE`, $\hat{\beta} = -2.8032, p = 0.046$):**  
