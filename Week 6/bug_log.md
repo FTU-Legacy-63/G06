@@ -4,7 +4,6 @@
 **Phase:** Week 6 — Build, Integration and Testing Clinic  
 **Focus:** Operational Stability, Edge-case Handling & Deployment Resilience  
 
----
 
 ## 1. Overview and Severity Standards
 
@@ -18,7 +17,6 @@ This bug log tracks defect discovery, root cause diagnosis, code resolution, and
 ### Lifecycle Statuses
 `NEW` $\rightarrow$ `CONFIRMED` $\rightarrow$ `IN_PROGRESS` $\rightarrow$ `FIXED` $\rightarrow$ `VERIFIED`
 
----
 
 ## 2. Bug Master Table
 
@@ -31,7 +29,6 @@ This bug log tracks defect discovery, root cause diagnosis, code resolution, and
 | **BUG-05** | **MAJOR** | Engine Valuation | Margin Ratio for pure cash positions displayed 200% instead of capped 100% | **VERIFIED** | Financial Analyst | Backend Dev | QA Lead |
 | **BUG-06** | **MINOR** | Repository Root | Loose background PNG images cluttered repository root folder | **VERIFIED** | Team Tester | Repo Admin | QA Lead |
 
----
 
 ## 3. Detailed Bug Diagnostic Reports
 
@@ -57,7 +54,6 @@ This bug log tracks defect discovery, root cause diagnosis, code resolution, and
   ```
 - **Verification:** Automated unit tests `test_settlement_delay_holding_pen` and `test_t11_settlement_workflow_holding_pen` pass successfully.
 
----
 
 ### BUG-02: Uninitialized `margin_multiplier` Attribute on Engine Initialization
 - **Bug ID:** `BUG-02`
@@ -81,7 +77,6 @@ This bug log tracks defect discovery, root cause diagnosis, code resolution, and
   ```
 - **Verification:** Verified via `test_t02_normal_leveraged_trading` and full regression suite.
 
----
 
 ### BUG-03: Floating-Point Division Display Precision Artifacts
 - **Bug ID:** `BUG-03`
@@ -99,7 +94,6 @@ This bug log tracks defect discovery, root cause diagnosis, code resolution, and
 - **Fix Applied:** Added `.toFixed(2)` in JavaScript UI formatters and `round(val, 2)` in backend API serializations.
 - **Verification:** UI visual inspection confirms clean formatting: `20.00%` and `$7,500.00`.
 
----
 
 ### BUG-04: Missing Pre-Trade Guard on Liquidated Account State
 - **Bug ID:** `BUG-04`
@@ -120,7 +114,6 @@ This bug log tracks defect discovery, root cause diagnosis, code resolution, and
   ```
 - **Verification:** Unit test `test_t08_post_liquidation_lockout` verifies `RuntimeError` is raised.
 
----
 
 ### BUG-05: Margin Ratio Definition for Pure Cash Positions
 - **Bug ID:** `BUG-05`
@@ -136,7 +129,6 @@ This bug log tracks defect discovery, root cause diagnosis, code resolution, and
 - **Fix Applied:** Updated documentation and test case `test_t01_normal_cash_trading` with explicit financial comments explaining the cash cushion ratio.
 - **Verification:** Test passed and documentation verified against core specifications.
 
----
 
 ### BUG-06: Repository Root Clutter from Loose Asset Files
 - **Bug ID:** `BUG-06`
@@ -150,7 +142,6 @@ This bug log tracks defect discovery, root cause diagnosis, code resolution, and
 - **Fix Applied:** Moved images into `assets/` and updated all HTML reference paths.
 - **Verification:** Repository root directory clean; asset links operational.
 
----
 
 ## 4. Triage Summary & Release Sign-Off
 
