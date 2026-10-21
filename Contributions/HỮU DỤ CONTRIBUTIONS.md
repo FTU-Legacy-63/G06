@@ -14,7 +14,7 @@ As the **Coordinator and Mechanism Designer**, my core responsibility is authori
 
 | Area | Responsibility | Concrete Repository Deliverable |
 |---|---|---|
-| **Financial Risk Engine** | Designed the formulas for equity revaluation, bank savings accrual, margin debt tracking, and liquidation triggers. | [G06](Week 2/Solution_Structure.md) |
+| **Financial Risk Engine** | Designed the formulas for equity revaluation, bank savings accrual, margin debt tracking, and liquidation triggers. | [main](Week 2/Solution_Structure.md) |
 | **Core User-Facing Flow** | Designed the Phase 1 interaction loop, defining the 1-second price triggers, financial recalculation sequence, and T+0.5 settlement rules. | `FEATURE_MAP.md` |
 | **Margin & Liquidation Mechanics** | Established the 20% maintenance margin threshold, the $\ge 5.0\times$ forced liquidation trigger, and margin warning rules. | `ASSUMPTIONS.md` |
 | **Difficulty & Target Calibration** | Calibrated the three house targets (Small House, Normal House, ToLam Villa) based on empirical backtesting to balance risk/reward. | `INPUT_DICTIONARY.md` |
