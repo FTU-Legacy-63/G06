@@ -12,6 +12,7 @@ The project focuses on the gap between **knowing how leverage works** and **unde
 | **Trần Hữu Dụ** | Coordinator - Mechanism designer | • Rulebook & Game Mechanics Doc such as formulas for leverage, margin maintenance, liquidation cascades, volatility spikes, and win/loss states. |
 | **Nguyễn Hồng Nguyên** | Data Engineer | •  Market Dataset (CSV/JSON): Asset classes, historical KOSPI/tech price series, leveraged ETF multiplier ratios, FX (USD/KRW) rates; Archetype parameters (e.g., retail leveraged accounts, institutional market makers, foreign funds, central bank reserves). |
 | **Triệu Đức Lương** | UI/UX designer | • Dashboard layouts (portfolio summary, margin health gauge, market ticker, event dialogs); Asset Pack: Icons, visual alerts (e.g., Margin Call flashing UI), typography, and design tokens; UX Flowchart: Player onboarding, turn-phase transitions, liquidation alert states, and end-game debrief screens. |
+| **Cáp Phan Quang Khánh** | Scenario Designer | • Scenario Tree & Event Script: Step-by-step branching narrative; Player Decision Matrix: Actions available to players (e.g., inject collateral, fire-sale assets, buy inverse ETFs, hedge via derivatives) with corresponding consequences. |
 | **Nguyễn Quang Minh** | Technical developer | • Core Simulation Engine: State management executing margin calculations, market order matching, and cascade formulas; Event & State Controller: Logic processing player choices and advancing turns/phases. |
 
 ## Problem & Pain Point
