@@ -17,7 +17,7 @@ I also contributed to the project's financial-mechanic development through **tea
 
 | Area | Responsibility | Concrete Repository Deliverable |
 |---|---|---|
-| **Market Scenario Dataset** | Construct the deterministic 1,800-second market dataset across 6 phases and 50 tradable assets used by the simulation engine. | `market scenario/market_scenario.csv` |
+| **Market Scenario Dataset** | Construct the deterministic 1,800-second market dataset across 6 phases and 50 tradable assets used by the simulation engine. | `data/market_scenario_1.csv` |
 | **Scenario Calibration** | Design asset price behavior across Fake Positive News, True Positive News, Bull Market, FOMO, Market Euphoria, and Negative Shock phases. | `market scenario/market_scenario.csv` |
 | **Asset Behavior Design** | Differentiate driver and non-driver assets, coordinate market movements, create volatility patterns and misleading opportunities, and calibrate the synchronized Phase 6 crash. | `market scenario/market_scenario.csv` |
 | **Portfolio Combination Testing** | Generate and evaluate alternative trading combinations across leverage tiers to determine achievable portfolio outcomes. | `market scenario/best_case_portfolio_combos.csv` |
