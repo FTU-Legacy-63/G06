@@ -7,7 +7,7 @@
 The project focuses on the gap between **knowing how leverage works** and **understanding its consequences while making real-time investment decisions**.
 
 ## Team Members & Individual Contribution Matrix
-| Member Name | Role | Core Contributions & Weekly Ownership |
+| Member Name | Role | Core Contributions |
 | :--- | :--- | :--- |
 | **Trần Hữu Dụ** | Coordinator - Mechanism designer | • Rulebook & Game Mechanics Doc such as formulas for leverage, margin maintenance, liquidation cascades, volatility spikes, and win/loss states. |
 | **Nguyễn Hồng Nguyên** | Data Engineer | •  Market Dataset (CSV/JSON): Asset classes, historical KOSPI/tech price series, leveraged ETF multiplier ratios, FX (USD/KRW) rates; Archetype parameters (e.g., retail leveraged accounts, institutional market makers, foreign funds, central bank reserves). |
