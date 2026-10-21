@@ -15,9 +15,9 @@ As the **Coordinator and Mechanism Designer**, my core responsibility is authori
 | Area | Responsibility | Concrete Repository Deliverable |
 |---|---|---|
 | **Financial Risk Engine** | Designed the formulas for equity revaluation, bank savings accrual, margin debt tracking, and liquidation triggers. | [Solution Structure](../Week%202/Solution_Structure.md) |
-| **Core User-Facing Flow** | Designed the Phase 1 interaction loop, defining the 1-second price triggers, financial recalculation sequence, and T+0.5 settlement rules. | `FEATURE_MAP.md` |
-| **Margin & Liquidation Mechanics** | Established the 20% maintenance margin threshold, the $\ge 5.0\times$ forced liquidation trigger, and margin warning rules. | `ASSUMPTIONS.md` |
-| **Difficulty & Target Calibration** | Calibrated the three house targets (Small House, Normal House, ToLam Villa) based on empirical backtesting to balance risk/reward. | `INPUT_DICTIONARY.md` |
+| **Core User-Facing Flow** | Designed the Phase 1 interaction loop, defining the 1-second price triggers, financial recalculation sequence, and T+0.5 settlement rules. | [Feature Map](../Week%205/Feature_map.md) |
+| **Margin & Liquidation Mechanics** | Established the 20% maintenance margin threshold, the $\ge 5.0\times$ forced liquidation trigger, and margin warning rules. | [Assumptions](../Week%203/ASSUMPTIONS.md) |
+| **Difficulty & Target Calibration** | Calibrated the three house targets (Small House, Normal House, ToLam Villa) based on empirical backtesting to balance risk/reward. | [Input Dictionary](../Week%203/INPUT_DICTIONARY.md) |
 | **Logic Verification & Edge Cases** | Created verifiable manual calculation cases (e.g., High Leverage Wipeout vs. Cash-Only Normie) to test the engine's financial logic. | `SAMPLE_INPUT_OUTPUT.md`, `MIDTERM_REVIEW.md` |
 
 ---
