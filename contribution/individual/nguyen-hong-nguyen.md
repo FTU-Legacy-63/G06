@@ -15,7 +15,7 @@ Owned the market scenario datasets and the quantitative calibration of targets a
 ## Evidence links
 - [data/](../../data)
 - [docs/data_and_sources.md](../../docs/data_and_sources.md)
-- Original evidence: [HONG_NGUYEN_CONTRIBUTIONS.md](evidence/Hồng_Nguyên_CONTRIBUTIONS.md)
+- Original evidence: [HONG_NGUYEN_CONTRIBUTIONS.md](../contribution/evidence/Hồng_Nguyên_CONTRIBUTIONS.md)
 
 ## How my work is used
 The engine reads the price paths every tick; the benchmarks show that targets are achievable with discipline but exposed to the Phase 6 crash.
