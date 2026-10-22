@@ -3,7 +3,7 @@
 **Course:** Technology Applications in Banking and Finance (NHA408E) - FTU 2026  
 **Project:** Free Fall 2.0 (Group 6)  
 **Member:** Cáp Phan Quang Khánh  
-**Student ID:**  
+**Student ID:** 2412380020 
 **Assigned Role:** Scenario Designer  
 
 ---
