@@ -5,7 +5,7 @@
 ## 1. Files
 | File | Content | Used by |
 |---|---|---|
-| [data/market_scenario_1.csv](data/market_scenario_1.csv) | Scenario 1: 50 assets × 1,800 s + 6 metadata columns | Engine / game controller; benchmark optimiser |
+| [data/market_scenario_1.csv](G06/data/market_scenario_1.csv) | Scenario 1: 50 assets × 1,800 s + 6 metadata columns | Engine / game controller; benchmark optimiser |
 | `data/market_scenario_2.csv` | Scenario 2: same structure, different price paths | Engine (alternative scenario) |
 | `data/market_scenario_1_plot.png` | Price-index plot of Scenario 1 (second 1 = 100) | Documentation |
 | `data/audit/market_scenario_audit_1.xlsm` | Sheets *Market Scenario*, *Data Audit* (1,800 rows, per-ticker Δ %), *Data Audit checked* (600 rows = 50 tickers × 12 AM/PM sessions, reference price and 70 % floor) | Validation of session limits |
