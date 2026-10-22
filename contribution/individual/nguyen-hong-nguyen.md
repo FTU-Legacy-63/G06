@@ -37,8 +37,8 @@ Under the **current optimizer's assumptions** ($10,000 start, whole shares, pric
 - [Scenario datasets and validation inputs](../../data/) — attach and verify the final Scenario 1/2 CSVs.
 - [Data, assumptions, calibration and outstanding QA](../../docs/data_and_sources.md) — detailed data and method summary.
 - [`analysis/best_case.py`](../../analysis/best_case.py) — whole-share DP and staggered MILP code; verify the committed version includes target calibration.
-- `market_scenario_2_PHASE30_FIXED.csv` — corrected Scenario 2 data **(add verified repo path)**.
-- `market_scenario_2_PHASE30_AUDIT.csv` — corrected Scenario 2 audit **(add verified repo path)**.
+- `market_scenario_2.csv` — Scenario 2 data **(add verified repo path)**.
+- `market_scenario_2_audit.xlsx` — Scenario 2 audit **(add verified repo path)**.
 - `build_market_scenario_2.py` — scripted correction/validation **(add verified repo path)**.
 - `whole_share_srlp_summary.csv`, `whole_share_srlp_cycles.csv`, `whole_share_srlp_buy_allocations.csv`, `whole_share_srlp_margin_audit.csv` — latest optimizer results **(add verified repo links)**.
 - `target_calibration_3x_20x_100x.csv` — updated target-attainment comparison **(add verified repo link)**.
