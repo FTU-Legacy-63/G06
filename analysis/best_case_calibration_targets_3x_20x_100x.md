@@ -13,9 +13,6 @@ Two optimization approaches were applied separately to **both market scenarios**
 | Compounding | Between completed cycles | Between cycles and through additional intra-cycle exposure |
 | Limitation | Optimality refers to the specified sequential DP model | MILP solves fixed cycles; the complete multi-cycle route is **not** proved globally optimal |
 
-The earlier **109× DP / 156× staggered** figures in the previous version of this document are **superseded**. They came from an earlier Scenario 1 calibration and must not be presented as the results of the corrected datasets.
-
-### Actual results from the completed dual-scenario run
 
 All wealth multiples are calculated as `Final Equity / $10,000`.
 
