@@ -9,7 +9,7 @@ Manage a leveraged portfolio through a 30-minute simulated session, pursue a pro
 
 Session path: `Start → scenario & capital assigned → choose house target → choose margin tier → Phases 1–6 (trade / save / de-risk) → margin warning → liquidation or survival → Risk & Decision Review`.
 
-## 2. Phase 1 system flow
+## 2. Phase 1 system flow (designed by Trần Hữu Dụ)
 ![Phase 1 workflow](img/phase_1_workflow.jpg)
 
 ```mermaid
