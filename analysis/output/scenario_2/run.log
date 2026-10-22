@@ -1,0 +1,145 @@
+========================================================================
+FREE FALL 2.0 — WHOLE-SHARE FIXED-TIER STAGGERED OPTIMIZER
+========================================================================
+Input:                E:\Phờ tu\NĂM 3\ỨNG DỤNG CNTT trong TCNH\PHDZ\market_scenario_2.csv
+Ticks:                1,800
+Tickers:              50
+Initial capital:      $10,000.00
+Price divisor:        1400
+T+0.5 delay:          75 sec
+Allowed margin tiers: 2x, 3x, 4x
+Share rule:           WHOLE SHARES ONLY
+Maintenance trigger: <= 20.000%
+Survival floor:      >= 20.001%
+MILP time/cycle:      60 sec
+MILP target gap:      0.100%
+
+========================================================================
+FIXED MARGIN TIER: 2x — WHOLE SHARES
+========================================================================
+Whole-share concentrated DP: $1,034,277.59 = 103.427759x
+DP cycles:                   10
+  Cycle 1: 1->93, start equity $10,000.00, solving whole-share MILP...
+    end $14,247.90 = 1.424790x | orders 18 | min MR 50.0019% | gap 0.087986% | optimal=True
+  Cycle 2: 168->301, start equity $14,247.90, solving whole-share MILP...
+    end $25,636.03 = 2.563603x | orders 57 | min MR 50.0030% | gap 0.099998% | optimal=True
+  Cycle 3: 390->510, start equity $25,636.03, solving whole-share MILP...
+    end $48,799.97 = 4.879997x | orders 23 | min MR 50.0057% | gap 0.099462% | optimal=True
+  Cycle 4: 585->687, start equity $48,799.97, solving whole-share MILP...
+    end $70,097.42 = 7.009742x | orders 20 | min MR 50.0000% | gap 0.025069% | optimal=True
+  Cycle 5: 762->878, start equity $70,097.42, solving whole-share MILP...
+    end $152,419.03 = 15.241903x | orders 43 | min MR 50.0021% | gap 0.086903% | optimal=True
+  Cycle 6: 953->1034, start equity $152,419.03, solving whole-share MILP...
+    end $214,120.00 = 21.412000x | orders 6 | min MR 50.0357% | gap 0.040714% | optimal=True
+  Cycle 7: 1109->1188, start equity $214,120.00, solving whole-share MILP...
+    end $403,009.41 = 40.300941x | orders 5 | min MR 50.0042% | gap 0.009004% | optimal=True
+  Cycle 8: 1263->1338, start equity $403,009.41, solving whole-share MILP...
+    end $572,893.19 = 57.289319x | orders 1 | min MR 50.0040% | gap 0.004614% | optimal=True
+  Cycle 9: 1413->1556, start equity $572,893.19, solving whole-share MILP...
+    end $1,128,007.73 = 112.800773x | orders 69 | min MR 50.0001% | gap 0.067168% | optimal=True
+  Cycle 10: 1725->1800, start equity $1,128,007.73, solving whole-share MILP...
+    end $1,378,176.80 = 137.817680x | orders 1 | min MR 49.3840% | gap 0.003334% | optimal=True
+Whole-share staggered result: $1,378,176.80 = 137.817680x
+Improvement vs whole-share DP: 33.25%
+
+========================================================================
+FIXED MARGIN TIER: 3x — WHOLE SHARES
+========================================================================
+Whole-share concentrated DP: $5,453,454.77 = 545.345477x
+DP cycles:                   10
+  Cycle 1: 1->93, start equity $10,000.00, solving whole-share MILP...
+    end $16,589.95 = 1.658995x | orders 18 | min MR 33.3336% | gap 0.055437% | optimal=True
+  Cycle 2: 168->301, start equity $16,589.95, solving whole-share MILP...
+    end $39,092.02 = 3.909202x | orders 59 | min MR 33.3335% | gap 0.097512% | optimal=True
+  Cycle 3: 390->510, start equity $39,092.02, solving whole-share MILP...
+    end $98,882.78 = 9.888278x | orders 47 | min MR 33.3342% | gap 0.099987% | optimal=True
+  Cycle 4: 585->687, start equity $98,882.78, solving whole-share MILP...
+    end $165,613.59 = 16.561359x | orders 20 | min MR 33.3333% | gap 0.005986% | optimal=True
+  Cycle 5: 762->878, start equity $165,613.59, solving whole-share MILP...
+    end $498,452.39 = 49.845239x | orders 42 | min MR 33.3335% | gap 0.089823% | optimal=True
+  Cycle 6: 953->1034, start equity $498,452.39, solving whole-share MILP...
+    end $806,275.69 = 80.627569x | orders 7 | min MR 33.3360% | gap 0.055162% | optimal=True
+  Cycle 7: 1109->1188, start equity $806,275.69, solving whole-share MILP...
+    end $1,894,000.07 = 189.400007x | orders 5 | min MR 33.3337% | gap 0.002589% | optimal=True
+  Cycle 8: 1263->1338, start equity $1,894,000.07, solving whole-share MILP...
+    end $3,091,660.39 = 309.166039x | orders 1 | min MR 33.3341% | gap 0.001238% | optimal=True
+  Cycle 9: 1413->1556, start equity $3,091,660.39, solving whole-share MILP...
+    end $8,459,059.22 = 845.905922x | orders 69 | min MR 33.3334% | gap 0.008638% | optimal=True
+  Cycle 10: 1725->1800, start equity $8,459,059.22, solving whole-share MILP...
+    end $11,273,220.99 = 1127.322099x | orders 1 | min MR 32.5097% | gap 0.000085% | optimal=True
+Whole-share staggered result: $11,273,220.99 = 1127.322099x
+Improvement vs whole-share DP: 106.72%
+
+========================================================================
+FIXED MARGIN TIER: 4x — WHOLE SHARES
+========================================================================
+Whole-share concentrated DP: $22,491,658.59 = 2249.165859x
+DP cycles:                   11
+  Cycle 1: 1->93, start equity $10,000.00, solving whole-share MILP...
+    end $19,087.34 = 1.908734x | orders 18 | min MR 25.0010% | gap 0.015071% | optimal=True
+  Cycle 2: 168->301, start equity $19,087.34, solving whole-share MILP...
+    end $58,219.85 = 5.821985x | orders 59 | min MR 25.0001% | gap 0.048542% | optimal=True
+  Cycle 3: 390->510, start equity $58,219.85, solving whole-share MILP...
+    end $192,341.78 = 19.234178x | orders 46 | min MR 25.0015% | gap 0.052687% | optimal=True
+  Cycle 4: 585->687, start equity $192,341.78, solving whole-share MILP...
+    end $370,561.79 = 37.056179x | orders 20 | min MR 25.0006% | gap 0.090111% | optimal=True
+  Cycle 5: 762->878, start equity $370,561.79, solving whole-share MILP...
+    end $1,505,191.68 = 150.519168x | orders 42 | min MR 25.0005% | gap 0.028718% | optimal=True
+  Cycle 6: 953->1034, start equity $1,505,191.68, solving whole-share MILP...
+    end $2,765,010.94 = 276.501094x | orders 7 | min MR 25.0014% | gap 0.035055% | optimal=True
+  Cycle 7: 1109->1188, start equity $2,765,010.94, solving whole-share MILP...
+    end $7,834,987.74 = 783.498774x | orders 5 | min MR 25.0002% | gap 0.000820% | optimal=True
+  Cycle 8: 1263->1338, start equity $7,834,987.74, solving whole-share MILP...
+    end $14,440,999.22 = 1444.099922x | orders 1 | min MR 25.0000% | gap 0.000107% | optimal=True
+  Cycle 9: 1413->1500, start equity $14,440,999.22, solving whole-share MILP...
+    end $39,717,460.04 = 3971.746004x | orders 13 | min MR 25.0000% | gap 0.000064% | optimal=True
+  Cycle 10: 1575->1650, start equity $39,717,460.04, solving whole-share MILP...
+    end $41,497,309.38 = 4149.730938x | orders 1 | min MR 24.8443% | gap 0.000000% | optimal=True
+  Cycle 11: 1725->1800, start equity $41,497,309.38, solving whole-share MILP...
+    end $59,904,436.00 = 5990.443600x | orders 1 | min MR 24.0734% | gap 0.000009% | optimal=True
+Whole-share staggered result: $59,904,436.00 = 5990.443600x
+Improvement vs whole-share DP: 166.34%
+
+========================================================================
+FINAL WHOLE-SHARE TIER COMPARISON
+========================================================================
+ Tier_x  Concentrated_DP_Wealth_x  WholeShare_Staggered_Wealth_x  WholeShare_Staggered_Final_Equity_USD  Improvement_vs_DP_pct  Minimum_Margin_Ratio_pct  All_Cycles_Proven_Optimal  Worst_Cycle_MIP_Gap
+    2.0                103.427759                     137.817680                           1.378177e+06              33.250184                 49.383953                       True             0.001000
+    3.0                545.345477                    1127.322099                           1.127322e+07             106.717053                 32.509702                       True             0.001000
+    4.0               2249.165859                    5990.443600                           5.990444e+07             166.340678                 24.073384                       True             0.000901
+
+Best fixed tier:       4x
+Best final equity:     $59,904,436.00
+Best wealth multiple:  5990.443600x
+All cycles proven:     True
+Worst cycle MIP gap:   0.090111%
+
+Created:
+  whole_share_srlp_output.xlsx
+  whole_share_srlp_summary.csv
+  whole_share_srlp_cycles.csv
+  whole_share_srlp_buy_allocations.csv
+  whole_share_srlp_margin_audit.csv
+
+IMPORTANT:
+Every BUY_Quantity and SELL_Quantity is an integer number of shares.
+If a cycle hits its time limit, its returned portfolio is still feasible,
+but the cycle is not proven optimal unless MILP_Proven_Optimal=True.
+
+========================================================================
+PROPERTY TARGET CALIBRATION — 3x / 20x / 100x
+========================================================================
+Tier_x       Target Target_Multiple_x Staggered_Wealth_x Target_Coverage_pct Gap_to_Target_USD Result
+    2x  Small House                3x          137.8177x            4593.92%             $0.00   PASS
+    2x Normal House               20x          137.8177x             689.09%             $0.00   PASS
+    2x  ToLam Villa              100x          137.8177x             137.82%             $0.00   PASS
+    3x  Small House                3x         1127.3221x           37577.40%             $0.00   PASS
+    3x Normal House               20x         1127.3221x            5636.61%             $0.00   PASS
+    3x  ToLam Villa              100x         1127.3221x            1127.32%             $0.00   PASS
+    4x  Small House                3x         5990.4436x          199681.45%             $0.00   PASS
+    4x Normal House               20x         5990.4436x           29952.22%             $0.00   PASS
+    4x  ToLam Villa              100x         5990.4436x            5990.44%             $0.00   PASS
+
+Created: target_calibration_3x_20x_100x.csv
+Note: Optimizer-derived feasibility is not a typical player success rate.
+A time-limited MILP incumbent may be feasible without being proven optimal.
