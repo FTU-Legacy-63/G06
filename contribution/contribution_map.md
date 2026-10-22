@@ -1,0 +1,20 @@
+# Group Contribution Map
+
+> Built from the five members' own contribution files, the midterm verification table and the Week 2–6 documents. Git authorship is not used as proof (one member uploaded for the team). Links are relative to the final structure. The original `*_CONTRIBUTIONS.md` files are kept in [`evidence/`](evidence). `[TODO]` = add commits / PRs / issues.
+
+| Member | Main responsibility | Concrete output | Evidence link | How the output is used | Integration, testing or revision evidence |
+|---|---|---|---|---|---|
+| **Trần Hữu Dụ** | Coordinator · mechanism designer | Rulebook and formulas (exposure, equity, leverage, margin ratio); 20 % maintenance, ≥ 5.0× trigger, 5 % penalty; T+0.5 rule; ±30 % session limits (+69 % / −51 % per phase); 3×/20×/100× target matrix; 4.75 % savings; Phase 1 feature flow; Solution Structure, Assumptions, Input Dictionary, Feature Map, Sample I/O, Week 4 review | [financial_logic.md](../docs/financial_logic.md), [evidence/HUU_DU](evidence/HUU_DU_CONTRIBUTIONS.md), [individual](individual/tran-huu-du.md) | Blueprint coded by the engine and shown by the UI | Engine defaults match (20 %, 5 %); T09 exact match; targets revised Week 4 → 5 |
+| **Nguyễn Hồng Nguyên** | Data gatherer · calibration | Scenario datasets (50 assets × 1,800 s, six phases, drivers and decoys); portfolio combination tests; target and margin-tier calibration; input to savings, margin and session-limit rules; audit sheets | [data_and_sources.md](../docs/data_and_sources.md), [data/](../data), [evidence/HONG_NGUYEN](evidence/HONG_NGUYEN_CONTRIBUTIONS.md), [individual](individual/nguyen-hong-nguyen.md) | Price feed; benchmarks justify 3×/20×/100× | Read by [`game_controller.py`](../src/game_controller.py); audit workbooks; `best_case.py` author `[TODO: confirm]` |
+| **Cáp Phan Quang Khánh** | Scenario designer | Scenario tree and user flow (Happy / Alternative / Critical-risk); six-phase scenario structure; Phase 1 news script (3 market items, 5 asset items); player action mapping; decision paths | [user_flow.md](../docs/user_flow.md) §6–7, [evidence/QUANG_KHANH](evidence/QUANG_KHANH_CONTRIBUTION.md), [individual](individual/cap-phan-quang-khanh.md) | Connects data and formulas to the learning loop | Paths follow Input Dictionary and Feature Map; student ID missing in file `[TODO]` |
+| **Nguyễn Quang Minh** | Technical developer · engine architect | `simulation_engine.py`, `game_controller.py`, `tests/test_simulation_engine.py`, `interactive_demo.py`, `api_server.py`; CSV pipeline; workflow implementation | [src/](../src), [tests/](../tests), [evidence/QUANG_MINH](evidence/QUANG_MINH_CONTRIBUTIONS.md), [individual](individual/nguyen-quang-minh.md) | Runs documented rules and feeds the web UI | 4 tests in committed file; 14-test run in `test_case.md` `[TODO: reconcile]`; BUG fixes (roles unnamed) |
+| **Triệu Đức Lương** | UI/UX & frontend designer | Dark-mode design system, 3-card intro, dashboard, Margin Health / leverage / target gauges, wireframes, GitHub Pages demo | [`index.html`](../index.html), [web/](../web), [evidence/DUC_LUONG](evidence/DUC_LUONG_CONTRIBUTION.md), [individual](individual/trieu-duc-luong.md) | Presents backend risk state to players | Handover to a “frontend developer” (unnamed) — `[TODO: say who coded index.html]`; `UI_Design_System.md` not seen |
+
+## Group-level outputs
+| Output | Evidence | Owner |
+|---|---|---|
+| Project proposal | `archive/Project_Proposal.md` | Group `[TODO]` |
+| Benchmark note and optimiser | `data/best_case_base_for_target_3x_10x_100x.md`, `analysis/best_case.py` | `[TODO: confirm]` |
+| Source–use map | [data_and_sources.md](../docs/data_and_sources.md) §7 | `[TODO]` |
+| Test specification and bug log | [testing.md](../docs/testing.md) | Roles (QA Lead, Financial Analyst, Core/Backend/Frontend Dev, Team Tester, Repo Admin) — `[TODO: map to names]` |
+| README, docs consolidation, release | This repo | Group |
