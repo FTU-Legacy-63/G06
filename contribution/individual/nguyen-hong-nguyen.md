@@ -26,4 +26,4 @@ Calibration loop: price paths → portfolio tests → leverage outcomes → weal
 ## Remaining limitation
 Scenario 2 still needs calibration and benchmark re-runs (stated next step); a re-check of the CSVs found a ≈ +30 % jump at second 1,651 in Scenario 1 and text-formatted numbers in Scenario 2 — see [data_and_sources.md](../../docs/data_and_sources.md) §6.
 
-> Short version of [evidence/HONG_NGUYEN_CONTRIBUTIONS.md](../evidence/HONG_NGUYEN_CONTRIBUTIONS.md). **Nguyễn Hồng Nguyên should review, correct and sign off.**
+> Short version of [evidence/HONG_NGUYEN_CONTRIBUTIONS.md](../evidence/Hồng_Nguyên_CONTRIBUTIONS.md). **Nguyễn Hồng Nguyên should review, correct and sign off.**
