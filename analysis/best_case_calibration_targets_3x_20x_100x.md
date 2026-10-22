@@ -156,13 +156,12 @@ Scenario 2's materially higher optimizer outcomes may justify further scenario-b
 
 ## 7. Interpretation Boundaries and Outstanding QA
 
-1. **Do not reuse old numbers.** The historical 109×/156× reference is replaced by the six scenario/tier comparisons in Section 1. The **156.869452×** value now refers specifically to **Scenario 1, 3× staggered**, not a universal maximum.
-2. **No global-optimality claim.** The DP and within-cycle MILPs solve different restricted optimization problems; the full staggered sequence is conditioned on DP-selected cycle boundaries.
-3. **Solver certification is conditional.** The Scenario 1, 2× run has a 0.195264% gap in one cycle. Other per-cycle results terminate within their configured tolerances, not necessarily at mathematical exact optimality.
-4. **Full foresight.** The optimization assumes knowledge of the entire future price path, unlike a human trader.
-5. **Model–engine alignment.** Confirm that the game engine and optimizer use the same settlement restrictions, share rounding, savings treatment, leverage timing, liquidation trigger and effective prices before treating these as reproducible gameplay bounds.
-6. **Dataset QA scope.** Both corrected CSVs passed the script's continuity and full-phase ±30% checks. Those tests do not independently establish plausible market behavior or every gameplay rule.
-7. **Trading frictions.** Fees, slippage, position-level liquidity limitations and other real-market frictions are not represented; therefore the simulated results can be substantially above plausible execution outcomes.
+1. **No global-optimality claim.** The DP and within-cycle MILPs solve different restricted optimization problems; the full staggered sequence is conditioned on DP-selected cycle boundaries.
+2. **Solver certification is conditional.** The Scenario 1, 2× run has a 0.195264% gap in one cycle. Other per-cycle results terminate within their configured tolerances, not necessarily at mathematical exact optimality.
+3. **Full foresight.** The optimization assumes knowledge of the entire future price path, unlike a human trader.
+4. **Model–engine alignment.** Confirm that the game engine and optimizer use the same settlement restrictions, share rounding, savings treatment, leverage timing, liquidation trigger and effective prices before treating these as reproducible gameplay bounds.
+5. **Dataset QA scope.** Both corrected CSVs passed the script's continuity and full-phase ±30% checks. Those tests do not independently establish plausible market behavior or every gameplay rule.
+6. **Trading frictions.** Fees, slippage, position-level liquidity limitations and other real-market frictions are not represented; therefore the simulated results can be substantially above plausible execution outcomes.
 
 ## 8. Reproducibility and Evidence Files
 
