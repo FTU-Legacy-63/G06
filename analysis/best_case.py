@@ -619,5 +619,65 @@ def main():
     print("but the cycle is not proven optimal unless MILP_Proven_Optimal=True.")
 
 
-if __name__ == "__main__":
+def build_target_calibration(summary_df: pd.DataFrame) -> pd.DataFrame:
+    """Assess house-target feasibility from the optimizer's actual results."""
+    targets = {
+        "Small House": 3.0,
+        "Normal House": 20.0,
+        "ToLam Villa": 100.0,
+    }
+    rows = []
+    for _, result in summary_df.iterrows():
+        tier = float(result["Tier_x"])
+        dp_multiple = float(result["Concentrated_DP_Wealth_x"])
+        staggered_multiple = float(result["WholeShare_Staggered_Wealth_x"])
+        for target_name, target_multiple in targets.items():
+            rows.append({
+                "Tier_x": tier,
+                "Target": target_name,
+                "Target_Multiple_x": target_multiple,
+                "Target_Equity_USD": INITIAL_CAPITAL * target_multiple,
+                "Concentrated_DP_Wealth_x": dp_multiple,
+                "Concentrated_DP_Meets_Target": dp_multiple >= target_multiple,
+                "Staggered_Wealth_x": staggered_multiple,
+                "Staggered_Final_Equity_USD": INITIAL_CAPITAL * staggered_multiple,
+                "Staggered_Meets_Target": staggered_multiple >= target_multiple,
+                "Target_Coverage_pct": 100.0 * staggered_multiple / target_multiple,
+                "Gap_to_Target_USD": max(0.0, INITIAL_CAPITAL * (target_multiple - staggered_multiple)),
+                "Surplus_Above_Target_USD": max(0.0, INITIAL_CAPITAL * (staggered_multiple - target_multiple)),
+            })
+    return pd.DataFrame(rows)
+
+
+def main_with_target_calibration():
+    # Reuse the original optimizer unchanged, including its settlement,
+    # whole-share, maintenance-margin, and fixed-tier constraints.
     main()
+    summary_path = Path("whole_share_srlp_summary.csv")
+    summary_df = pd.read_csv(summary_path)
+    calibration = build_target_calibration(summary_df)
+    calibration.to_csv("target_calibration_3x_20x_100x.csv", index=False)
+
+    print("\n" + "=" * 72)
+    print("PROPERTY TARGET CALIBRATION — 3x / 20x / 100x")
+    print("=" * 72)
+    display = calibration[[
+        "Tier_x", "Target", "Target_Multiple_x", "Staggered_Wealth_x",
+        "Staggered_Meets_Target", "Target_Coverage_pct", "Gap_to_Target_USD",
+    ]].copy()
+    display["Result"] = display["Staggered_Meets_Target"].map({True: "PASS", False: "BELOW"})
+    display = display.drop(columns="Staggered_Meets_Target")
+    print(display.to_string(index=False, formatters={
+        "Tier_x": lambda x: f"{x:.0f}x",
+        "Target_Multiple_x": lambda x: f"{x:.0f}x",
+        "Staggered_Wealth_x": lambda x: f"{x:.4f}x",
+        "Target_Coverage_pct": lambda x: f"{x:.2f}%",
+        "Gap_to_Target_USD": lambda x: f"${x:,.2f}",
+    }))
+    print("\nCreated: target_calibration_3x_20x_100x.csv")
+    print("Note: Optimizer-derived feasibility is not a typical player success rate.")
+    print("A time-limited MILP incumbent may be feasible without being proven optimal.")
+
+
+if __name__ == "__main__":
+    main_with_target_calibration()
