@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+import argparse
+import os
+from contextlib import redirect_stdout
 import numpy as np
 import pandas as pd
 from scipy.optimize import milp, LinearConstraint, Bounds
@@ -22,14 +25,11 @@ META_COLUMNS = ["Scenario", "Global_Second", "Phase", "Phase_Name", "Phase_Secon
 
 
 def locate_input_file() -> Path:
-    p = Path(INPUT_FILE)
-    if p.exists():
-        return p
-    matches = sorted(Path(".").glob("market_scenario_1*.csv"))
-    if matches:
-        print(f"Using {matches[0].name!r}")
-        return matches[0]
-    raise FileNotFoundError("Put market_scenario_1.csv beside this script.")
+    """Return exactly the selected input; never silently fall back to another scenario."""
+    p = Path(INPUT_FILE).expanduser().resolve()
+    if not p.is_file():
+        raise FileNotFoundError(f"Market dataset not found: {p}")
+    return p
 
 
 def load_market(path: Path):
@@ -679,5 +679,172 @@ def main_with_target_calibration():
     print("A time-limited MILP incumbent may be feasible without being proven optimal.")
 
 
+
+# -----------------------------------------------------------------------------
+# Two-scenario orchestration. Core whole-share DP + MILP above is unchanged.
+# -----------------------------------------------------------------------------
+OUTPUT_NAMES = (
+    "whole_share_srlp_summary.csv",
+    "whole_share_srlp_cycles.csv",
+    "whole_share_srlp_buy_allocations.csv",
+    "whole_share_srlp_margin_audit.csv",
+    "target_calibration_3x_20x_100x.csv",
+)
+
+
+def verify_phase_rules(dataset_path: Path) -> None:
+    """Reject invalid final market data *before* running any expensive optimizer."""
+    data = pd.read_csv(dataset_path)
+    meta_missing = [c for c in META_COLUMNS if c not in data.columns]
+    if meta_missing:
+        raise ValueError(f"{dataset_path.name}: missing columns {meta_missing}")
+    if len(data) != 1800:
+        raise ValueError(f"{dataset_path.name}: expected 1800 ticks, got {len(data)}")
+    if not np.array_equal(data["Global_Second"].to_numpy(), np.arange(1, 1801)):
+        raise ValueError(f"{dataset_path.name}: Global_Second is not exactly 1..1800")
+    cols = [c for c in data if c not in META_COLUMNS]
+    if len(cols) != 50:
+        raise ValueError(f"{dataset_path.name}: expected 50 assets, got {len(cols)}")
+    try:
+        p = data[cols].apply(pd.to_numeric, errors="raise").to_numpy(float)
+    except (ValueError, TypeError) as exc:
+        raise ValueError(f"{dataset_path.name}: invalid numeric price column") from exc
+    if not np.isfinite(p).all() or (p <= 0).any():
+        raise ValueError(f"{dataset_path.name}: invalid/negative/NaN price")
+    for b in (150, 450, 750, 1050, 1350, 1650, 300, 600, 900, 1200, 1500):
+        if not np.allclose(p[b-1], p[b], rtol=0, atol=0.011):
+            bad = [cols[i] for i in np.flatnonzero(np.abs(p[b-1]-p[b]) > 0.011)][:5]
+            raise ValueError(f"{dataset_path.name}: discontinuity {b}->{b+1}: {bad}")
+    for s in range(0, 1800, 300):
+        phase = p[s:s+300]
+        if ((phase < p[s]*0.7 - 0.011) | (phase > p[s]*1.3 + 0.011)).any():
+            raise ValueError(f"{dataset_path.name}: 30% phase cap violated at phase {s//300+1}")
+    print(f"QA PASS: {dataset_path.name} (1800 ticks, 50 assets, continuity and phase caps)")
+
+
+def default_dataset(filename: str) -> Path:
+    """Look in repository data/ first, then next to best_case.py."""
+    root = Path(__file__).resolve().parent
+    for p in (root.parent / "data" / filename, root / filename):
+        if p.is_file():
+            return p.resolve()
+    raise FileNotFoundError(
+        f"Missing {filename}. Place it in repo/data/ or next to best_case.py, "
+        "or use --scenario1 / --scenario2."
+    )
+
+
+def run_one_scenario(scenario: str, source: Path, base_output: Path) -> dict:
+    global INPUT_FILE
+    verify_phase_rules(source)
+    out = (base_output / scenario).resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    INPUT_FILE = str(source.resolve())
+    original_cwd = Path.cwd()
+    print(f"\n### START {scenario.upper()} — {source.name}")
+    try:
+        os.chdir(out)
+        with (out / "run.log").open("w", encoding="utf-8") as log:
+            # Non-recursive tee: never call print() from write().
+            # Capture the actual stream before redirect_stdout to avoid
+            # accidentally writing back into this same Tee object.
+            import sys
+            original_stream = sys.stdout
+            class Tee:
+                def write(self, s):
+                    original_stream.write(s)
+                    log.write(s)
+                def flush(self):
+                    original_stream.flush()
+                    log.flush()
+                def isatty(self):
+                    return False
+            with redirect_stdout(Tee()):
+                try:
+                    main_with_target_calibration()
+                except RecursionError as exc:
+                    import traceback
+                    traceback.print_exc(file=log)
+                    raise RuntimeError(
+                        f"RecursionError while optimizing {scenario}. "
+                        "See the final traceback in run.log to identify whether "
+                        "the failure originated in SciPy/HiGHS or Python code."
+                    ) from exc
+    finally:
+        os.chdir(original_cwd)
+    for filename in OUTPUT_NAMES:
+        if not (out / filename).exists():
+            raise RuntimeError(f"Missing expected output after {scenario}: {filename}")
+    return {"scenario": scenario, "source": str(source), "directory": out}
+
+
+def combine_scenarios(results: list[dict], output_root: Path) -> None:
+    combined = output_root / "combined"
+    combined.mkdir(parents=True, exist_ok=True)
+    for filename in OUTPUT_NAMES:
+        frames = []
+        for result in results:
+            frame = pd.read_csv(result["directory"] / filename)
+            frame.insert(0, "Scenario_ID", result["scenario"])
+            frame.insert(1, "Input_File", Path(result["source"]).name)
+            frames.append(frame)
+        pd.concat(frames, ignore_index=True).to_csv(combined / filename, index=False)
+
+    tier_summary = pd.read_csv(combined / "whole_share_srlp_summary.csv")
+    calibration = pd.read_csv(combined / "target_calibration_3x_20x_100x.csv")
+    # Compact scenario-by-tier view: 6 rows, with three target flags.
+    flags = calibration.pivot_table(
+        index=["Scenario_ID", "Tier_x"],
+        columns="Target_Multiple_x", values="Staggered_Meets_Target",
+        aggfunc="first"
+    ).reset_index()
+    flags.columns = [f"Reaches_{int(c)}x" if isinstance(c, (int, float)) else c for c in flags.columns]
+    comparison = tier_summary[[
+        "Scenario_ID", "Tier_x", "Concentrated_DP_Wealth_x",
+        "WholeShare_Staggered_Wealth_x", "WholeShare_Staggered_Final_Equity_USD",
+        "Minimum_Margin_Ratio_pct", "All_Cycles_Proven_Optimal",
+    ]].merge(flags, on=["Scenario_ID", "Tier_x"], how="left")
+    comparison.to_csv(combined / "scenario_tier_comparison.csv", index=False)
+
+    # A target must be achieved in BOTH scenarios to pass the robustness gate.
+    gate = (calibration.groupby(["Tier_x", "Target", "Target_Multiple_x"], as_index=False)
+            .agg(Scenarios_Evaluated=("Scenario_ID", "nunique"),
+                 Minimum_Coverage_pct=("Target_Coverage_pct", "min"),
+                 All_Scenarios_Pass=("Staggered_Meets_Target", "all")))
+    gate["All_Scenarios_Pass"] &= gate["Scenarios_Evaluated"].eq(len(results))
+    gate.to_csv(combined / "target_robustness_both_scenarios.csv", index=False)
+
+    print("\n" + "=" * 72)
+    print("COMBINED SCENARIO COMPARISON")
+    print("=" * 72)
+    print(comparison.to_string(index=False))
+    print("\nTARGET ROBUSTNESS — must pass BOTH scenarios")
+    print(gate.to_string(index=False))
+    print(f"\nOutputs saved in: {output_root}")
+    print("Per-scenario files: scenario_1/ and scenario_2/")
+    print("Merged CSVs and comparison files: combined/")
+    print("NOTE: Both scenarios use a perfect-foresight optimizer, not player success rates.")
+
+
+def dual_scenario_main() -> None:
+    parser = argparse.ArgumentParser(description="Run best-case optimization on BOTH fixed market scenarios.")
+    parser.add_argument("--scenario1", type=Path, help="Scenario 1 CSV override")
+    parser.add_argument("--scenario2", type=Path, help="Scenario 2 CSV override")
+    parser.add_argument("--output-dir", type=Path, help="Destination (default: analysis/output)")
+    args = parser.parse_args()
+    first = args.scenario1.resolve() if args.scenario1 else default_dataset("market_scenario_1.csv")
+    second = args.scenario2.resolve() if args.scenario2 else default_dataset("market_scenario_2.csv")
+    out = (args.output_dir or (Path(__file__).resolve().parent / "output")).resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    # Validate BOTH files before starting either expensive optimization.
+    verify_phase_rules(first)
+    verify_phase_rules(second)
+    results = [
+        run_one_scenario("scenario_1", first, out),
+        run_one_scenario("scenario_2", second, out),
+    ]
+    combine_scenarios(results, out)
+
+
 if __name__ == "__main__":
-    main_with_target_calibration()
+    dual_scenario_main()
