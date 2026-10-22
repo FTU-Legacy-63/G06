@@ -1,6 +1,6 @@
 # Data, Assumptions and Sources
 
-> Final-readiness revision (22 October 2026). Consolidates `Market_Dataset.md`, `INPUT_DICTIONARY.md`, `ASSUMPTIONS.md`, `SOURCE_USE_MAP.md`, `Solution_Structure.md`, scenario data/audits, the Data Gatherer's contribution record, and the latest **Scenario 1** whole-share optimizer run. Values marked **provisional** must be reconciled against the committed final datasets and game engine.
+> Consolidates `Market_Dataset.md`, `INPUT_DICTIONARY.md`, `ASSUMPTIONS.md`, `SOURCE_USE_MAP.md`, `Solution_Structure.md`, scenario data/audits, the Data Gatherer's contribution record, and the latest **Scenario 1** whole-share optimizer run. Values marked **provisional** must be reconciled against the committed final datasets and game engine.
 
 ## 1. Files and evidence map
 
