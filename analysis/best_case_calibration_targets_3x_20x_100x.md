@@ -170,17 +170,15 @@ The file `analysis/best_case.py` runs the corrected Scenario 1 and Scenario 2 se
 | Evidence | Location relative to `analysis/` | Purpose |
 |---|---|---|
 | Optimizer source | [`best_case.py`](best_case.py) | Dual-scenario runner, DP, MILP, calibration and output merging |
-| Scenario 1 detailed results | [`output/scenario_1/`](output/scenario_1/) | Summary, trading cycles, BUY allocations, margin audit, workbook, calibration and run log |
-| Scenario 2 detailed results | [`output/scenario_2/`](output/scenario_2/) | Equivalent results for the second market path |
-| Combined summary | [`output/combined/whole_share_srlp_summary.csv`](output/combined/whole_share_srlp_summary.csv) | Six scenario-by-tier rows |
-| Combined cycles | [`output/combined/whole_share_srlp_cycles.csv`](output/combined/whole_share_srlp_cycles.csv) | Trading-cycle evidence for both scenarios |
-| Combined BUY allocations | [`output/combined/whole_share_srlp_buy_allocations.csv`](output/combined/whole_share_srlp_buy_allocations.csv) | Whole-share purchase decisions |
-| Combined margin audit | [`output/combined/whole_share_srlp_margin_audit.csv`](output/combined/whole_share_srlp_margin_audit.csv) | Tick-by-tick account and margin verification |
-| Combined target calibration | [`output/combined/target_calibration_3x_20x_100x.csv`](output/combined/target_calibration_3x_20x_100x.csv) | Six tiers × three targets |
-| Cross-scenario tier comparison | [`output/combined/scenario_tier_comparison.csv`](output/combined/scenario_tier_comparison.csv) | Side-by-side leverage outcomes and attainment flags |
-| Cross-scenario robustness | [`output/combined/target_robustness_both_scenarios.csv`](output/combined/target_robustness_both_scenarios.csv) | Whether each target passes in both scenarios |
-
-The corrected scenario inputs are stored separately in `data/market_scenario_1.csv` and `data/market_scenario_2.csv`. Their dedicated audit workbooks are in `data/audit/`. If the generated CSVs are instead moved directly into `analysis/` rather than preserved under `analysis/output/`, **update these relative evidence paths** to match the actual GitHub layout.
+| Scenario 1 detailed results | [`analysis/scenario_1/`](output/scenario_1/) | Summary, trading cycles, BUY allocations, margin audit, workbook, calibration and run log |
+| Scenario 2 detailed results | [`analysis/scenario_2/`](output/scenario_2/) | Equivalent results for the second market path |
+| Combined summary | [`analysis/combined/whole_share_srlp_summary.csv`](output/combined/whole_share_srlp_summary.csv) | Six scenario-by-tier rows |
+| Combined cycles | [`analysis/combined/whole_share_srlp_cycles.csv`](output/combined/whole_share_srlp_cycles.csv) | Trading-cycle evidence for both scenarios |
+| Combined BUY allocations | [`analysis/combined/whole_share_srlp_buy_allocations.csv`](output/combined/whole_share_srlp_buy_allocations.csv) | Whole-share purchase decisions |
+| Combined margin audit | [`analysis/combined/whole_share_srlp_margin_audit.csv`](output/combined/whole_share_srlp_margin_audit.csv) | Tick-by-tick account and margin verification |
+| Combined target calibration | [`analysis/combined/target_calibration_3x_20x_100x.csv`](output/combined/target_calibration_3x_20x_100x.csv) | Six tiers × three targets |
+| Cross-scenario tier comparison | [`analysis/combined/scenario_tier_comparison.csv`](output/combined/scenario_tier_comparison.csv) | Side-by-side leverage outcomes and attainment flags |
+| Cross-scenario robustness | [`analysis/combined/target_robustness_both_scenarios.csv`](output/combined/target_robustness_both_scenarios.csv) | Whether each target passes in both scenarios |
 
 ### Final calibration statement
 
