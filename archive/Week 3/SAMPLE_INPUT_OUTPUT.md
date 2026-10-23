@@ -25,7 +25,7 @@ This file demonstrates how the scenario data, margin tiers, and house targets pr
 4. The Margin Ratio reaches or falls below the 20% maintenance threshold within Phase 6:
 
 $$
-\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Exposure}} \leq 20\%
+\text{Margin Ratio} = \frac{\text{Trading Equity}}{\text{Gross Exposure}} \leq 20\%
 $$
 
 5. **Trigger:** Margin Call = Instant Forced Liquidation. The broker immediately sells the active leveraged position at the current executable market price.

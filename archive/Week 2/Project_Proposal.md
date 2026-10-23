@@ -63,7 +63,7 @@ The simulation produces measurable financial outcomes including final net equity
 |---|---|
 | **Market Environment** | Deterministic, event-driven market simulation across six phases |
 | **Price Feed** | Predetermined 1,800-second price paths across the simulated asset universe |
-| **Financial Logic** | Continuous portfolio valuation, margin debt, net equity, leverage, target-progress, and liquidation calculations |
+| **Financial Logic** | Continuous portfolio valuation, margin debt, net equity, trading equity, leverage, target-progress, and liquidation calculations |
 | **Risk Enforcement** | Margin warning before maintenance breach and automatic forced liquidation when the maintenance threshold is violated |
 | **User Interaction** | Real-time Buy/Sell/Hold decisions, margin-tier selection, deleveraging, and cash management |
 | **Frontend** | React / Next.js interactive trading interface |
@@ -91,9 +91,10 @@ The financial risk engine continuously evaluates:
 | Financial Metric | Formula |
 |---|---|
 | **Gross Exposure** | $\text{Gross Exposure} = \sum_i (\text{Shares}_i \times \text{Current Price}_i)$ |
-| **Net Equity** | $\text{Net Equity} = \text{Liquid Cash} + \text{Gross Exposure} - \text{Margin Debt}$ |
-| **Effective Leverage** | $\text{Effective Leverage} = \frac{\text{Gross Exposure}}{\text{Net Equity}}$ |
-| **Margin Ratio** | $\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Exposure}}$ |
+| **Net Equity** | $\text{Net Equity} = \text{Liquid Cash} + \text{Gross Exposure} + \text{Bank Savings} - \text{Margin Debt}$ |
+| **Trading Equity** | $\text{Trading Equity} = \text{Liquid Cash} + \text{Gross Exposure} - \text{Margin Debt}$ |
+| **Effective Leverage** | $\text{Effective Leverage} = \frac{\text{Gross Exposure}}{\text{Trading Equity}}$ |
+| **Margin Ratio** | $\text{Margin Ratio} = \frac{\text{Trading Equity}}{\text{Gross Exposure}}$ |
 
 A maintenance breach occurs when:
 

@@ -86,10 +86,11 @@ The six existing MVP inputs are directly connected to financial calculations.
 |---|---|---|
 | **Maximum Position** | `Initial Capital / Initial Margin Ratio` | Maximum market exposure allowed by the selected margin level |
 | **Position Value** | `Shares × Current Price` | Market value of each security position |
-| **Portfolio Value** | `Σ(Shares_i × Current Price_i)` | Total value of all securities held |
-| **Equity / Net Worth** | `Cash + Portfolio Value − Margin Debt` | Player wealth after deducting borrowing |
-| **Leverage** | `Portfolio Value / Equity` | Market exposure relative to player-owned capital |
-| **Margin Ratio** | `Equity / Portfolio Value` | Current equity cushion supporting the leveraged position |
+| **Gross Exposure** | `Σ(Shares_i × Current Price_i)` | Total value of all securities held |
+| **Equity / Net Worth** | `Cash + Bank Savings + Gross Exposure − Margin Debt` | Player wealth after deducting borrowing |
+| **Trading Equity** | `Cash + Gross Exposure − Margin Debt` | Player stock equity after deducting borrowing |
+| **Leverage** | `Gross Exposure / Trading Equity` | Market exposure relative to player-owned capital |
+| **Margin Ratio** | `Trading Equity / Gross Exposure` | Current equity cushion supporting the leveraged position |
 
 ### 5.2 Maximum Leverage
 

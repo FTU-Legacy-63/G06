@@ -41,14 +41,14 @@ Because the price limit resets between sessions, the theoretical maximum cumulat
 
 | Direction | AM | PM | Maximum Phase Movement |
 |---|---:|---:|---:|
-| Maximum Increase | +30% | +30% | **+69%** |
-| Maximum Decline | −30% | −30% | **−51%** |
+| Maximum Increase | +30% | +30% | **+86%** |
+| Maximum Decline | −30% | −30% | **−46%** |
 
 The cumulative limits are compounded rather than added:
 
-**Maximum increase:** `1.30 × 1.30 − 1 = +69%`
+**Maximum increase:** `1.30 × 1.30 − 1 = +86%`
 
-**Maximum decline:** `0.70 × 0.70 − 1 = −51%`
+**Maximum decline:** `0.70 × 0.70 − 1 = −46%`
 
 ## Assumption 6: Fixed Maintenance Margin
 
