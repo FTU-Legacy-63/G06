@@ -32,12 +32,3 @@
 | No measured learning-outcome study | Educational effect intended, not proven |
 | Simulation only; not investment advice | — |
 
-## Documentation and process
-| Limitation | Effect |
-|---|---|
-| Documents disagree (maintenance 20 % vs 30 %; net equity; phase names; tick 150 boundary; benchmark ceilings) | See reconciliation lists in [financial_logic.md](financial_logic.md) and [data_and_sources.md](data_and_sources.md) |
-| Committed test file has 4 tests; documentation claims 14 | See [testing.md](testing.md) §4 |
-| `Interface_design.md`, `Revision_log.md` empty; UI design-system file and wireframes not in the upload | UI and revision history undocumented |
-| Source URLs missing | Weaker traceability |
-| Test/bug logs record roles; individual files mention a “frontend developer” who is not named | Attribution needs confirmation |
-| Contribution links in `Quang_Minh_CONTRIBUTIONS.md` point to a local `C:\` path | Links broken on GitHub (fixed in the new individual file) |
