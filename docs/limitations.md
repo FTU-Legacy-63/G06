@@ -26,7 +26,6 @@
 |---|---|
 | Postponed: scenario playback, behavioural classification, advanced charts, export | Debrief is less detailed |
 | Removed: login, leaderboard | No saved history |
-| Phase 1 news only (market + five assets); Phases 2–6 not scripted | Information layer incomplete after Phase 1 |
 | Post-game debrief layout and formulas not finalised (stated next steps) | Review screen is basic |
 | Mobile/tablet responsiveness and micro-animations still planned | Presentation on small screens unverified |
 | No measured learning-outcome study | Educational effect intended, not proven |
