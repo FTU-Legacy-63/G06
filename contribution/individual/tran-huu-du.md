@@ -6,7 +6,7 @@
 Owned the financial mechanics: how actions and prices become equity, leverage, margin status, liquidation and target progress, and the system flow of the game (Phase 1 interaction loop and its workflow diagram).
 
 ## My concrete outputs
-- Formulas: gross exposure, net equity (cash + savings + stock − debt), effective leverage, margin ratio
+- Formulas: gross exposure, net equity (cash + savings + stock − debt), trading equity, effective leverage, margin ratio
 - Rules: 20 % maintenance, ≥ 5.0× trigger, 5 % penalty, T+0.5 settlement, ±30 % AM/PM limits (+69 % / −51 % per phase), 4.75 % Bank Savings per session
 - Target matrix 3× / 20× / 100× from backtest benchmarks
 - System flow: Phase 1 interaction loop (start screen → 1-second price trigger → order validation → recalculation → margin check → liquidation / solvency check → T+0.5 settlement → phase conclusion), drawn in `phase_1_workflow.jpg` and written up in the Feature Map

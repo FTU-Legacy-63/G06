@@ -12,8 +12,9 @@
 | Gross exposure (stock value) | Σ Shares_i × Current price_i |
 | Margin debt | Borrowed amount |
 | Net equity | Liquid cash + Bank Savings + Gross exposure − Margin debt |
-| Effective leverage | Gross exposure ÷ Net equity |
-| Margin ratio | Net equity ÷ Gross exposure (stock value) |
+| Trading equity | Liquid cash + Gross exposure − Margin debt |
+| Effective leverage | Gross exposure ÷ Trading equity |
+| Margin ratio | Trading equity ÷ Gross exposure (stock value) |
 | Property target value | Initial capital × house multiplier |
 | Target progress % | Net equity ÷ Property target value × 100 |
 
@@ -50,7 +51,7 @@ After liquidation the account is locked: further orders raise an error (BUG-04 f
 |---|---|
 | Bank Savings return | **+4.75 % after each completed AM/PM session**, compounded: `Savings(t+1) = Savings(t) × 1.0475`. Deliberately amplified for gameplay |
 | Settlement (T+0.5) | (boundary: engine/tests use tick < 150; one contribution file says ≤ 150) Order before tick 150 → delivered in the same phase 30 ticks later (tick 50 → tick 80); order at/after tick 150 → pending, delivered on entering Phase 2. Pending shares stay exposed to price moves but cannot be sold |
-| Session price limit | ±30 % from each AM/PM session reference price, reset every session. Compounded phase limits: **+69 % / −51 %** |
+| Session price limit | ±30 % from each AM/PM session reference price, reset every session. Compounded phase limits: **+86 % / −46 %** |
 | Emergency reserve | Bank Savings withdrawals above the free (non-reserved) amount are rejected (T12) |
 | Time | 1,800 s, 6 phases × 300 s, one price tick per second |
 
