@@ -27,4 +27,3 @@ Tests cover the wipeout with penalty (final cash ₩400,000), cash-only solvency
 ## Remaining limitation
 The committed test file has 4 tests while the Week 6 documentation reports 14; the engine assumes instant fills and no slippage. Stated next steps (slippage modelling, behavioural analytics) conflict with the Week 5 decision to treat slippage as out of scope.
 
-> Short version of [evidence/QUANG_MINH_CONTRIBUTIONS.md](../evidence/QUANG_MINH_CONTRIBUTIONS.md). **Nguyễn Quang Minh should review, correct and sign off.**
