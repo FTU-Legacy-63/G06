@@ -11,27 +11,28 @@
 
 ## 1. Executive Summary of Responsibilities
 
-As the **Technical Developer**, my core responsibility is formalizing, programming, and validating the full-stack software architecture, backend mathematical simulation engine, zero-dependency REST API, single-page web terminal, dynamic audio engine, and automated test suite. I ensured that all financial logic, margin rules, and workflow requirements (from Week 3, Week 4, and the Phase 1 System Workflow) were translated into executable, verifiable, and explainable software code across both Python and browser environments.
+As the **Technical Developer and Software Architect**, my primary duty was translating the theoretical margin mechanics, game rules, and Phase 1 interaction flowchart into executable, verifiable, and explainable software code across both Python backend and browser runtime environments. I owned the full-stack architecture, the mathematical simulation engine, the zero-dependency REST API, the interactive single-page web terminal, the Web Audio engine and original soundtrack, and the automated verification suite.
 
 | Functional Area | Primary Engineering Responsibility | Concrete Repository Deliverable |
 |---|---|---|
 | **Core Simulation Engine** | Implemented real-time portfolio valuation, Bank Savings collateral isolation, settlement delays (T+0.5 holding pen), margin ratio calculation, and maintenance margin monitoring. | [`src/simulation_engine.py`](../../src/simulation_engine.py) |
 | **Event & State Controller** | Implemented 6-phase timeline management (1,800 ticks), automated CSV ingestion, KRW/USD currency normalization, canonical ticker aliasing, and mid-phase liquidation detection. | [`src/game_controller.py`](../../src/game_controller.py) |
-| **Zero-Dependency REST API** | Engineered a native HTTP server (`http.server` & `socketserver.TCPServer`) with 5 REST endpoints, CORS preflight, thread safety, and floating-point sanitization. | [`src/api_server.py`](../../src/api_server.py) |
+| **Zero-Dependency REST API** | Engineered a native HTTP server (`http.server` & `socketserver.TCPServer`) with 5 REST endpoints, CORS preflight, thread safety, and floating-point sanitization. | [`src/api_server.py`](../../src/api_server.py) · [`api_server.py`](../../api_server.py) |
 | **Interactive CLI Prototype** | Built a standalone terminal-based simulation client for command-line verification, scenario playback, and headless grading. | [`src/interactive_demo.py`](../../src/interactive_demo.py) |
-| **Production Web Terminal** | Engineered a 24,750-line institutional single-page application with real-time Chart.js telemetry, 7-screen flow, an admin testing gate (`6979`), and browser `ClientEngine`. | [`web/index.html`](../../web/index.html) |
-| **Dynamic Audio Engine** | Programmed a Web Audio API state machine with real-time biquad low-pass filter sweeps (20,000 Hz down to 600 Hz) and composed/produced 17 original BGM soundtrack tracks. | [`web/music/`](../../web/music/) |
-| **Visual Assets & Endings** | Integrated 20 tactical demon HUD overlays (`buy_sell_demon/`) and 5 MP4 cinematic ending videos (`ending/`) representing Tiers A through F. | [`web/assets/`](../../web/assets/) |
+| **Production Web Terminal** | Engineered a 25,000-line institutional single-page application with real-time Chart.js telemetry, 7-screen flow, an admin testing gate (`6979`), and browser `ClientEngine`. | [`index.html`](../../index.html) · [`web/index.html`](../../web/index.html) |
+| **Dynamic Audio Engine & OST** | Programmed a Web Audio API state machine with real-time biquad low-pass filter sweeps (20,000 Hz down to 600 Hz) and composed/produced 17 original BGM soundtrack tracks (64.3 MB). | [`assets/music/`](../../assets/music/) |
+| **Visual Assets & Endings** | Integrated 20 tactical demon HUD overlays (`buy_sell_demon/`) and 5 MP4 cinematic ending videos (`ending/`) representing Tiers A through F. | [`assets/`](../../assets/) · [`assets/buy_sell_demon/`](../../assets/buy_sell_demon/) · [`assets/ending/`](../../assets/ending/) |
 | **Workflow Alignment** | Full implementation of the `phase 1 workflow.jpg` logic diagram (Start Screen -> Bank Savings -> T+0.5 delay -> Liquidation Penalty). | [`docs/img/phase_1_workflow.jpg`](../../docs/img/phase_1_workflow.jpg) |
 | **Dataset Integration** | Integrated realistic 1,800-tick × 50-asset market datasets (`market_scenario_1.csv`) with automatic USD conversion and canonical ticker mapping. | [`data/market_scenario_1.csv`](../../data/market_scenario_1.csv) |
-| **Automated Verification** | Created 66 automated unit tests across 6 test modules in `tests/`, asserting boundary conditions, 5% liquidation penalties, and defect resolutions. | [`tests/`](../../tests/) |
+| **Automated Verification** | Created 66 automated unit tests across 6 test modules in `tests/`, asserting boundary conditions, 5% liquidation penalties, and defect resolutions. | [`tests/`](../../tests/) · [`tests/test_simulation_engine.py`](../../tests/test_simulation_engine.py) |
+| **Formal Contribution Report** | Authored the 12-page comprehensive individual contribution report adhering to standard academic formatting and verified against repository metrics. | [`reports/individual/Nguyen_Quang_Minh_Contribution_Report.docx`](../../reports/individual/Nguyen_Quang_Minh_Contribution_Report.docx) |
 
 ---
 
 ## 2. Technical Evidence & Implementation Details
 
 ### 2.1 Core Financial Logic (`src/simulation_engine.py`)
-Directly mapped from **`phase 1 workflow.jpg`** and formal specifications:
+Directly mapped from **`docs/img/phase_1_workflow.jpg`** and formal specifications:
 - **Gross Exposure:**
   $$\text{Gross Exposure} = \sum_{i} \text{Shares}_i \times \text{Current Stock Price}_i$$
   *(Reflects deliverable active holdings; pending queue inventory is strictly excluded from active collateral).*
@@ -70,9 +71,9 @@ Directly mapped from **`phase 1 workflow.jpg`** and formal specifications:
   is_usd_mode = (self.engine.initial_capital <= 50000.0)
   ```
 - **Target Difficulty Alignment:** Calibrated against quantitative backtest models:
-  - **Small House (3.0x Capital):** Achievable with Cash 1.0x and defensive Bank Savings rotation.
-  - **Normal House (20.0x Capital):** Requires disciplined 2.0x–3.0x leverage management.
-  - **ToLam Villa (100.0x Capital):** High-skill threshold requiring 4.0x leverage with precise market timing.
+  - **Small House (3.0× Capital):** Achievable with Cash 1.0× and defensive Bank Savings rotation.
+  - **Normal House (20.0× Capital):** Requires disciplined 2.0×–3.0× leverage management.
+  - **ToLam Villa (100.0× Capital):** High-skill threshold requiring 4.0× leverage with precise market timing.
 
 ### 2.3 Automated Logic Verification (`tests/`)
 All financial logic is verified with a **100% pass rate across 66 automated unit tests** in `tests/`:
@@ -80,54 +81,55 @@ All financial logic is verified with a **100% pass rate across 66 automated unit
 python -m unittest discover tests
 # Ran 66 tests in 2.543s -> OK
 ```
-- **Foundational Engine Tests (`tests/test_simulation_engine.py`):**
-  - **Test 1 (High-Leverage Wipeout with 5% Liquidation Penalty):** Validates $10,000 USD (₩10m) capital at 4x leverage ($30,000 debt) under a −20% price shock. Margin ratio drops to 6.25% (< 20%), triggering forced liquidation. The 5% penalty ($1,600) is deducted from $32,000 gross proceeds, leaving $30,400 net. After repaying $30,000 debt, **exactly $400 cash survives**, matching hand calculations to the cent.
+- **Foundational Engine Tests ([`tests/test_simulation_engine.py`](../../tests/test_simulation_engine.py)):**
+  - **Test 1 (High-Leverage Wipeout with 5% Liquidation Penalty):** Validates $10,000 USD (₩10m) capital at 4× leverage ($30,000 debt) under a −20% price shock. Margin ratio drops to 6.25% (< 20%), triggering forced liquidation. The 5% penalty ($1,600) is deducted from $32,000 gross proceeds, leaving $30,400 net. After repaying $30,000 debt, **exactly $400 cash survives**, matching hand calculations to the cent.
   - **Test 2 (Cash-Only Position Immunity):** Validates $50,000 capital with 0 debt under a −10% shock, remaining completely solvent at 100% margin ratio.
   - **Test 3 (Bank Savings Workflow):** Validates risk-free savings deposits/withdrawals, confirming savings are protected from market drawdowns while excluded from margin collateral.
   - **Test 4 (Settlement Delay Holding Pen):** Validates the 30-tick delivery delay for morning orders vs holding pen deferral across phase boundaries for afternoon orders.
 - **Comprehensive Bug & Integration Suites:**
-  - `tests/test_bug_fixes_5_to_11.py` (Tests BUG-05 through BUG-11)
-  - `tests/test_critical_bugs_c1_to_c5.py` (Tests Critical fixes C1 through C5)
-  - `tests/test_complete_bug_report_45.py` (Regression tests across all 45 triage cases)
-  - `tests/test_moderate_and_visual_fixes.py` (UI formatting and telemetry tests)
-  - `tests/test_week6_integration.py` (End-to-end multi-phase simulation integration)
+  - [`tests/test_bug_fixes_5_to_11.py`](../../tests/test_bug_fixes_5_to_11.py) (Tests BUG-05 through BUG-11)
+  - [`tests/test_critical_bugs_c1_to_c5.py`](../../tests/test_critical_bugs_c1_to_c5.py) (Tests Critical fixes C1 through C5)
+  - [`tests/test_complete_bug_report_45.py`](../../tests/test_complete_bug_report_45.py) (Regression tests across all 45 triage cases)
+  - [`tests/test_moderate_and_visual_fixes.py`](../../tests/test_moderate_and_visual_fixes.py) (UI formatting and telemetry tests)
+  - [`tests/test_week6_integration.py`](../../tests/test_week6_integration.py) (End-to-end multi-phase simulation integration)
 
 ---
 
-## 3. Individual Footprint Self-Check (Midterm Checklist Section 7)
+## 3. Individual Footprint Self-Check (Course Rubric Criteria)
 
 1. **My Main Responsibility:**  
-   Architecting, programming, and verifying the Core Financial Engine, Phase 1 Workflow rules, CSV data pipeline, and State Controller in Python.
-2. **My Most Important Output So Far:**  
-   The fully tested `src/simulation_engine.py` (implementing Bank Savings, T+0.5 holding pens, and Liquidation penalties), `src/game_controller.py`, and the automated test suite `tests/`.
+   Architecting, programming, and verifying the Core Financial Engine, Phase 1 Workflow rules, CSV data pipeline, zero-dependency REST API, single-page web terminal, Web Audio engine, and automated test suite.
+2. **My Concrete Outputs:**  
+   The fully tested [`src/simulation_engine.py`](../../src/simulation_engine.py), [`src/game_controller.py`](../../src/game_controller.py), [`src/api_server.py`](../../src/api_server.py), the 25,000-line single-page application [`index.html`](../../index.html) (and [`web/index.html`](../../web/index.html)), 17 original soundtrack tracks in [`assets/music/`](../../assets/music/), 20 demon HUD assets and 5 ending videos in [`assets/`](../../assets/), and the 66-test automated verification suite in [`tests/`](../../tests/).
 3. **Where the Evidence is Located:**  
-   In the repository at `src/`, `tests/`, `data/`, and `src/interactive_demo.py`.
+   Directly verifiable in the repository under [`src/`](../../src/), [`tests/`](../../tests/), [`index.html`](../../index.html), [`assets/`](../../assets/), [`data/`](../../data/), and [`reports/individual/Nguyen_Quang_Minh_Contribution_Report.docx`](../../reports/individual/Nguyen_Quang_Minh_Contribution_Report.docx).
 4. **How My Output Supports the Group Product:**  
-   Translates the visual system flowchart (`phase 1 workflow.jpg`) and empirical market data into exact, mathematically rigorous Python classes that the web frontend can reliably consume.
-5. **What I Will Improve or Complete Next (Post-Midterm Plan):**  
-   - Expose the engine via a zero-dependency HTTP server to stream real-time price ticks to the web frontend.
-   - Build out the interactive browser-based single-page application and HUD telemetry.
-   - Design dynamic auditory and visual feedback systems to communicate leverage risk.
-   - Expand automated unit test coverage across all edge-case defects from the Week 6 clinic.
+   Translates the visual system flowchart ([`phase_1_workflow.jpg`](../../docs/img/phase_1_workflow.jpg)) and empirical market datasets into mathematically rigorous, executable software. In browser execution, the client engine and UI telemetry turn abstract risk formulas into an immediate, high-tension interactive experience for players.
+5. **Integration, Testing, and Defect Resolution:**  
+   - Diagnosed and resolved **BUG-01** (intra-phase delivery queue condition for morning vs afternoon orders).
+   - Diagnosed and resolved **BUG-02** (`margin_multiplier` initialization in engine constructor).
+   - Diagnosed and resolved **BUG-04** (post-liquidation trading lockout).
+   - Diagnosed and resolved **BUG-05** (100% margin ratio display cap for cash-only positions).
+   - Achieved 100% pass rate across 66 automated unit tests in `tests/`.
 
 ---
 
-## 4. Post-Midterm Engineering Deliverables & Production Deployment
+## 4. Full Production Engineering Deliverables & Deployment
 
-Following the midterm review, I completed and delivered the full production client application and cloud infrastructure:
-
-1. **Zero-Dependency REST API (`src/api_server.py`):**
+1. **Zero-Dependency REST API ([`src/api_server.py`](../../src/api_server.py) · [`api_server.py`](../../api_server.py)):**
    - Implemented standard-library HTTP server (`http.server` & `socketserver.TCPServer`) with 5 endpoints (`GET /api/state`, `POST /api/trade`, `POST /api/savings`, `POST /api/phase/advance`, `GET /api/ticks`), full CORS support, and `sanitized_float()` JSON protection.
-2. **Production Web Application Terminal (`web/index.html`):**
-   - Engineered the 24,750-line institutional single-page application featuring real-time Chart.js telemetry with dual y-axes, 7 distinct operational screens, an administrative testing gate (`6979`), and client-side `ClientEngine` execution.
-3. **Dynamic Web Audio API Engine & 17-Track Soundtrack (`web/music/`):**
+2. **Production Web Application Terminal ([`index.html`](../../index.html) · [`web/index.html`](../../web/index.html)):**
+   - Engineered the 25,000-line institutional single-page application featuring real-time Chart.js telemetry with dual y-axes, 7 distinct operational screens, an administrative testing gate (`6979`), and client-side `ClientEngine` execution.
+3. **Dynamic Web Audio API Engine & 17-Track Soundtrack ([`assets/music/`](../../assets/music/)):**
    - Programmed the `AudioManager` module with real-time biquad low-pass filter modulation (20,000 Hz down to 600 Hz during news releases and market halts).
    - Composed and produced 17 custom BGM soundtrack tracks (64.3 MB) covering all phases, demon order stems, bank sanctuary, and news dossiers.
-4. **Tactical Visual Assets & Cinematic Endings (`web/assets/`):**
-   - Integrated 20 tactical demon HUD overlays (`buy_sell_demon/`) and 5 MP4 ending video sequences (`ending/`) representing Tiers A through F.
+4. **Tactical Visual Assets & Cinematic Endings ([`assets/`](../../assets/)):**
+   - Integrated 20 tactical demon HUD overlays ([`assets/buy_sell_demon/`](../../assets/buy_sell_demon/)) and 5 MP4 ending video sequences ([`assets/ending/`](../../assets/ending/)) representing Tiers A through F.
 5. **Production Cloud Deployments:**
    - **Cloudflare Workers Edge:** Live global deployment at [`https://phan-dung.ngqminh6979.workers.dev/`](https://phan-dung.ngqminh6979.workers.dev/).
-   - **GitHub Pages Static Terminal:** Fully optimized deployment at [`https://ftu-legacy-63.github.io/G06/`](https://ftu-legacy-63.github.io/G06/) with 100% 200 OK asset resolution.
+   - **GitHub Pages Static Terminal:** Fully optimized deployment at [`https://ftu-legacy-63.github.io/G06/`](https://ftu-legacy-63.github.io/G06/) with 100% 200 OK asset resolution across all audio, video, and image requests.
+6. **Academic Documentation:**
+   - Authored the 12-page contribution report: [`reports/individual/Nguyen_Quang_Minh_Contribution_Report.docx`](../../reports/individual/Nguyen_Quang_Minh_Contribution_Report.docx).
 
 ---
 *Verified and submitted by Nguyễn Quang Minh (Student ID: 2412380031).*
