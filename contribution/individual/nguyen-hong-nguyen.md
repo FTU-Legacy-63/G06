@@ -30,5 +30,3 @@ Both corrected datasets passed the 1,800-tick / 50-asset checks, AM/PM and phase
 
 ## Remaining limitation
 The optimizer assumes advance knowledge of future prices and therefore does not estimate typical player success rates or establish a global wealth optimum. Its 75-tick settlement assumption should be reconciled with the implemented game engine, and the scenario datasets, audit workbooks and result files should be checked against their final committed versions.
-
-> Short version of [evidence/Hồng_Nguyên_CONTRIBUTIONS.md](../evidence/Hồng_Nguyên_CONTRIBUTIONS.md). **Nguyễn Hồng Nguyên should review, correct and sign off.**
