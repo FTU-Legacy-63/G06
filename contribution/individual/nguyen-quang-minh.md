@@ -28,7 +28,7 @@ I owned the full-stack software architecture, the executable Python financial si
 - CLI Demo Harness: [`src/interactive_demo.py`](../../src/interactive_demo.py)
 - Web Application Terminal: [`web/index.html`](../../web/index.html)
 - Dynamic Soundtrack Manifest: [`assets/music/`](../../assets/music/)
-- Visual & Ending Assets: [`assets/`](../../assets/assets/)
+- Visual & Ending Assets: [`assets`](../../assets)
 - Test Suite: [`tests/`](../../tests/) (including [`tests/test_simulation_engine.py`](../../tests/test_simulation_engine.py) and [`tests/test_week6_integration.py`](../../tests/test_week6_integration.py))
 - Original Submission Evidence: [`contribution/evidence/QUANG_MINH_CONTRIBUTIONS.md`](../evidence/QUANG_MINH_CONTRIBUTIONS.md)
 
