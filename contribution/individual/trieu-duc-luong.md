@@ -27,4 +27,3 @@ Layouts were checked across browser viewports for overlap; gauges bind to engine
 ## Remaining limitation
 The UI design-system file and wireframes named in the original file were not in the repository listing, and `Interface_design.md` is empty. Still planned: warning micro-animations, the post-game debrief layout and mobile/tablet optimisation.
 
-> Short version of [evidence/DUC_LUONG_CONTRIBUTION.md](../evidence/DUC_LUONG_CONTRIBUTION.md). **Triệu Đức Lương should review, correct and sign off.**
