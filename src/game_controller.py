@@ -12,6 +12,7 @@ and user order interactions.
 import csv
 import json
 import os
+import random
 from typing import Dict, List, Any, Optional
 from src.simulation_engine import MarginEngine, HouseType, MarginStatus, FinancialMetrics
 
@@ -27,16 +28,18 @@ class GamePhase:
 
 class GameController:
     """
-    Controls overall game progression using the realistic market_scenario.csv
-    (50 tickers across 1,800 global seconds) with fallback to JSON.
+    Controls overall game progression using dual realistic market scenario CSVs
+    (market_scenario_1.csv / market_scenario_2.csv, 50 tickers across 1,800 global seconds)
+    with fallback to JSON.
     """
 
     def __init__(
         self,
-        scenario_csv_path: str = "market scenario/market_scenario.csv",
+        scenario_csv_path: Optional[str] = None,
+        scenario_id: Optional[int] = None,
         initial_capital: float = 10000.0,  # $10,000 USD default as in calibrated backtest
         target_house_type: HouseType = HouseType.NORMAL_HOUSE,
-        initial_margin_ratio: float = 0.25,
+        initial_margin_ratio: float = 1.0,
         maintenance_margin_ratio: float = 0.20,
     ):
         self.engine = MarginEngine(
@@ -52,13 +55,38 @@ class GameController:
         self.current_tick_index = 0
         self.history: List[Dict[str, Any]] = []
 
-        if os.path.exists(scenario_csv_path):
-            self._load_from_csv(scenario_csv_path)
+        # Resolve scenario ID (1 or 2, default randomized if None and no path specified)
+        if scenario_id is not None:
+            self.scenario_id = int(scenario_id)
+        elif scenario_csv_path and os.path.exists(scenario_csv_path):
+            self.scenario_id = 2 if "scenario_2" in scenario_csv_path else 1
+        else:
+            self.scenario_id = random.choice([1, 2])
+
+        # Resolve CSV path
+        if scenario_csv_path and os.path.exists(scenario_csv_path):
+            chosen_path = scenario_csv_path
+        else:
+            candidates = [
+                f"data/market_scenario_{self.scenario_id}.csv",
+                f"market scenario/market_scenario_{self.scenario_id}.csv",
+                "data/market_scenario_1.csv",
+                "market scenario/market_scenario_1.csv",
+                "data/market_scenario.csv",
+            ]
+            chosen_path = next((c for c in candidates if os.path.exists(c)), None)
+            if chosen_path and "scenario_2" in chosen_path:
+                self.scenario_id = 2
+            elif chosen_path:
+                self.scenario_id = 1
+
+        if chosen_path and os.path.exists(chosen_path):
+            self._load_from_csv(chosen_path)
         else:
             self._load_from_json("data/market_scenario.json")
 
     def _load_from_csv(self, csv_path: str):
-        with open(csv_path, mode="r", encoding="utf-8", errors="ignore") as f:
+        with open(csv_path, mode="r", encoding="utf-8-sig", errors="ignore") as f:
             reader = csv.DictReader(f)
             meta_cols = {"Scenario", "\ufeffScenario", "Global_Second", "Phase", "Phase_Name", "Phase_Second", "Market_State"}
             tickers = [col for col in reader.fieldnames if col not in meta_cols]
@@ -66,6 +94,10 @@ class GameController:
             is_usd_mode = self.engine.initial_capital <= 50000.0
             phase_seen = {}
             for row in reader:
+                if not row.get("Global_Second") or not str(row["Global_Second"]).strip():
+                    continue
+                if not row.get("Phase") or not str(row["Phase"]).strip():
+                    continue
                 g_sec = int(row["Global_Second"])
                 p_id = int(row["Phase"])
                 p_name = row["Phase_Name"]
@@ -73,25 +105,74 @@ class GameController:
                 prices = {}
                 for t in tickers:
                     if row[t] != "":
-                        raw_p = float(row[t])
+                        raw_p = float(str(row[t]).replace(",", "").strip())
                         if is_usd_mode:
-                            if t == "Vintrumite":
-                                prices[t] = round(raw_p / 10000.0, 2)
-                            else:
-                                prices[t] = round(raw_p / 1400.0, 2)
+                            prices[t] = round(raw_p / 1400.0, 2)
                         else:
                             prices[t] = raw_p
                 ticker_alias_map = {
                     "VNT": "Vintrumite",
+                    "000660": "Vintrumite",
+                    "SEC": "Samsung Electronics",
                     "005930": "Samsung Electronics",
+                    "KODEX": "KODEX Semiconductor",
+                    "KODEX-SEMI": "KODEX Semiconductor",
                     "091160": "KODEX Semiconductor",
+                    "KODEX2X": "KODEX Leverage",
+                    "KODEX-2X": "KODEX Leverage",
                     "122630": "KODEX Leverage",
+                    "TIGER": "TIGER Semiconductor TOP10",
+                    "TIGER-SEMI": "TIGER Semiconductor TOP10",
                     "396500": "TIGER Semiconductor TOP10",
+                    "HYUNDAI": "Hyundai Motor",
                     "005380": "Hyundai Motor",
+                    "KIA": "Kia",
                     "000270": "Kia",
+                    "POSCO-FM": "POSCO Future M",
                     "003670": "POSCO Future M",
+                    "POSCO-HD": "POSCO Holdings",
                     "005490": "POSCO Holdings",
+                    "KZINC": "Korea Zinc",
                     "010130": "Korea Zinc",
+                    "DBH": "DB HiTek",
+                    "SDI": "Samsung SDI",
+                    "SEM": "Samsung Electro-Mechanics",
+                    "KSOE": "HD Korea Shipbuilding",
+                    "LSE": "LS ELECTRIC",
+                    "HMM": "HMM",
+                    "MOBIS": "Hyundai Mobis",
+                    "KEPCO": "Korea Electric Power",
+                    "S-CNT": "Samsung C&T",
+                    "SK": "SK Inc.",
+                    "NAVER": "NAVER",
+                    "KAKAO": "Kakao",
+                    "JUSUNG": "JUSUNG Engineering",
+                    "EOT": "EO Technics",
+                    "HANMI": "Hanmi Semiconductor",
+                    "LG-CHEM": "LG Chem",
+                    "SHINHAN": "Shinhan Financial",
+                    "LEENO": "LEENO Industrial",
+                    "LGE": "LG Electronics",
+                    "CELLTRION": "Celltrion",
+                    "KODEX200": "KODEX 200",
+                    "ECOPRO": "EcoPro",
+                    "HANA": "Hana Financial",
+                    "SK-INNO": "SK Innovation",
+                    "TIGER200": "TIGER 200",
+                    "KB-FIN": "KB Financial",
+                    "MERITZ": "Meritz Financial",
+                    "SAM-BIO": "Samsung Biologics",
+                    "KODEX-KQ": "KODEX KOSDAQ150",
+                    "KODEX-KQ2X": "KODEX KOSDAQ150 Leverage",
+                    "WONIK": "Wonik IPS",
+                    "ECOPRO-BM": "EcoPro BM",
+                    "KODEX-INV2X": "KODEX 200 Futures Inverse 2X",
+                    "HYUN-ELEC": "HD Hyundai Electric",
+                    "HYOSUNG": "Hyosung Heavy Industries",
+                    "WOORI": "Woori Financial",
+                    "HYUN-HEAVY": "HD Hyundai Heavy Industries",
+                    "LG-ENERGY": "LG Energy Solution",
+                    "HPSP": "HPSP",
                 }
                 for code, full_name in ticker_alias_map.items():
                     if full_name in prices:
@@ -114,12 +195,12 @@ class GameController:
                     phase_seen[p_id]["end"] = g_sec
 
             phase_descs = {
-                1: "Fake positive news triggers early speculative retail interest and leverage adoption.",
-                2: "True positive earnings data confirms genuine fundamental growth; confidence expands.",
-                3: "Broad-based bull rally fuels aggressive compounding and margin expansion.",
-                4: "Minor market pullbacks are bought with FOMO; complacency peaks.",
-                5: "Market euphoria and deceptive bull-trap rallies stretch valuations to the brink.",
-                6: "Negative systemic shock triggers cascade liquidations and limit-down crashes.",
+                1: "Initial trading session. Review pre-game briefing and establish positions.",
+                2: "Second trading session. Economic reports and corporate developments unfold.",
+                3: "Third trading session. Market momentum and asset trends develop.",
+                4: "Fourth trading session. Mid-game market dynamics and intelligence wires stream.",
+                5: "Fifth trading session. Late-cycle market action demands heightened solvency awareness.",
+                6: "Final trading session. 30-minute simulation concludes with a solvency audit.",
             }
 
             for p_id in sorted(phase_seen.keys()):
@@ -127,7 +208,7 @@ class GameController:
                 self.phases.append(
                     GamePhase(
                         phase_id=p_id,
-                        name=info["name"],
+                        name=f"Phase {p_id}",
                         description=phase_descs.get(p_id, ""),
                         start_second=info["start"],
                         end_second=info["end"],
@@ -138,7 +219,7 @@ class GameController:
             self.current_prices = dict(self.price_ticks[0]["prices"])
 
     def _load_from_json(self, json_path: str):
-        with open(json_path, mode="r", encoding="utf-8") as f:
+        with open(json_path, mode="r", encoding="utf-8-sig") as f:
             data = json.load(f)
         self.current_prices = data.get("base_prices", {})
         for p in data.get("phases", []):
@@ -165,7 +246,20 @@ class GameController:
             if p.phase_id == target_phase:
                 self.current_phase_index = i
                 break
+        phase_tick = ((second - 1) % 300) + 1
+        self.engine.process_deliveries(current_tick=phase_tick, current_phase=target_phase)
         return self.current_prices
+
+    def check_midphase_liquidation(self) -> Optional[Dict[str, float]]:
+        """
+        Checks margin status mid-phase and executes forced liquidation if MARGIN_CALL occurs.
+        """
+        if self.engine.state.is_liquidated or self.engine.state.margin_debt <= 0:
+            return None
+        metrics = self.engine.evaluate(self.current_prices)
+        if metrics.margin_status == MarginStatus.MARGIN_CALL:
+            return self.engine.trigger_forced_liquidation(self.current_prices)
+        return None
 
     def player_trade(
         self,
@@ -173,20 +267,40 @@ class GameController:
         action: str,
         shares: float,
         use_margin: bool = False,
+        margin_multiplier: Optional[float] = None,
     ) -> bool:
         price = self.current_prices.get(ticker, 0.0)
         if price <= 0:
             return False
-        return self.engine.execute_order(ticker, action, shares, price, use_margin)
+        cur_phase = self.get_current_phase().phase_id
+        global_sec = self.price_ticks[self.current_tick_index]["global_second"] if self.price_ticks else 1
+        phase_tick = ((global_sec - 1) % 300) + 1
+        return self.engine.execute_order(
+            ticker=ticker,
+            action=action,
+            shares=shares,
+            price=price,
+            use_margin=use_margin,
+            current_tick=phase_tick,
+            current_phase=cur_phase,
+            margin_multiplier=margin_multiplier,
+        )
 
     def advance_phase(self) -> Dict[str, Any]:
         """
-        Advances to the next phase end-state tick.
+        Advances to the next phase start tick.
         """
+        actually_advanced = False
         if self.current_phase_index + 1 < len(self.phases):
             self.current_phase_index += 1
+            actually_advanced = True
             phase = self.phases[self.current_phase_index]
-            self.set_tick_by_global_second(phase.end_second)
+            # HIGH-10: Land at the start of the new phase rather than skipping to its end
+            self.set_tick_by_global_second(phase.start_second)
+
+        # Ensure deliveries for the target phase are processed
+        cur_phase_id = self.phases[self.current_phase_index].phase_id
+        self.engine.process_deliveries(current_tick=1, current_phase=cur_phase_id)
 
         metrics = self.engine.evaluate(self.current_prices)
 
@@ -198,6 +312,7 @@ class GameController:
         record = {
             "phase_id": self.phases[self.current_phase_index].phase_id,
             "phase_name": self.phases[self.current_phase_index].name,
+            "phase_advanced": actually_advanced,
             "metrics": metrics,
             "liquidation_info": liquidation_info,
         }
