@@ -8,7 +8,7 @@ Owned the player-facing scenario structure: scenario tree and scenario paths, si
 ## My concrete outputs
 - Scenario tree with Happy, Alternative and Critical-risk player paths
 - Six-phase scenario structure tied to the behavioural progression
-- Phase 1 news: three market items (0:00, 2:30, 4:00) and company news for Vintrumite, Samsung Electronics, KODEX Semiconductor, KODEX Leverage, TIGER Semiconductor TOP10
+- Six phases news: three market items (0:00, 2:30, 4:00) and company news for Vintrumite, Samsung Electronics, KODEX Semiconductor, KODEX Leverage, TIGER Semiconductor TOP10
 - Player action mapping and scenario decision paths
 
 ## Evidence links
