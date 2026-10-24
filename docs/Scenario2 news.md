@@ -1,0 +1,227 @@
+# Free Fall 2.0 — Scenario News
+
+Free Fall 2.0 — Pre-Game Asset Briefing
+
+Reference information for players before the simulation starts
+
+Important: The recent-trend column is real-market reference information only. It does not calibrate, overwrite, or otherwise interfere with the game's fixed synthetic price path in market_scenario.csv.
+
+| Company / Asset | Recent Stock Trend | Possible News Affecting the Stock | Game Role | For the Player |
+| --- | --- | --- | --- | --- |
+| HMM (011200) — Major South Korean container-shipping and logistics company. Its performance is sensitive to container freight rates, global trade volumes, fleet capacity, and geopolitical disruptions to shipping routes. | Aug 31–Sep 11, 2026: Treat as a cyclical shipping stock. Price direction can be affected by changes in freight-rate expectations, global trade demand, and route disruptions; verify exact closing prices against the team’s chosen market-data source before gameplay. | • Container freight-rate movements • Global trade and China/export demand • Red Sea and other shipping-route disruptions • Vessel capacity, charter costs, and fuel prices • Earnings guidance and dividend/capital-allocation news | Global trade and freight-rate proxy. It can respond to macroeconomic and geopolitical news differently from technology-heavy Korean equities. | Shipping-rate news can move HMM quickly. Stronger freight rates may support upside, while weaker demand or excess capacity can pressure the stock. |
+| KODEX 200 (069500) — Exchange-traded fund tracking the KOSPI 200, providing broad exposure to large-cap Korean equities rather than a single company. | Aug 31–Sep 11, 2026: Use the ETF as a broad-market benchmark. Its movement should reflect the combined direction of major Korean shares, foreign flows, interest-rate expectations, and changes in risk appetite; confirm exact period returns from the selected data provider. | • KOSPI 200 constituent performance • Foreign investor flows and Korean won moves • Bank of Korea/Federal Reserve rate expectations • Semiconductor and auto-sector moves • Global risk sentiment and volatility | Broad Korean large-cap market exposure. It diversifies company-specific risk but remains exposed to index-wide selloffs. | You are effectively betting on the Korean large-cap market, not one company. Diversification reduces single-stock risk but does not prevent broad market losses. |
+| Wonik IPS (240810) — Korean semiconductor equipment maker supplying deposition, etch, and related process equipment used in chip manufacturing. | Sep 1–11, 2026: The stock traded with pronounced day-to-day swings. Available historical data shows a close of KRW 110,000 on Sep 1 and KRW 110,300 on Sep 11, with a sharp move around Sep 4 and volatility around Sep 10–11. Source: Investing.com historical data. | • Semiconductor equipment orders and capex plans • Memory and advanced-chip investment cycles • Samsung/SK Hynix spending outlook • Earnings guidance and order backlog • Export controls and supply-chain restrictions | High-beta semiconductor equipment exposure. Its results depend on customers’ capital spending and the timing of equipment orders. | Chip-investment optimism can lift the stock, but equipment demand is cyclical. Watch for sharp reversals when capex expectations change. |
+| LG Energy Solution (373220) — Major South Korean battery-cell manufacturer serving EV and energy-storage markets, with exposure to North American production and policy incentives. | Early October 2026: LG Energy Solution indicated Q3 operating profit of KRW 756 billion, up about 25.7% year over year, supported partly by U.S. production tax credits and a one-time customer payment. The company also faces uncertainty around EV demand and is expanding its energy-storage-system business. Reuters, Oct 7, 2026. | • EV sales and battery demand forecasts • U.S. policy, tariffs, and production tax credits • Lithium and other battery-material prices • Energy-storage demand from data centers and grids • Customer contracts, utilization, and profitability | Battery-sector bellwether with exposure to EV demand, policy support, and the emerging energy-storage market. | Headline earnings can be strong while underlying demand remains uncertain. Separate recurring operating performance from tax credits and one-off payments. |
+| Hyundai Motor (005380) — Major Korean automaker with global sales across internal-combustion, hybrid, and electric vehicles; exposed to consumer demand, tariffs, FX, and product mix. | Mid-October 2026: Hyundai faced broader Korean-market volatility during the Oct 15 selloff. Separate company-specific developments include Hyundai Motor India’s announced investment to expand Pune capacity and a U.S. recall affecting certain vehicles due to a potential seat-motor overheating risk. Reuters, Oct 14–15, 2026. | • Global vehicle sales and model launches • U.S. tariffs and trade-policy changes • KRW exchange rates and raw-material costs • EV/hybrid mix and competitive pricing • Recalls, quality issues, and labor negotiations | Large-cap auto exposure with global revenue diversification, but sensitive to trade policy, currency movements, and consumer confidence. | Global scale can cushion weakness in one market, but tariff headlines, recalls, or weaker demand can still cause abrupt price moves. |
+
+Recent-trend sources (checked October 2026): Reuters coverage of LG Energy Solution (Oct 7, 2026), Hyundai Motor-related developments (Oct 14–15, 2026), and Investing.com historical data for Wonik IPS (September 2026). Verify price figures with the market-data source selected for the project.
+
+Game-design note: This briefing provides context only. It should not reveal the direction or magnitude of the game’s predetermined six-phase price path.
+
+Free Fall 2.0 — Phase 1 Industry News
+
+Fixed news sequence for the 5-minute Phase 1 \| Fake Positive News
+
+| News 1 | News 2 | News 3 |
+| --- | --- | --- |
+| AI INFRASTRUCTURE OPTIMISM LIFTS KOREAN INDUSTRY SENTIMENT Global spending on AI infrastructure continues to support expectations for technology-related demand. Investors begin the session looking for opportunities across Korean equities, although the outlook remains sensitive to rates and global risk appetite. 0:00 | SHIPPING AND BATTERY THEMES ATTRACT FRESH ATTENTION Market commentary highlights freight-rate uncertainty and renewed interest in energy storage alongside the AI theme. These sector-specific stories create pockets of optimism, but they do not establish a broad-based market rally. 2:30 | EARLY RECOVERY SIGNALS ENCOURAGE SELECTIVE BUYING Some industrial and consumer-facing shares recover from their opening weakness. Analysts caution that short-term rebounds may reflect positioning and headline momentum rather than a confirmed improvement in fundamentals. 4:00 |
+
+Free Fall 2.0 — Phase 1 Market & Asset-Specific News
+
+Fixed public-information news queue \| Phase 1: Fake Positive News
+
+1. Market News
+
+| Time | Market News |
+| --- | --- |
+| 0:00 | Opening Volatility Tests Investor Confidence — Korean shares open unevenly as investors weigh AI optimism against rate and global-demand uncertainty. Early selling appears in several assets, reminding players that positive headlines do not guarantee immediate gains. |
+| 2:30 | Selective Rebound Fuels Short-Term Optimism — Shipping, battery and selected industrial shares recover from early weakness. The broader index remains comparatively subdued, suggesting that the rebound is concentrated rather than market-wide. |
+| 4:00 | Late-Phase Gains Meet Profit-Taking — Several individual stocks extend their recovery, but some give back part of their intraphase gains. Market participants debate whether the move reflects improving fundamentals or a temporary sentiment-driven bounce. |
+
+2. Company / Asset-Specific News
+
+Note: These are simulated in-game headlines, not claims of new company disclosures. The text is designed to fit Phase 1's fixed synthetic price paths while avoiding explicit price forecasts.
+
+| HMM | KODEX 200 | Wonik IPS | LG Energy Solution | Hyundai Motor |
+| --- | --- | --- | --- | --- |
+| FREIGHT-RATE OPTIMISM DRAWS BUYERS Shipping-market chatter points to firm near-term freight rates and route-risk premiums. The story attracts aggressive buying after an initial pullback, although investors remain uncertain how long elevated rates could last. | BROAD MARKET LACKS A CLEAR CATALYST Large-cap shares show mixed performance as investors balance upbeat industry headlines against macroeconomic uncertainty. The diversified ETF remains relatively range-bound, with no single theme strong enough to lift the whole index. | CHIP-EQUIPMENT OUTLOOK IMPROVES, BUT TIMING REMAINS UNCLEAR Investors discuss possible semiconductor-capex support for equipment suppliers. The longer-term story is constructive, but uncertainty over order timing limits the strength of the immediate response. | ENERGY-STORAGE INTEREST ADDS TO BATTERY OPTIMISM Commentary about grid-scale storage and battery reuse supports renewed interest in battery makers. Buyers return after early weakness, while questions around EV demand and project profitability remain unresolved. | HYBRID DEMAND AND GLOBAL SALES SUPPORT A REBOUND Investors point to the appeal of hybrid models and Hyundai's global reach as reasons for renewed interest. The stock rebounds strongly from its early decline, but tariff exposure and competition remain key risks. |
+
+Price-path alignment check (Phase 1, 300 ticks): HMM rises about 18.5% overall after an early dip; KODEX 200 ends about 0.7% lower and stays comparatively range-bound; Wonik IPS ends about 2.6% higher after an early dip; LG Energy Solution rises about 14.9% after an early decline and late pullback; Hyundai Motor rises about 18.7% after an early decline and late pullback. News describes plausible sentiment drivers without disclosing tick-by-tick movements.
+
+Game-design constraint: The CSV remains the sole source of prices. These fixed news events provide context only and must not modify or reveal the predetermined synthetic price path.
+
+Free Fall 2.0 — Phase 2 Industry News
+
+Fixed news sequence for the 5-minute Phase 2 \| True Positive News
+
+| News 1 | News 2 | News 3 |
+| --- | --- | --- |
+| THE AI BOOM HITS ITS 'REAL-WORLD' MOMENT A new wave of confirmed data-center orders turns AI optimism into a supply-chain story. Chipmakers, equipment suppliers and power-system providers report stronger visibility, giving investors a more concrete reason to revisit Korea's technology ecosystem. 0:00 | COMPUTE GOLD RUSH: EVERY WATT, CHIP AND CABLE COUNTS Cloud providers race to secure computing capacity, while data-center developers scramble for electricity, cooling, batteries and high-speed components. The boom is no longer just about flashy AI demos: the infrastructure behind them is becoming a major investment cycle. 2:30 | KOREA'S EXPORT ENGINE ROARS BACK TO LIFE Fresh trade indicators point to stronger demand for Korean-made technology and industrial goods. Analysts describe a broadening recovery that could reach semiconductor equipment, transport, batteries and selected large-cap shares—though rapid price swings show investors are still repricing the outlook. 4:00 |
+
+Free Fall 2.0 — Phase 2 Market & Asset-Specific News
+
+Fixed public-information news queue \| Phase 2: True Positive News
+
+1. Market News
+
+| Time | Market News |
+| --- | --- |
+| 0:00 | Confirmed Demand Replaces Rumour — New order and export signals give investors stronger evidence that AI-related demand is feeding into real industrial activity. Buying interest returns, although traders remain sensitive to rates, valuation and the speed of future spending. |
+| 2:30 | The Rally Broadens Beyond the Chipmakers — Investors begin looking at transport, batteries, equipment and large-cap companies that may benefit from the infrastructure build-out. Index and single-stock moves remain uneven as traders rotate between sectors and take profits after sharp bursts. |
+| 4:00 | Fundamentals Improve, but Volatility Has Not Disappeared — Stronger demand indicators support the market's recovery narrative. Rapid intraphase reversals continue, however, as investors debate how much of the good news is already reflected in prices. |
+
+2. Company / Asset-Specific News
+
+Note: The headlines below are fictional in-game news written to fit the Phase 2 price path. They are not claims of new company disclosures. ETF coverage refers to underlying market exposure rather than corporate events.
+
+| HMM | KODEX 200 | Wonik IPS | LG Energy Solution | Hyundai Motor |
+| --- | --- | --- | --- | --- |
+| FREIGHT-RATE OUTLOOK TURNS MORE CONSTRUCTIVE Updated shipping data points to resilient cargo demand and improving rate expectations on key routes. Investors increasingly treat shipping as a beneficiary of stronger trade activity, although rate-sensitive traders continue to react sharply to each new signal. | EXPORT STRENGTH SUPPORTS A BROADER KOREAN RECOVERY Improving trade indicators and stronger activity across several major industries help restore confidence in large-cap Korean shares. The ETF attracts renewed interest, but its diversified exposure means gains are interrupted by rotation and profit-taking across constituents. | SEMICONDUCTOR EQUIPMENT ORDERS GAIN CREDIBILITY Chipmakers' capacity plans increasingly point to real equipment needs rather than distant ambitions. This improves the outlook for process-equipment suppliers such as Wonik IPS, although uncertainty over order timing and investment cycles keeps the stock volatile. | DATA-CENTER BATTERIES EMERGE AS A SECOND GROWTH ENGINE Grid-scale storage and data-center power resilience are becoming more prominent alongside EV demand. Investors see a potential additional market for battery makers, while questions about project margins and the pace of deployment continue to drive sharp swings. | GLOBAL DEMAND AND HYBRID MOMENTUM SUPPORT THE AUTO OUTLOOK Fresh sales commentary suggests demand is holding up across several markets, with hybrids helping bridge the transition to electric vehicles. Investors reassess Hyundai's earnings resilience, though currency moves, competition and trade-policy risks still create abrupt reversals. |
+
+Price-path alignment check (Phase 2, 300 ticks): HMM finishes about +10.0% for the phase despite large interim swings; KODEX 200 ends +1.3% with a sharp early rally and subsequent volatility; Wonik IPS ends +9.0% after an early decline and recovery; LG Energy Solution ends +5.4% after a strong mid-phase surge and pullback; Hyundai Motor ends +6.5% after pronounced swings. The news supports a positive fundamental backdrop without implying a smooth, uninterrupted rise.
+
+Game-design constraint: The CSV remains the sole source of prices. These fixed news events provide context only and must not modify or disclose the tick-by-tick synthetic price path.
+
+Free Fall 2.0 — Phase 3 Industry News
+
+Fixed news sequence for the 5-minute Phase 3 \| Bull Market
+
+| News 1 | News 2 | News 3 |
+| --- | --- | --- |
+| EARNINGS VISIBILITY IMPROVES Recent earnings updates and firmer export orders give investors more confidence in Korea’s recovery. Buyers return gradually, while valuation and interest-rate concerns keep the opening of the session uneven. 0:00 | EQUIPMENT DEMAND SUPPORTS A SELECTIVE REBOUND Chipmakers’ investment plans offer a clearer outlook for selected equipment suppliers. The improvement is not uniform across the supply chain, but investors begin to distinguish companies with stronger order visibility from those still waiting for spending to translate into revenue. 2:30 | BROAD MARKET GAINS HOLD, WITH SECTOR ROTATION As the market recovers from early weakness, investors rotate between exporters, industrials and technology names. Some shares give back part of their gains as traders take profits, leaving the overall market firmer but far from a straight-line rally. 4:00 |
+
+Free Fall 2.0 — Phase 3 Market & Asset-Specific News
+
+Fixed public-information news queue \| Phase 3: Bull Market
+
+1. Market News
+
+| Time | Market News |
+| --- | --- |
+| 0:00 | Early Selling Tests the Recovery — Investors take profits after the previous advance, and rate-sensitive names open unevenly. The broader outlook remains constructive as export demand and corporate earnings provide support, but buyers are selective. |
+| 2:30 | Buying Returns to Selected Growth Stocks — Improved confidence in semiconductor-equipment spending helps some technology shares recover from early losses. The rebound broadens, although index-linked assets still reflect mixed moves across sectors. |
+| 4:00 | Market Ends Firmer, but Leadership Is Uneven — The broad market recovers part of its early decline. Shipping and the index finish modestly higher, while battery and auto shares remain softer as investors weigh costs, competition and the pace of demand. |
+
+2. Company / Asset-Specific News
+
+Note: The headlines below are fictional in-game news written to fit the Phase 3 price path. They are not claims of new company disclosures. ETF coverage refers to underlying market exposure rather than corporate events.
+
+| HMM | KODEX 200 | Wonik IPS | LG Energy Solution | Hyundai Motor |
+| --- | --- | --- | --- | --- |
+| SHIPPING SHARES RECOVER AS TRADE OUTLOOK STABILISES Freight and export indicators remain supportive, helping shipping shares recover after early profit-taking. Investors remain cautious about freight-rate swings and operating costs, so the improvement is measured rather than uninterrupted. | KOREAN EQUITIES REBOUND AFTER AN EARLY DIP The broad market finds buyers as export-oriented and industrial shares recover. Gains are tempered by sector rotation and late-session profit-taking, leaving the index modestly higher rather than signalling a sharp breakout. | EQUIPMENT STOCK REBOUNDS ON BETTER ORDER VISIBILITY Comments on semiconductor capacity plans improve sentiment toward process-equipment suppliers. After an extended early sell-off, buyers return as investors reassess order prospects; the recovery is strong, but reflects changing expectations rather than a confirmed new company announcement. | BATTERY SHARES PAUSE AS INVESTORS WEIGH COSTS Battery-sector sentiment remains mixed. Longer-term storage and electrification demand offer support, but near-term pricing, margins and capital spending remain important questions. The share price stays relatively range-bound before ending slightly lower. | AUTOMOTIVE GAINS FADE AS INVESTORS TAKE PROFITS Hyundai Motor initially benefits from a constructive export and sales outlook, but early gains are later pared as investors reassess competition, input costs and currency conditions. A partial recovery limits the decline, though the phase ends slightly below its starting level. |
+
+Price-path alignment check (Phase 3, 300 ticks): HMM finishes about +2.8% after an early decline, a mid-phase recovery and a late pullback; KODEX 200 ends about +2.9% with a similar broad-market pattern; Wonik IPS rises about +28.1% after a steep early fall followed by a strong recovery; LG Energy Solution finishes about −2.9% after moving within a relatively narrow range; Hyundai Motor ends about −1.4% after early gains faded and partially recovered. The news presents a constructive bull-market backdrop without implying that every asset rises steadily.
+
+Game-design constraint: The CSV remains the sole source of prices. These fixed news events provide context only and must not modify or disclose the tick-by-tick synthetic price path.
+
+Free Fall 2.0 — Phase 4 Industry News
+
+Fixed news sequence for the 5-minute Phase 4 \| Strong Growth (FOMO)
+
+| News 1 | News 2 | News 3 |
+| --- | --- | --- |
+| INVESTOR CONFIDENCE IMPROVES, BUT SELECTIVITY REMAINS After recent positive economic and earnings signals, investors become more willing to add risk. The recovery is still uneven: some shares remain under pressure early in the session, while buyers look for companies with clearer earnings visibility. 0:00 | RETAIL PARTICIPATION PICKS UP AS PRICES RECOVER More individual investors return to the market as recent gains attract attention. Brokers report stronger trading activity, but analysts caution that short-term price moves can run ahead of company fundamentals. Semiconductor equipment, exporters and battery makers continue to move at different speeds. 2:30 | LATE GAINS BRING PROFIT-TAKING BACK INTO FOCUS A firmer market encourages investors to increase exposure, while some traders lock in gains after sharp intraday moves. The session points to improving risk appetite, but price swings suggest that confidence has not yet become stable across all sectors. 4:00 |
+
+Free Fall 2.0 — Phase 4 Market & Asset-Specific News
+
+Fixed public-information news queue \| Phase 4: Strong Growth (FOMO)
+
+1. Market News
+
+| Time | Market News |
+| --- | --- |
+| 0:00 | Early Weakness Tests Investor Confidence — The session opens unevenly as investors reassess recent gains. Some exporters and large-cap names face selling, while the broader growth outlook encourages selective buying rather than a broad retreat from equities. |
+| 2:30 | Recovery Broadens, but FOMO Becomes More Visible — As prices recover from early weakness, retail investors show greater interest in growth-oriented shares. The rebound supports the index, although differences across sectors and continued price swings suggest that momentum remains fragile. |
+| 4:00 | Market Finishes Higher After Late Profit-Taking — Buying interest lifts several large-cap assets, but some names retreat from intraday highs. The overall tone is positive, with investors increasingly willing to take risk while still reacting quickly to short-term gains. |
+
+2. Company / Asset-Specific News
+
+Note: The headlines below are fictional in-game news written to fit the Phase 4 price path. They are not claims of new company disclosures. ETF coverage refers to underlying market exposure rather than corporate events.
+
+| HMM | KODEX 200 | Wonik IPS | LG Energy Solution | Hyundai Motor |
+| --- | --- | --- | --- | --- |
+| SHIPPING SHARES RECOVER AS TRADE EXPECTATIONS IMPROVE HMM falls during the opening part of the phase before recovering as investors reassess export volumes and freight demand. The shares later pull back from their intraday high, suggesting that improving trade expectations are supportive but do not remove uncertainty around freight rates and operating costs. | BROAD-MARKET ETF REBOUNDS LATE IN THE SESSION The index-linked ETF weakens through the first half as investors take profits and sector performance remains mixed. Buying returns later in the phase, lifting the ETF above its starting level. The late recovery is consistent with improving sentiment, although it follows a meaningful mid-session decline. | EQUIPMENT STOCK GIVES BACK EARLY GAINS Wonik IPS rises early as investors respond to a more constructive outlook for semiconductor equipment spending. The advance fades as traders reassess how quickly investment plans will translate into orders and earnings. A modest late rebound limits the decline, but the phase ends slightly below its opening level. | BATTERY STOCK RECOVERS, THEN PULLS BACK LG Energy Solution initially comes under pressure before recovering as investors weigh longer-term battery demand and energy-storage opportunities. The stock gains further during the middle and later part of the phase, then gives back some of the advance as profit-taking returns. It still ends clearly above its starting level. | AUTOMAKER RALLIES AFTER AN EARLY SELLOFF Hyundai Motor falls sharply at the start before buyers return amid a constructive view of vehicle demand and export performance. The recovery gathers pace and the stock moves well above its opening level, but some gains are surrendered late in the session as investors take profits and reassess competition and input costs. |
+
+Price-path alignment check (Phase 4, 300 ticks): HMM finishes about +11.5% after a pronounced early decline, a strong recovery and a late pullback; KODEX 200 ends about +7.6% after weakness through the middle of the phase and a late recovery; Wonik IPS finishes about −1.0% despite an early rise, as gains fade before a modest rebound; LG Energy Solution ends about +12.1% after an early decline, a sustained recovery and a late pullback; Hyundai Motor finishes about +11.3% after a deep early drop, a strong rally and a late retreat. The news reflects improving sentiment and FOMO-driven participation without portraying the market as a uniform or uninterrupted rally.
+
+Game-design constraint: The CSV remains the sole source of prices. These fixed news events provide context only and must not modify or disclose the tick-by-tick synthetic price path.
+
+Free Fall 2.0 — Phase 5 Industry News
+
+Fixed news sequence for the 5-minute Phase 5 \| Market Euphoria
+
+| News 1 | News 2 | News 3 |
+| --- | --- | --- |
+| THE “CAN’T-MISS” TRADE TAKES OVER THE CHATROOMS A string of recent gains turns market talk into a daily contest over who bought first. Retail forums fill with screenshots, confident predictions and increasingly bold price targets. Analysts urge investors to separate improving sentiment from evidence about future earnings. Early trading is still uneven, but the mood is unmistakably risk-on. 0:00 | THE INDEX GETS A SECOND WIND — AND THE CROWD NOTICES After a difficult stretch, bargain hunters return to large-cap shares and index-linked funds. The rebound draws in investors who had been waiting on the sidelines, while social feeds quickly label the move a “comeback trade.” The recovery is broad enough to lift sentiment, but its speed leaves little room for complacency. 2:30 | EVERYONE HAS A BULL CASE. NOT EVERY STOCK AGREES. Market optimism reaches a fever pitch as investors trade stories about a new growth cycle. Yet the rally remains selective: some shares finish near their highs, others retreat, and a few barely move. Strategists warn that euphoria can make ordinary volatility feel like confirmation — or betrayal — of a grand market narrative. 4:00 |
+
+Free Fall 2.0 — Phase 5 Market & Asset-Specific News
+
+Fixed public-information news queue \| Phase 5: Market Euphoria
+
+1. Market News
+
+| Time | Market News |
+| --- | --- |
+| 0:00 | Euphoria Meets a Reality Check at the Open Investors arrive ready to buy the next big story, but early trading is choppy. Some high-profile names initially climb before sellers appear, while the index-linked ETF struggles through a sharp bout of risk reduction. Market commentators call it a “healthy shakeout”; cautious traders note that the label does not make the losses smaller. |
+| 2:30 | The Comeback Trade Goes Mainstream A powerful rebound in the broader market changes the tone. Investors who feared they had missed the rally begin chasing the recovery, and the index-linked ETF becomes a focal point for momentum trading. Not every asset joins the rush: several individual names remain comparatively subdued, showing that market-wide excitement can be much louder than company-specific fundamentals. |
+| 4:00 | Closing Bell: Euphoria Is High, Dispersion Is Higher The session ends with a striking recovery in the broad-market ETF, while shipping and battery shares finish modestly higher and the automaker gives back ground. The headline mood is bullish, but the closing tape is not a unanimous victory. Analysts warn that when every dip is called an opportunity, investors may stop asking whether the price still makes sense. |
+
+Free Fall 2.0 — Phase 5 Market & Asset-Specific News
+
+Fixed public-information news queue \| Phase 5: Market Euphoria
+
+2. Company / Asset-Specific News
+
+Note: The headlines below are fictional in-game news written to fit the Phase 5 price path. They are not claims of new company disclosures. ETF coverage refers to underlying market exposure rather than corporate events.
+
+| HMM | KODEX 200 | Wonik IPS | LG Energy Solution | Hyundai Motor |
+| --- | --- | --- | --- | --- |
+| SHIPPING STOCK RIDES THE HYPE, THEN LOSES ITS MAP HMM surges early as investors rotate into export and shipping names, with traders circulating optimistic takes on trade volumes and freight demand. The rally cools around the middle of the phase as profit-taking sets in, pushing the stock below its opening level for a time. A late recovery brings it back above the start, but the modest finish shows that even a popular story can run out of momentum. | THE INDEX ETF STAGES A COMEBACK FOR THE AGES KODEX 200 suffers a deep early drawdown as selling spreads across the broader market. By the midpoint, the mood is grim enough for some investors to declare the rally over. Then buyers return in force: bargain hunters, momentum traders and latecomers pile into the recovery. The ETF finishes dramatically above its starting level, turning the phase into a sharp V-shaped rebound — though the scale of the reversal also highlights how volatile the market has become. | SEMICONDUCTOR EQUIPMENT STOCK REFUSES TO JOIN THE PARTY While investors chase the market’s loudest moves, Wonik IPS trades in a narrow band. Optimism about semiconductor investment offers some support, but the absence of a fresh catalyst keeps buying measured. The stock inches higher by the close, reminding players that a euphoric market does not guarantee a spectacular move in every growth-related name. | BATTERY BULLS KEEP THE STORY ALIVE LG Energy Solution climbs early as investors revisit long-term battery demand and energy-storage prospects. The advance softens through the middle of the phase, as some traders take profits and enthusiasm cools. Renewed buying later restores the gains, leaving the stock clearly above its starting level but short of a runaway rally. The message is optimistic — not invincible. | THE AUTO RALLY HITS A SPEED BUMP Hyundai Motor swings sharply as buyers first embrace the upbeat market mood, then reassess valuation, competition and the cost of sustaining margins. A recovery lifts the stock well above its opening level during the phase, but the advance fades before the close. It ends slightly lower overall, a reminder that a strong market narrative can collide with sector-specific doubts. |
+
+Price-path alignment check
+
+Phase 5 uses the supplied CSV as the source of truth (300 ticks). HMM finishes about +1.9% after an early rally, a mid-phase drop below its opening level and a late recovery. KODEX 200 finishes about +30.0% after falling as much as 24.3% below its start before staging a powerful V-shaped rebound. Wonik IPS stays almost flat and ends about +1.1%. LG Energy Solution dips about 8.2% below its start before recovering to finish about +6.5%. Hyundai Motor swings in both directions, reaches about +10.5% above its start, then falls to finish about −2.4%. The headlines portray a euphoric market atmosphere without implying that every asset rises together.
+
+Game-design constraint
+
+The CSV remains the sole source of prices. These fixed news events provide context only and must not modify or disclose the tick-by-tick synthetic price path. The creative “euphoria” tone describes investor behaviour and media sentiment, not guaranteed returns or real-world company announcements.
+
+Free Fall 2.0 — Phase 6 Industry News
+
+Fixed news sequence for the 5-minute Phase 6 \| Negative Shock
+
+| News 1 | News 2 | News 3 |
+| --- | --- | --- |
+| THE SELL-OFF STARTS WITH A RISK RESET A sudden shift in the outlook for rates and global demand pushes investors to reduce risk. Shares tied to exports, technology and consumer spending come under pressure as traders reassess valuations and near-term earnings. Analysts urge investors to distinguish between a short-term repricing and a lasting deterioration in fundamentals. 0:00 | RELIEF BOUNCE FADES AS SELLERS RETURN A brief rebound offers some relief after the first wave of losses, but confidence remains fragile. Investors use the recovery to reduce positions, while tighter financial conditions and uncertainty about demand keep buyers cautious. The market struggles to turn the bounce into a sustained recovery. 2:30 | CLOSING PRICES SHOW HOW WIDE THE SHOCK HAS SPREAD Selling pressure remains broad into the final stretch, with several shares hovering near session lows. A few names recover modestly from their weakest levels, but the rebound is too small to erase the losses. The session ends with risk management, rather than bargain hunting, driving most decisions. 4:00 |
+
+Free Fall 2.0 — Phase 6 Market & Asset-Specific News
+
+Fixed public-information news queue \| Phase 6: Negative Shock
+
+1. Market News
+
+| Time | Market News |
+| --- | --- |
+| 0:00 | Risk-Off Trading Takes Hold The session opens with selling across major assets as investors react to a fresh macroeconomic shock and reduce exposure to risk. Export-linked, technology and consumer names weaken together, while the index-linked ETF tracks the broader decline. Early attempts to buy the dip fail to attract enough demand to reverse the move. |
+| 2:30 | A Short Relief Rally Fails to Restore Confidence A sharp rebound briefly interrupts the sell-off, but traders remain wary of treating it as a turning point. Selling resumes as investors use firmer prices to cut positions, and the index-linked ETF falls back toward its lows. The uneven bounce suggests that liquidity and confidence are still under strain. |
+| 4:00 | Market Closes Near the Lows as Caution Dominates Losses remain substantial at the close. HMM and LG Energy Solution recover some ground late, while KODEX 200, Wonik IPS and Hyundai Motor remain close to their weakest levels. The market has stopped falling as quickly, but there is little evidence yet of a durable rebound. |
+
+Free Fall 2.0 — Phase 6 Market & Asset-Specific News
+
+Fixed public-information news queue \| Phase 6: Negative Shock
+
+2. Company / Asset-Specific News
+
+Note: The headlines below are fictional in-game news written to fit the Phase 6 price path. They are not claims of new company disclosures. ETF coverage refers to underlying market exposure rather than corporate events.
+
+| HMM | KODEX 200 | Wonik IPS | LG Energy Solution | Hyundai Motor |
+| --- | --- | --- | --- | --- |
+| SHIPPING SHARES FALL AS TRADE OUTLOOK SOFTENS HMM declines as investors cut exposure to cyclical and export-sensitive businesses. Concerns about global demand and freight-rate stability weigh on sentiment, while the first wave of selling pushes the stock well below its opening level. A brief rebound around the middle of the phase does not hold; late buying trims the loss, but HMM still finishes clearly lower. | INDEX ETF SLIDES AS SELLING BECOMES BROAD-BASED KODEX 200 tracks the market-wide retreat as investors reduce risk across large-cap shares. The ETF falls steadily during the first part of the phase, briefly rebounds as the market resets, and then moves down again when selling returns. It ends near its phase low, showing that the shock has spread beyond a handful of individual companies. | SEMICONDUCTOR EQUIPMENT STOCK STRUGGLES TO FIND SUPPORT Wonik IPS weakens as investors postpone growth-oriented purchases and reassess the outlook for semiconductor capital spending. The stock briefly stabilizes during the initial decline, but renewed selling later drives it to a deeper low. Some bargain buying appears near the end, although the recovery is limited and the stock closes well below its starting level. | BATTERY STOCK DRAWS SELLING DESPITE LONG-TERM THEMES LG Energy Solution falls as investors prioritize near-term liquidity over longer-term battery and energy-storage prospects. The first decline is followed by a brief rebound, but renewed risk reduction sends the stock lower again. Late-session buying recovers part of the loss, yet concerns about demand visibility, competition and capital intensity continue to weigh on sentiment. | AUTOMAKER IS HIT HARD AS INVESTORS CUT CYCLICAL EXPOSURE Hyundai Motor comes under sustained pressure as investors reassess consumer demand, export conditions and the sensitivity of vehicle sales to a weaker economic outlook. The stock declines through both waves of selling and remains close to its lows late in the phase. A small final stabilization is not enough to reverse the move, leaving Hyundai Motor among the weakest of the five highlighted assets. |
+
+Price-path alignment check
+
+Phase 6 follows the supplied CSV as the source of truth (300 ticks). The path shows two waves of selling separated by a brief reset/rebound around the midpoint, followed by only a limited recovery. HMM finishes about −9.2%, after falling as much as 17.7% below its phase opening level. KODEX 200 ends about −15.9%, close to its phase low of roughly −16.6%. Wonik IPS finishes about −15.5% after a maximum decline of about 19.3%. LG Energy Solution ends about −12.5% after falling roughly 18.2%, while Hyundai Motor finishes about −18.8%, near its low. The news reflects broad risk aversion and a weak late-session stabilization rather than a full recovery.
+
+Game-design constraint
+
+The CSV remains the sole source of prices. These fixed news events provide context only and must not modify or disclose the tick-by-tick synthetic price path. The negative-shock narrative describes simulated investor behaviour and market sentiment, not real-world company announcements or guaranteed price outcomes.
