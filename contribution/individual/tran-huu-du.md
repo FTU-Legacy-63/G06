@@ -24,3 +24,5 @@ The Technical Developer codes the rules, the Technical Developer implements the 
 ## Integration, testing and revision
 Engine defaults match the rules (maintenance 0.20, penalty 0.05); the hand calculation in T09 matches exactly (final cash ₩400,000). Targets changed from 2×/8× (Week 4) to 3×/20×/100× (Week 5). `[TODO: link commits]`
 
+## Remaining limitation
+Stated next steps are still open: the Phase 6 execution-penalty logic, target-progress % for the dashboard, and the formulas for the post-game debrief. The settlement boundary is written as tick ≤ 150 here but < 150 in the engine.
