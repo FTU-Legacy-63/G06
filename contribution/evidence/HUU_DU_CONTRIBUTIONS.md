@@ -30,9 +30,11 @@ Designed the deterministic financial formulas that run on every price tick:
   $$\text{Gross Exposure} = \sum (\text{Shares}_i \times \text{Current Price}_i)$$
 - **Net Equity:**
   $$\text{Net Equity} = \text{Liquid Cash} + \text{Bank Savings} + \text{Gross Exposure} - \text{Margin Debt}$$
+- **Trading Equity:**
+  $$\text{Trading Equity} = \text{Liquid Cash} + \text{Gross Exposure} - \text{Margin Debt}$$
 - **Effective Leverage & Margin Ratio:**
-  $$\text{Effective Leverage} = \frac{\text{Gross Exposure}}{\text{Net Equity}}$$
-  $$\text{Margin Ratio} = \frac{\text{Net Equity}}{\text{Gross Exposure}}$$
+  $$\text{Effective Leverage} = \frac{\text{Gross Exposure}}{\text{Trading Equity}}$$
+  $$\text{Margin Ratio} = \frac{\text{Trading Equity}}{\text{Gross Exposure}}$$
 - **Forced Liquidation Rules:**
   - Defined the Fixed Maintenance Margin at **20%**.
   - Set the system to automatically execute a fire-sale of 100% open equity holdings if $\text{Effective Leverage} \ge 5.0\times$ (equivalent to $\text{Margin Ratio} \le 20\%$).
