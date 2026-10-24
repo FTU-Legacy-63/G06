@@ -17,8 +17,8 @@ I owned the full-stack software architecture, the executable Python financial si
 - **HTTP REST API Server (`src/api_server.py`):** Developed a zero-dependency HTTP server using Python's standard library (`http.server` and `socketserver.TCPServer`) with full CORS preflight support, thread safety, and floating-point sanitization to bridge simulation state with the web frontend.
 - **Interactive CLI Demo (`src/interactive_demo.py`):** Built a standalone terminal-based simulation client for command-line verification and testing.
 - **Production Web Terminal (`web/index.html`):** Engineered a 24,750-line institutional single-page application featuring real-time Chart.js telemetry with dual y-axes, 7 distinct operational screens, an administrative testing gate (passcode: `6979`), and a client-side `ClientEngine` for zero-latency standalone execution.
-- **Dynamic Audio Engine & Original Soundtrack (`web/music/`):** Programmed a Web Audio API state machine with dynamic gain staging, biquad low-pass filter sweeps (20,000 Hz down to 600 Hz during news releases), and composed/produced 17 original BGM soundtrack tracks (64.3 MB).
-- **Tactical Visual Assets & Cinematic Endings (`web/assets/`):** Integrated 20 tactical demon HUD overlays (`buy_sell_demon/`) that advance with leverage, and 5 MP4 ending video sequences (`ending/`) representing Tiers A through F.
+- **Dynamic Audio Engine & Original Soundtrack (`assets/music/`):** Programmed a Web Audio API state machine with dynamic gain staging, biquad low-pass filter sweeps (20,000 Hz down to 600 Hz during news releases), and composed/produced 17 original BGM soundtrack tracks (64.3 MB).
+- **Tactical Visual Assets & Cinematic Endings (`assets`):** Integrated 20 tactical demon HUD overlays (`buy_sell_demon/`) that advance with leverage, and 5 MP4 ending video sequences (`ending/`) representing Tiers A through F.
 - **Automated Test Suite (`tests/`):** Created 66 automated unit tests across 6 test modules, verifying normal trades, boundary conditions, invalid inputs, financial consistency, and regression defect fixes.
 
 ## 3. Evidence Links
@@ -46,7 +46,7 @@ The software architecture functions as the operational core of Free Fall 2.0. In
   - **BUG-02 (Critical):** Initialized `margin_multiplier` in the engine constructor to prevent crashes during margin BUY orders.
   - **BUG-04 (Major):** Implemented state locks in `execute_order` to prevent order submissions after an account has been liquidated.
   - **BUG-05 (Major):** Capped the displayed margin ratio for cash-only positions at 100% to eliminate UI ambiguity.
-  - **Deployment Optimization:** Purged 202.67 MB of redundant/dead files from `web/`, repaired an inverted `AudioManager.resolveSrc()` path bug, and relocated loose background images into `web/assets/` for clean GitHub Pages hosting.
+  - **Deployment Optimization:** Purged 202.67 MB of redundant/dead files from `web/`, repaired an inverted `AudioManager.resolveSrc()` path bug, and relocated loose background images into `assets` for clean GitHub Pages hosting.
 
 ## 6. Remaining Limitations
 - **Instant Fills Without Slippage:** All orders and liquidation sales execute immediately at the current tick price. Modeling order-book depth, bid-ask spreads, and market impact slippage was deferred as out of MVP scope.
