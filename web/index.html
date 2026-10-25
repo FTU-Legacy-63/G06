@@ -5958,8 +5958,19 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.74rem;
             line-height: 1;
+            flex-shrink: 0;
+        }
+        .launch-icon svg {
+            display: block;
+            flex-shrink: 0;
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-phase-launch:hover .launch-icon svg {
+            transform: scale(1.14);
+        }
+        .btn-phase-launch[data-state="advance"]:hover .launch-icon svg {
+            transform: translateX(1.5px) scale(1.14);
         }
         .live-blip {
             animation: radarLivePing 1.2s infinite ease-in-out;
@@ -13034,11 +13045,11 @@
             </button>
             <button class="diff-btn-sub" onclick="proceedToBriefingFromDifficulty()">
                 <span>Market Briefing Codex</span>
-                <span>📋</span>
+                <span style="display:inline-flex; align-items:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
             </button>
             <button class="diff-btn-sub" onclick="confirmTargetAndStart()">
                 <span>Direct To Market</span>
-                <span>⏩</span>
+                <span style="display:inline-flex; align-items:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 19 22 12 13 5 13 19" fill="rgba(56, 189, 248, 0.45)" stroke="#38bdf8"/><polygon points="3 19 12 12 3 5 3 19" fill="rgba(56, 189, 248, 0.25)" stroke="#7dd3fc"/></svg></span>
             </button>
         </div>
     </div>
@@ -13271,7 +13282,7 @@
             <div class="phase-center-anchor" id="phase-center-anchor">
                 <button id="btn-market-start" class="btn-phase-launch" data-state="locked" data-phase="1" onclick="onMarketStartButtonClick()">
                     <span id="market-start-btn-label" class="market-start-btn-inner">
-                        <span class="launch-icon">🔒</span> <span class="launch-text">READ FIXED NEWS TO START</span>
+                        <span class="launch-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 4px rgba(148,163,184,0.6));"><rect x="4" y="11" width="16" height="11" rx="2.5" fill="rgba(148, 163, 184, 0.2)" stroke="#94a3b8" stroke-width="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#cbd5e1" stroke-width="2.2"/><circle cx="12" cy="16.5" r="1.5" fill="#f1f5f9" stroke="none"/></svg></span> <span class="launch-text">READ FIXED NEWS TO START</span>
                     </span>
                 </button>
             </div>
@@ -22043,20 +22054,20 @@ function updateMarketStartButton() {
     if (marketSessionStarted) {
         btn.setAttribute('data-state', 'active');
         btn.style.cursor = 'default';
-        btnLabel.innerHTML = `<span class="launch-icon live-blip">●</span> <span class="launch-text">LIVE SESSION [P${curP}]</span>`;
+        btnLabel.innerHTML = `<span class="launch-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" class="live-blip" style="filter: drop-shadow(0 0 6px #10b981);"><circle cx="12" cy="12" r="9" stroke="#34d399" stroke-width="2" opacity="0.6"/><circle cx="12" cy="12" r="4.5" fill="#10b981" stroke="#ecfdf5" stroke-width="1.6"/></svg></span> <span class="launch-text">LIVE SESSION [P${curP}]</span>`;
     } else if (sessionSecondsRemaining === 0) {
         btn.setAttribute('data-state', 'advance');
         btn.style.cursor = 'pointer';
         const advText = curP < 6 ? `ADVANCE TO PHASE ${curP + 1}` : 'FINAL SOLVENCY AUDIT';
-        btnLabel.innerHTML = `<span class="launch-icon">⏩</span> <span class="launch-text">${advText}</span>`;
+        btnLabel.innerHTML = `<span class="launch-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(186,230,253,0.95));"><polygon points="13 19 22 12 13 5 13 19" fill="rgba(255, 255, 255, 0.45)" stroke="#ffffff"/><polygon points="3 19 12 12 3 5 3 19" fill="rgba(125, 211, 252, 0.35)" stroke="#bae6fd"/></svg></span> <span class="launch-text">${advText}</span>`;
     } else if (hasReadFixedNews) {
         btn.setAttribute('data-state', 'ready');
         btn.style.cursor = 'pointer';
-        btnLabel.innerHTML = `<span class="launch-icon">▶</span> <span class="launch-text">START PHASE ${curP}</span> <span class="launch-timer-badge">05:00</span>`;
+        btnLabel.innerHTML = `<span class="launch-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(167,243,208,0.95));"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255, 255, 255, 0.35)" stroke="#ffffff" stroke-width="2.2"/><polygon points="8 7 15 12 8 17" fill="#ffffff" stroke="none"/></svg></span> <span class="launch-text">START PHASE ${curP}</span> <span class="launch-timer-badge">05:00</span>`;
     } else {
         btn.setAttribute('data-state', 'locked');
         btn.style.cursor = 'pointer';
-        btnLabel.innerHTML = `<span class="launch-icon">🔒</span> <span class="launch-text">READ FIXED NEWS TO START</span>`;
+        btnLabel.innerHTML = `<span class="launch-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 4px rgba(148,163,184,0.6));"><rect x="4" y="11" width="16" height="11" rx="2.5" fill="rgba(148, 163, 184, 0.2)" stroke="#94a3b8" stroke-width="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#cbd5e1" stroke-width="2.2"/><circle cx="12" cy="16.5" r="1.5" fill="#f1f5f9" stroke="none"/></svg></span> <span class="launch-text">READ FIXED NEWS TO START</span>`;
     }
 
     updateAdvancePhaseButton();
