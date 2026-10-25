@@ -22,7 +22,7 @@ Owned the financial mechanics: how actions and prices become equity, leverage, m
 The Technical Developer codes the rules, the Technical Developer implements the workflow diagram step by step, the Scenario Designer builds player paths on the system flow, margin tiers and targets, the Data Gatherer shapes data around the ±30 % limits, and the UI Designer visualises net equity, target progress and margin warnings.
 
 ## Integration, testing and revision
-Engine defaults match the rules (maintenance 0.20, penalty 0.05); the hand calculation in T09 matches exactly (final cash ₩400,000). Targets changed from 2×/8× (Week 4) to 3×/20×/100× (Week 5). `[TODO: link commits]`
+Engine defaults match the rules (maintenance 0.20, penalty 0.05); the hand calculation in T09 matches exactly (final cash ₩400,000). Targets changed from 2×/8× (Week 4) to 3×/20×/100× (Week 5). 
 
 ## Remaining limitation
-Stated next steps are still open: the Phase 6 execution-penalty logic, target-progress % for the dashboard, and the formulas for the post-game debrief. The settlement boundary is written as tick ≤ 150 here but < 150 in the engine.
+Stated next steps are still open: the Phase 6 execution-penalty logic, target-progress % for the dashboard, and the formulas for the post-game debrief. Other modes (Institutional Players, Government, etc) are still in development. Fire-sale fee as well as types of orders (Limit Order, Stop Loss Order, etc) are still in development.
