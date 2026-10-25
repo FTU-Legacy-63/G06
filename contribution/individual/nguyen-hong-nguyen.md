@@ -26,7 +26,7 @@ Owned the construction and validation of the two market-scenario datasets and th
 The game engine reads a selected scenario's price path every tick to revalue holdings and expose the effects of trading, leverage and market shocks on equity and margin safety. The Mechanism Designer defines the financial rules, the Technical Developer implements them, and my datasets and optimization outputs support scenario testing and target calibration.
 
 ## Integration, testing and revision
-Both corrected datasets passed the 1,800-tick / 50-asset checks, AM/PM and phase-boundary continuity, and the phase-wide ±30% price caps. I reran the whole-share DP and staggered MILP across both scenarios and compared 3× / 20× / 100× target attainment. In Scenario 1 at 2× leverage, one MILP cycle ended above the 0.1% target gap (0.195264%), so not all cycles were proven optimal to tolerance. `[TODO: link commits and confirm the committed game build uses these exact dataset versions]`
+Both corrected datasets passed the 1,800-tick / 50-asset checks, AM/PM and phase-boundary continuity, and the phase-wide ±30% price caps. I reran the whole-share DP and staggered MILP across both scenarios and compared 3× / 20× / 100× target attainment. In Scenario 1 at 2× leverage, one MILP cycle ended above the 0.1% target gap (0.195264%), so not all cycles were proven optimal to tolerance. 
 
 ## Remaining limitation
 The optimizer assumes advance knowledge of future prices and therefore does not estimate typical player success rates or establish a global wealth optimum. Its 75-tick settlement assumption should be reconciled with the implemented game engine, and the scenario datasets, audit workbooks and result files should be checked against their final committed versions.
