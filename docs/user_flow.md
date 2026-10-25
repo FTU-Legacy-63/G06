@@ -1,84 +1,91 @@
-# User Flow
+# User Flow and Interface Architecture
 
-> Consolidated from: `User_flow.md`/`Feature_map.md`, `phase_1_workflow.jpg`, `Solution_Structure.md`, `Sample_Input_Output.md`, midterm interface description. `Interface_design.md` was **empty** in Week 6 — see §6.
+This document describes the player journey, phase-by-phase market progression, decision trees, and trading terminal interface for Free Fall 2.0.
 
-## 1. Core goal and loop
-Manage a leveraged portfolio through a 30-minute simulated session, pursue a property target and avoid forced liquidation.
+---
 
-`Market event → User decision → Portfolio revaluation → Risk state → Financial consequence → Feedback → Next decision`
+## 1. Core Loop and Player Journey
 
-Session path: `Start → scenario & capital assigned → choose house target → choose margin tier → Phases 1–6 (trade / save / de-risk) → margin warning → liquidation or survival → Risk & Decision Review`.
+The user's core task is managing an active, leveraged portfolio over a 30-minute compressed trading session (1,800 ticks), balancing aggressive wealth accumulation against forced liquidation risk:
 
-## 2. Phase 1 system flow (designed by Trần Hữu Dụ)
+```text
+Market Event / News Alert → Player Decision (Trade / Hedge / De-leverage)
+  → Portfolio Revaluation → Risk State Evaluation → Financial Consequences
+  → Visual / Audio Feedback → Next Decision Loop
+```
+
+Session path:
+`Start Screen → Scenario & Initial Capital Selection → House Target & Margin Tier Choice → Phases 1–6 (Live Trading & Hedging) → Margin Warning / Liquidation Checks → Post-Simulation Risk Review`.
+
+---
+
+## 2. Phase 1 System Workflow Architecture
+
+Designed by Trần Hữu Dụ and implemented in `src/simulation_engine.py`:
+
 ![Phase 1 workflow](img/phase_1_workflow.jpg)
 
 ```mermaid
 flowchart TD
     A([Start Screen]) --> B[Initiate Phase 1]
-    B --> C[Initialize account: cash from capital, shares 0, savings 0, debt 0, max leverage, goal, news queue]
-    C --> D[Dashboard + 300 s countdown]
-    D --> E[1 tick per second from fixed_price_path]
-    E --> G{Tick > 300?}
-    G -- Yes --> H[Phase conclusion: target progress] --> I([Phase 2])
-    G -- No --> J[Player submits Buy / Sell / Savings]
-    J --> K{Sufficient purchasing power?}
+    B --> C["Initialize Account: Cash, Holdings = 0, Savings = 0, Debt = 0, Target House, Margin Tier"]
+    C --> D[Trading Dashboard + 300s Countdown]
+    D --> E[1-Second Price Tick from Scenario CSV]
+    E --> G{Phase Elapsed > 300s?}
+    G -- Yes --> H[Phase Conclusion: Accrue Bank Savings & Advance] --> I([Next Phase])
+    G -- No --> J[Player Submits Order: Buy / Sell / Savings Transfer]
+    J --> K{Order Valid & Sufficient Funds?}
     K -- No --> J
-    K -- Yes --> L[Execute: update cash, shares, savings, debt]
-    L --> M[Recalculate portfolio, equity, margin ratio]
-    M --> N{Margin breach?}
-    N -- Yes --> O[Forced liquidation + penalty] --> P{Equity > 0?}
-    P -- No --> Q([Game Over])
-    P -- Yes --> R[Refresh UI]
+    K -- Yes --> L[Update Cash, Holdings, Savings, Debt]
+    L --> M[Recalculate Exposure, Trading Equity, Margin Ratio]
+    M --> N{Margin Ratio < 20.00% or Leverage >= 5.0x?}
+    N -- Yes --> O[Trigger Forced Liquidation + 5% Penalty] --> P{Total Net Worth > 0?}
+    P -- No --> Q([Session Wipeout / Game Over])
+    P -- Yes --> R[Update UI Gauges & Alerts]
     N -- No --> R
     R --> S{Tick < 150?}
-    S -- Yes --> T[T+0.5 delay, then delivered] --> E
-    S -- No --> V[Pending for Phase 2 delivery] --> H
+    S -- Yes --> T[T+0.5 Settlement Delay: Deliver at Tick + 30] --> E
+    S -- No --> V[Queue Delivery for Next Phase Entry] --> H
 ```
-Background: news queue and the 1-second price trigger run throughout; savings accrue 4.75 % after each completed AM/PM session.
 
-## 3. Feature decisions (Week 5)
-| Decision | Features |
-|---|---|
-| **Keep (core)** | Scenario & capital assignment, house target and margin tier selection, 1,800 s simulation, phase & news feed, asset selection, order entry/validation/execution, portfolio valuation, net equity, leverage monitor, margin health indicator, pre-liquidation warning, forced liquidation engine, solvency check, cash display, Bank Savings, target progress, order log, post-simulation review |
-| **Postpone** | Scenario playback, detailed behavioural classification, advanced performance charts, export result |
-| **Remove** | Leaderboard, login (MVP); order-book depth, slippage model, derivatives, multiplayer, live brokerage (out of scope) |
+---
 
-## 4. Phases
-| Phase | Seconds | Behavioural mechanism |
-|---|---|---|
-| 1 Fake Positive News | 1–300 | Deceptive hype baits leveraged exposure |
-| 2 True Positive News | 301–600 | Confidence reinforced |
-| 3 Bull Market | 601–900 | Players chasing high targets move to 3×/4× |
-| 4 Strong Growth (FOMO) | 901–1200 | Peak borrowing |
-| 5 Market Euphoria | 1201–1500 | Greed trap, fakeouts, bull traps |
-| 6 Negative Shock | 1501–1800 | Crash, leverage ≥ 5× → forced liquidation |
+## 3. Market Phases and Behavioral Mechanics
 
-*The earlier README used different phase names (“Slightly Green Market … Margin Cascade”); use the names above.*
+Each 300-second phase models a specific psychological stage of a speculative market cycle:
 
-## 5. User paths and endings
-| Path | Example | Result |
-|---|---|---|
-| Happy / safe | Small House, cash only, rotate to Bank Savings before Phase 6 | Solvent ≈ 2.92× capital; Normie ending |
-| Alternative | Normal House, 2×–3× margin with profit-taking in Phase 5 | Middle-class stability ending (20× target) |
-| Critical-risk | ToLam Villa, 4× held into Phase 6 | Margin breach → forced liquidation / wipeout |
+| Phase | Duration | Market State | Behavioral & Pedagogical Mechanism |
+|:---:|:---:|---|---|
+| **Phase 1** | 1–300s | Fake Positive News | Deceptive positive sentiment entices players to deploy initial leverage. |
+| **Phase 2** | 301–600s | True Positive News | Realized price gains build overconfidence; players reinforce long positions. |
+| **Phase 3** | 601–900s | Bull Market | Broad asset rallies tempt players to increase leverage tiers (3× or 4×) to pursue higher house targets. |
+| **Phase 4** | 901–1200s | Strong Growth (FOMO) | Peak speculative borrowing; retail FOMO peaks as prices reach session highs. |
+| **Phase 5** | 1201–1500s | Euphoria & Bull Traps | High volatility, false dips, and distribution traps; testing player risk recognition before the crash. |
+| **Phase 6** | 1501–1800s | Negative Shock & Cascade | Severe market-wide collapse; cascading margin calls trigger forced liquidations for over-leveraged accounts. |
 
-Decision matrix: Buy raises exposure (debt if margin used); Sell lowers exposure and returns cash after T+0.5; Hold leaves equity to follow prices; Margin tier sets buying power and debt; Bank Savings lowers exposure and earns 4.75 % per session.
+---
 
-## 6. Phase 1 news and event script (Scenario Designer)
-Fixed public market news (does not alter the predetermined price path): **0:00** South Korea's semiconductor outlook strengthens (AI demand, HBM, exports); **2:30** AI infrastructure investment supports Korean chipmakers; **4:00** investor sentiment improves across Korean technology stocks.
-Asset-specific news for the five drivers: Vintrumite (AI memory, HBM, 3D memory), Samsung Electronics (AI partnerships, ASML collaboration), KODEX Semiconductor (AI-driven chip demand), KODEX Leverage (≈ 2× KOSPI200 daily exposure), TIGER Semiconductor TOP10 (chipmaker concentration, cycle sensitivity). *Phases 2–6 scripts are not yet written (stated next step).*
+## 4. Player Narrative Paths and Endings
 
-## 7. Scenario decision paths
-| Scenario condition | Player decision | Input / action | Next path |
+| Archetype Path | Typical Strategy & Allocation | Final Outcome | Narrative Debrief |
 |---|---|---|---|
-| Positive Phase 1 information | Enter the market | Buy + asset + volume | Keep observing with an active position |
-| No wish to change position | Hold | Hold | Next tick with same position |
-| Reduce exposure | Sell | Sell | Cash and shares updated |
-| Want more purchasing power | Margin tier + margin toggle | `margin_tier` | Higher exposure and margin risk |
-| Keep funds out of the market | Bank Savings | `bank_savings` | Funds move to savings; continue |
-| Margin condition critical | Buy / Sell / Hold / cash management | Any | Normal continuation, forced liquidation, or Game Over |
+| **Conservative Capital Preservation** | Cash 1.0× only; systematically rotates liquid profits into Safe Haven Bank before Phase 6. | Solvency preserved at ~2.9× initial capital. | **Normie:** Modest real wealth preserved without taking catastrophic downside exposure. |
+| **Disciplined Tactical Margin** | 2.0×–3.0× margin during Phases 2–4; aggressive de-leveraging and profit-taking in Phase 5. | Reaches the 20× Normal House target. | **Middle-Class Stability:** Successfully capitalized on market momentum while managing margin risk before the crash. |
+| **Aggressive Speculation / Crash Victim** | 4.0× maximum leverage maintained into Phase 6 collapse without cash buffers. | Maintenance breach triggers forced liquidation; equity wiped out. | **Wipeout:** Complete portfolio liquidation with a 5% penalty, illustrating the reality of leverage blindness. |
+| **Master Market Timing** | Perfect re-leveraging cycles with whole-share allocations and timely exits before Phase 6. | Reaches the 100× ToLam Villa target. | **Extravagant Luxury:** Theoretical best-case outcome matching the mathematical benchmark. |
 
-Behavioural progression: `Understand leverage → Build confidence → Recognise vulnerability → Respond to warning signs → Manage liquidity & exposure → Reduce liquidation risk`.
+---
 
-## 8. Interface (from contribution evidence; `Interface_design.md` empty)
-Dark-mode trading terminal (`#05070A` base, `#00E676`/`#10B981` green, `#EF4444` red, glass panels `#0F172A` at 60 % with `#1E293B` borders, JetBrains Mono). Intro screen with three cards (The Crisis, Our Mission, Your Takeaway) and a *LAUNCH SIMULATOR →* button. Dashboard: Account Overview (net worth, trading cash, margin debt, *Safe Haven Bank*), live tickers, interactive chart, news ticker (bottom left), quick order panel (BUY / SELL / Confirm). Risk panel: Margin Health gauge (red 20 % floor), Leverage gauge (0×–4.0×), Property Target progress bar. Live demo: https://ftu-legacy-63.github.io/G06/ · source: [`index.html`](../index.html), [`web/`](../web). `[TODO: add the UI design-system file and wireframes, or paste screenshots here.]`
+## 5. Interface Design and Terminal HUD
+
+The web interface is deployed as a high-density, dark-mode financial terminal (`index.html`):
+
+- **Color Palette & Design Tokens:** Base background `#030712`, glass surface overlays `rgba(6, 11, 20, 0.82)`, emerald positive accents `#10B981`, crimson risk alerts `#EF4444`, amber warning banners `#F59E0B`.
+- **Primary HUD Panels:**
+  1. **Account Overview:** Live displays of Total Net Worth, Liquid Trading Cash, Margin Debt, and Safe Haven Bank Savings.
+  2. **Risk Gauges:** Real-time Margin Health gauge with an explicit red 20.00% floor marker, Effective Leverage gauge (0×–5.0×), and Property Wealth Target progress bar.
+  3. **Price Board & Interactive Chart:** Live tick series for 50 securities with phase indicators and sector grouping.
+  4. **Order Entry Dock:** Asset selection, quantity inputs, Cash vs Margin toggle, Quick Max calculations, and Bank transfer controls.
+  5. **Audio-Visual Alert Engine:** Audible warning sirens and pulsing red modal overlays upon Margin Call or Forced Liquidation events.
+
+Accessible live at: [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/)
