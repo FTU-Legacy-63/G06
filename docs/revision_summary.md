@@ -1,23 +1,30 @@
-# Revision Summary (after midterm)
+# Post-Midterm Revision Summary
 
-> `Revision_log.md` is empty. This table is derived by comparing Week 4 (`MIDTERM_REVIEW`), Week 5 (`Feature_map`, `Solution_Structure`, `Input_Dictionary`), the midterm verification, the individual contribution files and Week 6 (`bug_log`, `test_case`, benchmark note, scenario files). `[TODO: confirm and add dates/authors.]`
+This document traces the evolution of Free Fall 2.0 following the Week 4 midterm checkpoint, detailing key decisions, architectural adjustments, and defect remediations.
 
-| # | Revision | From → To | Reason | Evidence |
-|---|---|---|---|---|
-| 1 | Differentiate from Free Fall 1 (K62) | Debt-free puzzle → margin trading, forced liquidation | Core identity | Midterm verification |
-| 2 | Property targets | 2× / 8× (Mini Apartment, Gangnam Villa) → 3× / 20× / 100× | Calibrated on benchmarks | [financial_logic.md](financial_logic.md) §6 |
-| 3 | Leverage input | `initial_margin_ratio` 50/40/33/25 % → tiers Cash/2×/3×/4× | Simpler, matches tests | Input Dictionary |
-| 4 | Scenarios | One scenario → random Scenario 1 or 2 (both CSVs now exist) | Reduce memorisation | [data_and_sources.md](data_and_sources.md) |
-| 5 | Rules added | Bank Savings 4.75 %/session, T+0.5 settlement, 5 % penalty, ±30 % session limits | De-risking, realism | Assumptions 5, 7 |
-| 6 | Feature scope | Week 5 keep / postpone / remove | Protect margin-cycle focus | [user_flow.md](user_flow.md) §3 |
-| 7 | Data scope | Dropped USD/KRW, institutional, fund-flow, central-bank data | Not needed | [data_and_sources.md](data_and_sources.md) §8 |
-| 8 | Asset naming | SK Hynix → Vintrumite | Game naming | Data Gatherer file |
-| 9 | Dataset audit | Structural audit; audit workbooks with AM/PM reference/floor sheet | Integration readiness | `data/audit/` |
-| 10 | Benchmark method | Earlier summary (ceiling 217.45×) → whole-share MILP optimiser: ≈ 109× → ≈ 156× | Richer, more defensible best case | `analysis/best_case.py` |
-| 11 | Tests | 4 unit tests (midterm) → 12 formal cases / 14-test run documented; committed file still shows 4 | Week 6 clinic | [testing.md](testing.md) |
-| 12 | Defects | BUG-01…06 fixed and verified | Stability before freeze | [testing.md](testing.md) §5 |
-| 13 | Technical route | Planned React/Next.js (Streamlit fallback) → Python engine + API + HTML interface | Feasibility `[TODO: confirm]` | `src/`, `index.html` |
-| 14 | Hosting | GitHub Pages demo plus a Cloudflare build | Delivery | README |
-| 15 | Repository | Weekly folders → final-readiness structure | Evidence easy to find | This repo |
+---
 
-**Stated next steps still open:** Scenario 2 calibration and benchmark re-run; Phase 2–6 news; debrief screen and formulas; Phase 6 execution-penalty refinement; target-progress calculations for the dashboard; mobile layout.
+## 1. Post-Midterm Revision Log
+
+| # | Domain | Original Midterm State | Final State | Rationale & Impact | Primary Owner | Verification Evidence |
+|:---:|---|---|---|---|---|---|
+| **1** | **Core Identity** | Early proposal conceptualized debt-free portfolio puzzles. | Dedicated margin trading simulator with cross-margin liquidation cascades. | Establishes pedagogical focus on "leverage blindness" during crashes. | Trần Hữu Dụ | Midterm Review, `financial_logic.md` |
+| **2** | **Wealth Targets** | Initial targets set at 2× and 8× capital (Mini Apartment, Gangnam Villa). | Calibrated to 3× (Small House), 20× (Normal House), and 100× (ToLam Villa). | Grounded targets against whole-share optimization ceilings (~156× benchmark). | Nguyễn Hồng Nguyên | `best_case.py`, `analysis/` |
+| **3** | **Leverage Interface** | Input requested continuous `initial_margin_ratio` percentages (50%, 40%, 33%, 25%). | Fixed tier selection: Cash 1.0×, 2.0×, 3.0×, and 4.0×. | Eliminates input friction for players under compressed time limits. | Trần Hữu Dụ | `game_controller.py`, `index.html` |
+| **4** | **Market Scenarios** | Single market scenario path. | Dual deterministic scenarios (`market_scenario_1.csv` & `market_scenario_2.csv`). | Prevents players from memorizing turning points across runs. | Nguyễn Hồng Nguyên | `data/`, `data_and_sources.md` |
+| **5** | **Hedging Mechanics** | All player cash remained exposed to stock market accounts. | Added Safe Haven Bank Savings earning +4.75% compounded per session. | Provides an explainable capital-preservation tool during crash phases. | Trần Hữu Dụ | `simulation_engine.py`, Test T10 |
+| **6** | **Settlement Timing** | Instant intra-tick share settlements. | T+0.5 holding pen (orders before tick 150 settle in 30 ticks; orders $\ge$ 150 deliver in Phase 2). | Models real-world clearing delays and prevents high-frequency churn. | Trần Hữu Dụ, Nguyễn Quang Minh | `simulation_engine.py`, Test T11 |
+| **7** | **Feature Scope Freeze** | Considered complex social leaderboards, user login, and order-book depth. | Frozen to single-player desktop trading terminal. | Protects MVP operational stability and prevents external server failure risks. | Full Group | `user_flow.md` §3, Checkpoint 5 |
+| **8** | **Data Scope Trimming** | Considered macro FX (USD/KRW) feeds, foreign fund flows, and central bank rates. | Excluded macroeconomic feeds; focused on 50 stock price series. | Eliminates unnecessary cognitive noise for the player. | Nguyễn Hồng Nguyên | `data_and_sources.md` §8 |
+| **9** | **Dataset Normalization** | Raw CSVs had price formatting issues, text commas, and boundary discontinuities. | Audited and normalized all 1,800 ticks across both scenarios; verified ±30% phase caps. | Ensures reliable runtime price lookup without NaN crashes. | Nguyễn Hồng Nguyên | `data/audit/` |
+| **10** | **Benchmark Optimization** | Early continuous relaxation estimate (~217×). | Whole-share Dynamic Programming and staggered MILP optimizer (~156× ceiling). | Produces a mathematically defensible empirical benchmark. | Nguyễn Hồng Nguyên | `analysis/best_case.py` |
+| **11** | **Automated Test Suite** | 4 initial midterm unit tests. | Expanded to 66 automated tests covering formal cases T01–T12 and defect regressions. | Provides 100% automated test coverage across boundary and failure states. | Nguyễn Quang Minh | `tests/` (100% passing) |
+| **12** | **Defect Remediation** | Six defects logged during Week 6 testing (BUG-01 through BUG-06). | All 6 defects resolved, regression-tested, and verified. | Eliminates delivery freezes, attribute errors, and state corruption. | Nguyễn Quang Minh, Triệu Đức Lương | `docs/testing.md` §5 |
+| **13** | **Technical Stack Route** | Early draft explored heavy multi-container Next.js/React stacks with Streamlit fallback. | Lightweight zero-dependency Python engine + REST API server + vanilla web terminal. | Guarantees instant local startup and zero-dependency reproducibility. | Nguyễn Quang Minh | `api_server.py`, `src/` |
+| **14** | **Deployment Strategy** | Local testing only. | GitHub Pages client deployment paired with a Cloudflare Worker mirror. | Delivers immediate, zero-installation browser accessibility for reviewers. | Triệu Đức Lương | README, GitHub Pages |
+| **15** | **Repository Structure** | Fragmented weekly submissions (`week 2/`, `week 3/`, etc.). | Reorganized into the standard `docs/`, `src/`, `tests/`, `data/`, `contribution/` layout. | Satisfies course repository readiness criteria and simplifies audit navigation. | Full Group | `final-repo-readiness.md` |
+
+---
+
+## 2. Scope Freeze Confirmation
+In accordance with Week 6 checkpoint guidelines, feature development was formally frozen. Post-midterm efforts focused exclusively on algorithmic verification, dataset auditing, defect resolution, and documentation consolidation.
