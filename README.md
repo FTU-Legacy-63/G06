@@ -6,7 +6,8 @@
 
 | Resource | Link |
 |---|---|
-| **Live Product** | [Cloudflare Worker](https://phan-dung.ngqminh6979.workers.dev/) *(Backup mirror: [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/))* |
+| **Live Product (Official)** | [https://phan-dung.ngqminh6979.workers.dev/](https://phan-dung.ngqminh6979.workers.dev/) *(Cloudflare Workers — Main Deployment)* |
+| **Backup Mirror** | [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/) *(GitHub Pages Mirror)* |
 | **Comprehensive Final Report** | [FINAL_GROUP_REPORT.md](FINAL_GROUP_REPORT.md) |
 | **Final Release** | [GitHub Release v1.0.0](https://github.com/FTU-Legacy-63/G06/releases/tag/v1.0.0) |
 | **Repository** | [https://github.com/FTU-Legacy-63/G06](https://github.com/FTU-Legacy-63/G06) |
@@ -45,8 +46,8 @@ Detailed specifications: [Financial Logic](docs/financial_logic.md) · [User Flo
 
 ### Web Application
 Access the deployed terminal directly in any modern desktop browser:
-- Primary: [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/)
-- Mirror: [https://phan-dung.ngqminh6979.workers.dev/](https://phan-dung.ngqminh6979.workers.dev/)
+- **Primary (Official Live Build):** [https://phan-dung.ngqminh6979.workers.dev/](https://phan-dung.ngqminh6979.workers.dev/)
+- **Backup Mirror (GitHub Pages):** [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/)
 
 ### Local HTTP Simulation Server & API Bridge
 Run the zero-dependency REST server to serve the frontend locally:
