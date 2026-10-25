@@ -6,7 +6,7 @@
 
 | Resource | Link |
 |---|---|
-| **Live Product** | [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/) *(Backup mirror: [Cloudflare Worker](https://phan-dung.ngqminh6979.workers.dev/))* |
+| **Live Product** | [Cloudflare Worker](https://phan-dung.ngqminh6979.workers.dev/) *(Backup mirror: [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/))* |
 | **Comprehensive Final Report** | [FINAL_GROUP_REPORT.md](FINAL_GROUP_REPORT.md) |
 | **Final Release** | [GitHub Release v1.0.0](https://github.com/FTU-Legacy-63/G06/releases/tag/v1.0.0) |
 | **Repository** | [https://github.com/FTU-Legacy-63/G06](https://github.com/FTU-Legacy-63/G06) |
