@@ -18,7 +18,7 @@ Owned the construction and validation of the two market-scenario datasets and th
 - [data/market_scenario_1.csv](../../data/market_scenario_1.csv) and [data/market_scenario_2.csv](../../data/market_scenario_2.csv) (final market datasets)
 - [data/audit/market_scenario_audit_1.xlsm](../../data/audit/market_scenario_audit_1.xlsm) and [data/audit/market_scenario_audit_2.xlsx](../../data/audit/market_scenario_audit_2.xlsx) (audit workbooks)
 - [analysis/best_case.py](../../analysis/best_case.py) and [analysis/best_case_calibration_targets_3x_20x_100x.md](../../analysis/best_case_calibration_targets_3x_20x_100x.md) (optimizer and calibration explanation)
-- [analysis/output/combined/](../../analysis/output/combined/) (combined optimization, margin-audit and target-calibration outputs; link applies after committing the output directory)
+- [analysis/output/combined/](../../analysis/output/) (combined optimization, margin-audit and target-calibration outputs; link applies after committing the output directory)
 - [docs/data_and_sources.md](../../docs/data_and_sources.md) (data assumptions, constraints and QA)
 - Original evidence: [Hồng_Nguyên_CONTRIBUTIONS.md](../evidence/Hồng_Nguyên_CONTRIBUTIONS.md)
 
