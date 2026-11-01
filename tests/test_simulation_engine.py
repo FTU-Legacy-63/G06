@@ -32,7 +32,7 @@ class TestMarginEngine(unittest.TestCase):
         """
         engine = MarginEngine(
             initial_capital=10_000_000.0,
-            target_house_type=HouseType.TOLAM_VILLA,
+            target_house_type=HouseType.GLORIOUS_FOREST_VILLA,
             initial_margin_ratio=0.25,
             maintenance_margin_ratio=0.20,
             liquidation_penalty_pct=0.05,
