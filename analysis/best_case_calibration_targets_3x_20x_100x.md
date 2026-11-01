@@ -46,7 +46,7 @@ Both inputs passed the script's pre-optimization dataset checks.
 | Settlement assumption | 75 ticks for BUY eligibility and 75 ticks after SELL before capital is reused |
 | MILP time limit | 60 seconds per cycle |
 | MILP relative-gap target | 0.1% |
-| Property targets | Small House 3×; Normal House 20×; ToLam Villa 100× |
+| Property targets | Small House 3×; Normal House 20×; Glorious Forest Villa 100× |
 
 **Model scope:** The reported optimizer evaluates mark-to-market equity and margin constraints along known market paths. It does **not** demonstrate typical human performance or incorporate uncertainty about future prices. Transaction costs, market impact, order-book liquidity, and the game's separate bank-savings accrual are not explicitly modeled in this optimizer. The 75-tick settlement parameter also needs to be reconciled with the running game engine if it uses a different value.
 
@@ -113,7 +113,7 @@ The game's three property goals are fixed final-equity thresholds:
 |---|---:|---:|---:|---|
 | Small House | **3×** | **$30,000** | $20,000 | Basic |
 | Normal House | **20×** | **$200,000** | $190,000 | Intermediate |
-| ToLam Villa | **100×** | **$1,000,000** | $990,000 | Expert |
+| Glorious Forest Villa | **100×** | **$1,000,000** | $990,000 | Expert |
 
 The check is:
 
@@ -121,7 +121,7 @@ The check is:
 
 ### Target attainment by scenario and leverage tier
 
-| Scenario | Tier | 3× Small House | 20× Normal House | 100× ToLam Villa |
+| Scenario | Tier | 3× Small House | 20× Normal House | 100× Glorious Forest Villa |
 |---|---:|---|---|---|
 | Scenario 1 | 2× | PASS | PASS | **BELOW** |
 | Scenario 1 | 3× | PASS | PASS | PASS |
@@ -150,7 +150,7 @@ The corrected results suggest the property-target thresholds are attainable by s
 
 - **3× (Small House):** Attained in all six optimizer runs; provides the lowest property threshold. This does not establish its completion rate without leverage.
 - **20× (Normal House):** Also attained in all six runs, but requires considerably more compounding than 3×.
-- **100× (ToLam Villa):** Attained in five of six computed staggered runs; only 2× in Scenario 1 remains below it. Reaching 100× demands sustained gains and carefully managed leverage under the evaluated routes.
+- **100× (Glorious Forest Villa):** Attained in five of six computed staggered runs; only 2× in Scenario 1 remains below it. Reaching 100× demands sustained gains and carefully managed leverage under the evaluated routes.
 
 Scenario 2's materially higher optimizer outcomes may justify further scenario-balancing or player testing, but the direction and size of any difficulty adjustment should be determined using gameplay trials (player choices, available information, liquidations and completion rates), **not by rescaling targets from perfect-foresight multiples alone**.
 
