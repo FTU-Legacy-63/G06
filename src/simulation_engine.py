@@ -28,12 +28,14 @@ class MarginStatus(Enum):
 class HouseType(Enum):
     SMALL_HOUSE = "Small House"        # 3.0x Initial Capital
     NORMAL_HOUSE = "Normal House"      # 20.0x Initial Capital
-    TOLAM_VILLA = "ToLam Villa"        # 100.0x Initial Capital
+    GLORIOUS_FOREST_VILLA = "Glorious Forest Villa"  # 100.0x Initial Capital
+    TOLAM_VILLA = "Glorious Forest Villa"             # Backward-compatibility alias
 
 
 HOUSE_MULTIPLIERS = {
     HouseType.SMALL_HOUSE: 3.0,
     HouseType.NORMAL_HOUSE: 20.0,
+    HouseType.GLORIOUS_FOREST_VILLA: 100.0,
     HouseType.TOLAM_VILLA: 100.0,
 }
 

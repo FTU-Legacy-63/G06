@@ -25,11 +25,11 @@ def main():
     print("Select Difficulty / House Target (Calibrated against benchmark backtest):")
     print("  1. Small House   (Goal: 3.0x Capital   - Normie Ending / Solvency)")
     print("  2. Normal House  (Goal: 20.0x Capital  - Balanced)")
-    print("  3. ToLam Villa   (Goal: 100.0x Capital - Extreme / 4.0x Leverage Required)")
+    print("  3. Glorious Forest Villa (Goal: 100.0x Capital - Extreme / 4.0x Leverage Required)")
 
     choice = input("\nEnter choice (1-3, default 3): ").strip() or "3"
-    target_map = {"1": HouseType.SMALL_HOUSE, "2": HouseType.NORMAL_HOUSE, "3": HouseType.TOLAM_VILLA}
-    house = target_map.get(choice, HouseType.TOLAM_VILLA)
+    target_map = {"1": HouseType.SMALL_HOUSE, "2": HouseType.NORMAL_HOUSE, "3": HouseType.GLORIOUS_FOREST_VILLA}
+    house = target_map.get(choice, HouseType.GLORIOUS_FOREST_VILLA)
 
     print("\nSelect Margin Tier:")
     print("  1. Cash Only (1.0x - Buying Power 1.0x, Immune to Margin Calls)")
