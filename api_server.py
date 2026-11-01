@@ -261,7 +261,8 @@ class SimulationRequestHandler(http.server.SimpleHTTPRequestHandler):
                     h_map = {
                         "Small House": HouseType.SMALL_HOUSE,
                         "Normal House": HouseType.NORMAL_HOUSE,
-                        "ToLam Villa": HouseType.TOLAM_VILLA,
+                        "Glorious Forest Villa": HouseType.GLORIOUS_FOREST_VILLA,
+            "ToLam Villa": HouseType.GLORIOUS_FOREST_VILLA,  # backward compatibility
                     }
                     house = h_map.get(house_str, HouseType.NORMAL_HOUSE)
                     margin_ratio = parse_finite_float(body.get("initial_margin_ratio"), 1.0)
