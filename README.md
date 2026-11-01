@@ -23,7 +23,7 @@ Retail equity traders, day traders, and finance and banking students who need ri
 ## 3. User Task and Decision Loop
 Manage a leveraged portfolio across a compressed 30-minute market session (1,800 seconds across 6 market phases):
 - **Decisions:** Buy, Sell, Hold, select a Margin Tier (Cash 1×, 2×, 3×, 4×), de-leverage open positions, or allocate uninvested funds into Safe Haven Bank Savings.
-- **Objective:** Survive market shocks without triggering a maintenance margin breach while pursuing property wealth targets: Small House (3×), Normal House (20×), or ToLam Villa (100× initial capital).
+- **Objective:** Survive market shocks without triggering a maintenance margin breach while pursuing property wealth targets: Small House (3×), Normal House (20×), or Glorious Forest Villa (100× initial capital).
 
 ## 4. Main Product Output
 1. **Interactive Trading Terminal:** Real-time asset price boards, portfolio revaluation, net equity, effective leverage gauges, margin health indicators, and liquidation risk warnings.
