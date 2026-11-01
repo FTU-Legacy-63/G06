@@ -5,7 +5,7 @@
 **Member:** Nguyễn Quang Minh  
 **Student ID:** 2412380031  
 **Assigned Role:** Technical Developer · Software & Engine Architect  
-**Live Production Deployments:** [Cloudflare Workers Edge](https://phan-dung.ngqminh6979.workers.dev/) · [GitHub Pages Static Terminal](https://ftu-legacy-63.github.io/G06/)  
+**Live Production Deployments:** [Cloudflare Workers Edge (Official Primary)](https://phan-dung.ngqminh6979.workers.dev/) · [GitHub Pages Static Mirror (Backup)](https://ftu-legacy-63.github.io/G06/)  
 
 ---
 
@@ -73,7 +73,7 @@ Directly mapped from **`docs/img/phase_1_workflow.jpg`** and formal specificatio
 - **Target Difficulty Alignment:** Calibrated against quantitative backtest models:
   - **Small House (3.0× Capital):** Achievable with Cash 1.0× and defensive Bank Savings rotation.
   - **Normal House (20.0× Capital):** Requires disciplined 2.0×–3.0× leverage management.
-  - **ToLam Villa (100.0× Capital):** High-skill threshold requiring 4.0× leverage with precise market timing.
+  - **Glorious Forest Villa (100.0× Capital):** High-skill threshold requiring 4.0× leverage with precise market timing.
 
 ### 2.3 Automated Logic Verification (`tests/`)
 All financial logic is verified with a **100% pass rate across 66 automated unit tests** in `tests/`:
@@ -126,8 +126,8 @@ python -m unittest discover tests
 4. **Tactical Visual Assets & Cinematic Endings ([`assets/`](../../assets/)):**
    - Integrated 20 tactical demon HUD overlays ([`assets/buy_sell_demon/`](../../assets/buy_sell_demon/)) and 5 MP4 ending video sequences ([`assets/ending/`](../../assets/ending/)) representing Tiers A through F.
 5. **Production Cloud Deployments:**
-   - **Cloudflare Workers Edge:** Live global deployment at [`https://phan-dung.ngqminh6979.workers.dev/`](https://phan-dung.ngqminh6979.workers.dev/).
-   - **GitHub Pages Static Terminal:** Fully optimized deployment at [`https://ftu-legacy-63.github.io/G06/`](https://ftu-legacy-63.github.io/G06/) with 100% 200 OK asset resolution across all audio, video, and image requests.
+   - **Cloudflare Workers Edge (Official Primary Build):** Live global production deployment at [`https://phan-dung.ngqminh6979.workers.dev/`](https://phan-dung.ngqminh6979.workers.dev/).
+   - **GitHub Pages Static Mirror (Backup):** Deployment at [`https://ftu-legacy-63.github.io/G06/`](https://ftu-legacy-63.github.io/G06/) serving as a secondary static mirror with 100% 200 OK asset resolution across all audio, video, and image requests.
 6. **Academic Documentation:**
    - Authored the 12-page contribution report: [`reports/individual/Nguyen_Quang_Minh_Contribution_Report.docx`](../../reports/individual/Nguyen_Quang_Minh_Contribution_Report.docx).
 
