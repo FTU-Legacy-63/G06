@@ -12987,19 +12987,19 @@
                 </div>
             </div>
 
-            <!-- 03. EXTREME // TO-LAM VILLA -->
+            <!-- 03. EXTREME // GLORIOUS FOREST VILLA -->
             <div class="target-card card-theme-extreme" 
                  data-sfx="difficulty-extreme"
                  onmouseenter="onDifficultyHover('house_tolam')" 
                  onmouseleave="onDifficultyLeave()" 
-                 onclick="selectPropertyTarget('ToLam Villa', 100, this)">
+                 onclick="selectPropertyTarget('Glorious Forest Villa', 100, this)">
                 <!-- Background house image silhouette -->
                 <div class="target-card-bg-layer" style="background-image: url('assets/house_tolam.jpg'), url('web/assets/house_tolam.jpg');"></div>
                 <div class="target-card-veil"></div>
 
                 <!-- Top 16:9 Showcase Preview Window -->
                 <div class="target-card-img-box">
-                    <img src="assets/house_tolam.jpg" onerror="this.onerror=null; this.src='web/assets/house_tolam.jpg';" alt="To-Lam Villa Goal" class="target-card-img">
+                    <img src="assets/house_tolam.jpg" onerror="this.onerror=null; this.src='web/assets/house_tolam.jpg';" alt="Glorious Forest Villa Goal" class="target-card-img">
                     <div class="target-scanner-line"></div>
                     <div class="target-img-overlay-top">
                         <span class="target-loc-badge">📍 SEONGBUK CLIFFTOP</span>
@@ -13010,7 +13010,7 @@
                 <!-- Card Body -->
                 <div class="target-card-body">
                     <span class="target-risk-badge badge-extreme">🔴 EXTREME // HIGH ROLLER</span>
-                    <h3 class="target-card-title">TO-LAM VILLA</h3>
+                    <h3 class="target-card-title">GLORIOUS FOREST VILLA</h3>
                     
                     <div class="target-mult-row">
                         <span class="target-mult-val text-red">100×</span>
@@ -13032,7 +13032,7 @@
                         Maximum greed and degenerate ambition. Requires riding maximum 4.0x leverage at the market peak. A single 10% pullback triggers instant liquidation.
                     </p>
 
-                    <div class="target-select-bar">SELECT TO-LAM VILLA</div>
+                    <div class="target-select-bar">SELECT GLORIOUS FOREST VILLA</div>
                 </div>
             </div>
         </div>
@@ -18354,8 +18354,8 @@ const AudioManager = {
                 p2Osc.stop(p2Time + 0.20);
                 p2Sub.stop(p2Time + 0.20);
 
-            } else if (type === 'diff-extreme' || type === 'difficulty-extreme' || type === 'diff-tolam') {
-                // DIFFICULTY 3: EXTREME // HIGH ROLLER (To-Lam Villa)
+            } else if (type === 'diff-extreme' || type === 'difficulty-extreme' || type === 'diff-tolam' || type === 'diff-glorious' || type === 'Glorious Forest Villa') {
+                // DIFFICULTY 3: EXTREME // HIGH ROLLER (Glorious Forest Villa)
                 // Heavy ominous cinematic sub-bass slam + distorted dark sawtooth sweep
                 const subOsc = this.ctx.createOscillator();
                 subOsc.type = 'sine';
@@ -18692,7 +18692,7 @@ const AudioManager = {
         const s = String(levelOrType).toLowerCase();
         if (s.includes('small') || s.includes('safe') || s === '3' || s === 'tier-1') {
             this.playSFX('difficulty-safe');
-        } else if (s.includes('tolam') || s.includes('villa') || s.includes('extreme') || s === '100' || s === 'tier-3') {
+        } else if (s.includes('tolam') || s.includes('glorious') || s.includes('forest') || s.includes('villa') || s.includes('extreme') || s === '100' || s === 'tier-3') {
             this.playSFX('difficulty-extreme');
         } else {
             this.playSFX('difficulty-balanced');
@@ -21605,7 +21605,7 @@ function updateBriefingHUD() {
     const targetEl = document.getElementById('briefing-hud-target');
     if (targetEl) {
         const type = (gameState.targetType || 'normal').toUpperCase();
-        const mult = gameState.targetMultiplier || (gameState.targetType === 'small' ? 3 : (gameState.targetType === 'tolam' ? 100 : 20));
+        const mult = gameState.targetMultiplier || (gameState.targetType === 'small' ? 3 : ((gameState.targetType === 'tolam' || gameState.targetType === 'glorious' || gameState.targetType === 'Glorious Forest Villa') ? 100 : 20));
         targetEl.textContent = `${type} HOUSE ($${(mult * 10000).toLocaleString()})`;
     }
 
@@ -23333,7 +23333,7 @@ function showEndingScreen(tierCode, options = {}) {
     let m = state ? state.metrics : { equity: 0, cash: 0, margin_debt: 0, margin_ratio: 0, target_progress: cfg.minPct };
     const targetObj = (state && state.target)
         || (typeof ClientEngine !== 'undefined' && ClientEngine.targetHouseType ? { house_type: ClientEngine.targetHouseType, target_value: ClientEngine.targetValue } : null)
-        || (typeof gameState !== 'undefined' && gameState.targetType ? { house_type: gameState.targetType, target_value: (gameState.targetType === 'Small House' ? 30000 : (gameState.targetType === 'ToLam Villa' ? 1000000 : 200000)) } : null)
+        || (typeof gameState !== 'undefined' && gameState.targetType ? { house_type: gameState.targetType, target_value: (gameState.targetType === 'Small House' ? 30000 : ((gameState.targetType === 'ToLam Villa' || gameState.targetType === 'Glorious Forest Villa') ? 1000000 : 200000)) } : null)
         || { house_type: 'Normal House', target_value: 200000 };
     const tgtVal = targetObj.target_value || 200000;
 
@@ -23486,9 +23486,9 @@ function showEndingScreen(tierCode, options = {}) {
 
     if (targetObj && targetObj.house_type) {
         const hLow = targetObj.house_type.toLowerCase();
-        if (hLow.includes('penthouse') || hLow.includes('tolam') || hLow.includes('villa')) {
+        if (hLow.includes('penthouse') || hLow.includes('tolam') || hLow.includes('forest') || hLow.includes('glorious') || hLow.includes('villa')) {
             houseSrc = 'assets/house_tolam.jpg';
-            houseName = 'TO-LAM VILLA';
+            houseName = 'GLORIOUS FOREST VILLA';
             houseVal = '$1,000,000';
         } else if (hLow.includes('small')) {
             houseSrc = 'assets/house_small.jpg';
@@ -24135,7 +24135,7 @@ const ClientEngine = {
         this.marginMultiplier = Math.round((1.0 / this.initialMarginRatio) * 10) / 10;
         this.maintenanceMarginRatio = Math.min(0.20, this.initialMarginRatio * 0.80);
         this.targetHouseType = houseType || 'Normal House';
-        const mult = houseType === 'Small House' ? 3 : (houseType === 'ToLam Villa' ? 100 : 20);
+        const mult = houseType === 'Small House' ? 3 : ((houseType === 'ToLam Villa' || houseType === 'Glorious Forest Villa') ? 100 : 20);
         this.targetValue = this.initialCapital * mult;
         this.currentPhase = 1;
         this.currentGlobalSecond = 1;
