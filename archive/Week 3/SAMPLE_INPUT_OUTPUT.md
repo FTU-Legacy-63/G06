@@ -2,7 +2,7 @@
 
 This file demonstrates how the scenario data, margin tiers, and house targets produce predictable financial consequences.
 
-## Sample Case 1: Scenario 1 + ToLam Villa (Extreme Difficulty — The Wipeout)
+## Sample Case 1: Scenario 1 + Glorious Forest Villa (Extreme Difficulty — The Wipeout)
 
 ### Sample Input
 
@@ -10,7 +10,7 @@ This file demonstrates how the scenario data, margin tiers, and house targets pr
 | :--- | :--- |
 | `assigned_scenario_id` | Scenario 1 (`market_scenario.csv`) |
 | `initial_capital` | $10,000 USD |
-| `target_house_type` | ToLam Villa (Extreme Difficulty) |
+| `target_house_type` | Glorious Forest Villa (Extreme Difficulty) |
 | `property_target_value` | **$1,000,000 USD** ($100.0\times$ Initial Capital) |
 | `leverage_per_order` | **4x Tier** (Maximum Leverage) applied to each selected leveraged order |
 | Strategy Pursued | Attempting the empirical AM/PM rotation strategy to hit the ~200× ceiling |
