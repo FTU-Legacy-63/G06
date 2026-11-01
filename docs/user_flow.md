@@ -72,7 +72,7 @@ Each 300-second phase models a specific psychological stage of a speculative mar
 | **Conservative Capital Preservation** | Cash 1.0× only; systematically rotates liquid profits into Safe Haven Bank before Phase 6. | Solvency preserved at ~2.9× initial capital. | **Normie:** Modest real wealth preserved without taking catastrophic downside exposure. |
 | **Disciplined Tactical Margin** | 2.0×–3.0× margin during Phases 2–4; aggressive de-leveraging and profit-taking in Phase 5. | Reaches the 20× Normal House target. | **Middle-Class Stability:** Successfully capitalized on market momentum while managing margin risk before the crash. |
 | **Aggressive Speculation / Crash Victim** | 4.0× maximum leverage maintained into Phase 6 collapse without cash buffers. | Maintenance breach triggers forced liquidation; equity wiped out. | **Wipeout:** Complete portfolio liquidation with a 5% penalty, illustrating the reality of leverage blindness. |
-| **Master Market Timing** | Perfect re-leveraging cycles with whole-share allocations and timely exits before Phase 6. | Reaches the 100× ToLam Villa target. | **Extravagant Luxury:** Theoretical best-case outcome matching the mathematical benchmark. |
+| **Master Market Timing** | Perfect re-leveraging cycles with whole-share allocations and timely exits before Phase 6. | Reaches the 100× Glorious Forest Villa target. | **Extravagant Luxury:** Theoretical best-case outcome matching the mathematical benchmark. |
 
 ---
 
@@ -88,4 +88,4 @@ The web interface is deployed as a high-density, dark-mode financial terminal (`
   4. **Order Entry Dock:** Asset selection, quantity inputs, Cash vs Margin toggle, Quick Max calculations, and Bank transfer controls.
   5. **Audio-Visual Alert Engine:** Audible warning sirens and pulsing red modal overlays upon Margin Call or Forced Liquidation events.
 
-Accessible live at: [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/)
+Accessible live at: [https://phan-dung.ngqminh6979.workers.dev/](https://phan-dung.ngqminh6979.workers.dev/) *(Official Primary Build)* · [https://ftu-legacy-63.github.io/G06/](https://ftu-legacy-63.github.io/G06/) *(Backup Mirror)*

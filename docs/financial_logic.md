@@ -1,98 +1,107 @@
-# Financial Logic
+# Financial Logic and Mechanics
 
-> Consolidated from: `Solution_Structure.md`, `Project_Proposal.md` (risk engine), `ASSUMPTIONS.md` (6–7), `INPUT_DICTIONARY.md` (margin tiers, targets), `MIDTERM_REVIEW.md` (Week 4 logic, margin-call price), `SAMPLE_INPUT_OUTPUT.md`, `test_case.md`. Implemented in [`src/simulation_engine.py`](../src/simulation_engine.py).
+This document specifies the accounting formulas, margin rules, risk thresholds, settlement mechanics, and benchmark targets implemented in `src/simulation_engine.py`.
 
-**Logic chain:** Leverage blindness → inexperienced investor → manage a leveraged portfolio → scenario, capital, target, margin tier, orders, price path → portfolio / debt / equity / leverage / margin calculations → net worth, target progress, liquidation status → player adjusts leverage and trades.
+---
 
-## 1. State variables
-| Variable | Definition |
-|---|---|
-| Liquid cash | Uninvested funds |
-| Bank Savings | Safe allocation outside the stock market |
-| Gross exposure (stock value) | Σ Shares_i × Current price_i |
-| Margin debt | Borrowed amount |
-| Net equity | Liquid cash + Bank Savings + Gross exposure − Margin debt |
-| Trading equity | Liquid cash + Gross exposure − Margin debt |
-| Effective leverage | Gross exposure ÷ Trading equity |
-| Margin ratio | Trading equity ÷ Gross exposure (stock value) |
-| Property target value | Initial capital × house multiplier |
-| Target progress % | Net equity ÷ Property target value × 100 |
+## 1. Core Accounting Identities
 
-*The proposal's formula omits Bank Savings; the Solution Structure, Feature Map and test T10 include it. This document follows the latter (see §9).*
+The engine separates liquid trading capital from safe haven bank deposits to ensure risk isolation:
 
-## 2. Order mechanics
-`Required cash = Order cost ÷ Margin multiplier` · `New margin debt = Order cost − Required cash`
-Orders are validated (sufficient purchasing power, sufficient shares to sell, positive quantity; no short selling) and rejected otherwise. Fill is immediate at the current tick price and unlimited in volume (Assumptions 1, 4).
+| Variable | Mathematical Definition | Purpose |
+|---|---|---|
+| **Liquid Cash** | $C_t$ | Free cash available for order margin or withdrawal. |
+| **Gross Exposure** | $E_t = \sum (S_{i,t} \times P_{i,t})$ | Current market value of all held stock positions. |
+| **Margin Debt** | $D_t$ | Principal borrowed from the broker to fund leveraged purchases. |
+| **Trading Equity** | $TE_t = C_t + E_t - D_t$ | Broker-custodied equity available as margin collateral. |
+| **Bank Savings** | $B_t$ | Risk-free deposits held outside the brokerage custody. |
+| **Total Net Worth** | $NW_t = TE_t + B_t$ | Comprehensive player wealth. |
+| **Effective Leverage** | $L_t = \frac{E_t}{TE_t}$ | Current ratio of stock exposure to trading equity. |
+| **Margin Ratio** | $MR_t = \frac{TE_t}{E_t} = \frac{1}{L_t}$ | Primary solvency metric monitored by the broker. |
 
-## 3. Margin tiers
-| Tier | Buying power | Max debt per $1 equity | Initial margin ratio | Price fall to 20 % margin call | Theoretical equity wipeout |
+*Note on Bank Savings Isolation:* To reflect prudent risk management and prevent artificial inflation of collateral (verified in Test `test_bank_savings_isolated_from_margin_collateral`), Bank Savings are excluded from $TE_t$ during margin ratio calculations. Bank savings remain 100% immune to forced liquidation sales.
+
+---
+
+## 2. Order Mechanics and Leverage Tiers
+
+When a player places a BUY order with margin enabled:
+$$\text{Order Cost} = \text{Shares} \times \text{Current Price}$$
+$$\text{Required Cash} = \frac{\text{Order Cost}}{\text{Margin Multiplier}}$$
+$$\text{New Margin Debt} = \text{Order Cost} - \text{Required Cash}$$
+
+Orders are validated against three criteria:
+1. Available cash must cover Required Cash ($\text{Required Cash} \le C_t$).
+2. For SELL orders, the player must hold sufficient available shares ($S_{i,t} \ge \text{Shares to Sell}$). Short selling is disabled.
+3. Order quantity must be positive ($\text{Shares} > 0$).
+
+### Margin Tier Specifications
+| Margin Tier | Purchasing Power | Max Borrowing Ratio | Initial Margin Ratio | Price Drop to 20% Margin Call | Theoretical Wipeout Move |
 |---|---|---|---|---|---|
-| Cash 1.0× | 1× | 0 | 100 % | n/a | −100 % (no debt) |
-| 2× | 2× | 1× | 50 % | **−37.50 %** | −50 % |
-| 3× | 3× | 2× | 33.3 % | **−16.67 %** | −33.3 % |
-| 4× | 4× | 3× | 25 % | **−6.25 %** | −25 % |
+| **Cash 1.0×** | 1.0× | 0.0× | 100.0% | N/A (Immune) | −100.0% |
+| **Margin 2.0×** | 2.0× | 1.0× | 50.0% | **−37.50%** | −50.00% |
+| **Margin 3.0×** | 3.0× | 2.0× | 33.33% | **−16.67%** | −33.33% |
+| **Margin 4.0×** | 4.0× | 3.0× | 25.00% | **−6.25%** | −25.00% |
 
-Margin-call stock value = Debt ÷ 0.80. Margin-call price (single security) = Margin debt ÷ [Shares × (1 − Maintenance margin)].
+The single-stock price triggering a margin call ($P_{call}$) is derived directly from the maintenance margin requirement ($MMR = 0.20$):
+$$P_{call} = \frac{D_t}{\text{Shares} \times (1 - MMR)} = \frac{D_t}{0.80 \times \text{Shares}}$$
 
-## 4. Risk states and enforcement
-| State | Condition | Action |
+---
+
+## 3. Risk States and Forced Liquidation Rules
+
+| Risk State | Trigger Condition | System Action |
 |---|---|---|
-| Safe | Effective leverage ≤ 2.5× (margin ratio ≥ 40 %) | Normal play |
-| Margin Warning (amber) | 2.5× < leverage < 5.0× | Warning banner; prompts voluntary de-risking |
-| Maintenance breach → Forced liquidation | Leverage ≥ 5.0× **or** margin ratio below 20 % | Fire-sale of 100 % of open stock holdings at current tick price, repay debt, apply **5 % penalty** on gross proceeds |
-| Solvency check | Net equity ≤ 0 | Account wipeout / game over |
+| **HEALTHY** | Margin Debt = 0, or Margin Ratio $\ge 25.00\%$ | Normal trading; status indicator green. |
+| **WARNING** | $20.00\% \le \text{Margin Ratio} < 25.00\%$ | Amber warning alert; prompts voluntary de-risking or asset sales. |
+| **MARGIN CALL** | $\text{Margin Ratio} < 20.00\%$ or Leverage $\ge 5.0\times$ | Red alert; automated forced liquidation triggered immediately. |
+| **LIQUIDATED** | Post-liquidation status | Positions cleared, debt settled, trading disabled. |
 
-After liquidation the account is locked: further orders raise an error (BUG-04 fix). Test T03/T04 pin the engine behaviour at the boundary: exactly 20.00 % → `WARNING`, no liquidation; 19.99 % → `MARGIN_CALL` and immediate liquidation.
+### Forced Liquidation Execution & Penalty
+When a margin call triggers:
+1. **Fire-Sale:** 100% of open equity holdings are sold immediately at the current tick price:
+   $$\text{Gross Proceeds} = \sum (\text{Shares}_i \times \text{Current Price}_i)$$
+2. **Liquidation Penalty Fee:** A **5.0% penalty fee** is assessed on gross sales to simulate real-world auction slippage and exchange penalty fees:
+   $$\text{Penalty} = 0.05 \times \text{Gross Proceeds}$$
+   $$\text{Net Proceeds} = \text{Gross Proceeds} - \text{Penalty}$$
+3. **Debt Repayment:** Net proceeds repay outstanding margin debt:
+   $$\text{Final Cash} = C_t + \max(0, \text{Net Proceeds} - D_t)$$
+   $$\text{Uncovered Debt} = \max(0, D_t - \text{Net Proceeds})$$
+4. **Lockout:** If final net worth $\le 0$, the session terminates in a *Wipeout*. Trading is locked to prevent state corruption.
 
-**Engine reference** (`MarginEngine`, from `tests/test_simulation_engine.py`): constructor defaults `maintenance_margin_ratio = 0.20`, `liquidation_penalty_pct = 0.05`; `execute_order(ticker, action, shares, price, use_margin, current_tick, current_phase)`; `deposit_to_savings`; `process_deliveries`; `evaluate(prices)` → portfolio value, equity, margin ratio, margin status (`HEALTHY`, `MARGIN_CALL`, …), solvency; `trigger_forced_liquidation(prices)` → gross proceeds, penalty, net proceeds, remaining debt, final cash.
+---
 
-## 5. Other rules
-| Rule | Value |
-|---|---|
-| Bank Savings return | **+4.75 % after each completed AM/PM session**, compounded: `Savings(t+1) = Savings(t) × 1.0475`. Deliberately amplified for gameplay |
-| Settlement (T+0.5) | (boundary: engine/tests use tick < 150; one contribution file says ≤ 150) Order before tick 150 → delivered in the same phase 30 ticks later (tick 50 → tick 80); order at/after tick 150 → pending, delivered on entering Phase 2. Pending shares stay exposed to price moves but cannot be sold |
-| Session price limit | ±30 % from each AM/PM session reference price, reset every session. Compounded phase limits: **+86 % / −46 %** |
-| Emergency reserve | Bank Savings withdrawals above the free (non-reserved) amount are rejected (T12) |
-| Time | 1,800 s, 6 phases × 300 s, one price tick per second |
+## 4. Settlement Mechanics and Bank Yield
 
-## 6. Property targets and benchmarks
-Targets are fixed multiples of initial capital: **Small House 3×, Normal House 20×, ToLam Villa 100×**. They were calibrated against best-case benchmarks of Scenario 1, which exist in two generations:
+### T+0.5 Settlement Delay (Holding Pen)
+To model clearing friction and prevent intraday churn:
+- **First Half of Phase (Ticks 1–149):** Purchased shares enter a `pending_queue` exposed to market volatility but locked from selling. Deliveries convert to active holdings exactly 30 ticks later (Tick + 30).
+- **Second Half of Phase (Ticks 150–300):** Orders placed at or after tick 150 remain locked across the session break and deliver at Tick 1 of the subsequent phase.
 
-| Benchmark | Cash 1× | 2× | 3× | 4× | Source |
-|---|---|---|---|---|---|
-| Earlier summary (`best_case_portfolio_summary.csv`, Input Dictionary) | 2.92×–5.20× | 7.02×–21.27× | 14.72×–72.84× | 27.99×–217.45× | Week 3 |
-| Whole-share optimiser (`best_case.py`, benchmark note) | — | — | — | **≈ 109×** concentrated DP, **≈ 156×** staggered re-leveraging (from $10,000) | Week 6 |
+### Bank Savings Yield
+- Liquid funds transferred to Safe Haven Bank earn a fixed **+4.75% compound return** credited at each completed session transition (Ticks 150 and 300).
+- Bank Savings can be withdrawn to liquid cash at any time during open trading, provided the amount withdrawn does not breach the emergency reserve setting.
 
-Optimiser rules (from `best_case.py`): tiers 2×/3×/4×, whole shares only, 20 % maintenance (survival floor 20.001 %), prices ÷ 1,400 to USD, settlement delay of **75 s** between sell and reuse of cash, MILP per cycle.
+---
 
-| Target | Share of the 156× benchmark | Intended difficulty |
-|---|---|---|
-| 3× (Small House) | ≈ 1.9 % | Basic — cash only |
-| 20× (Normal House) | ≈ 12.8 % | Intermediate — 2×–3× margin |
-| 100× (ToLam Villa) | ≈ 64.1 % | Expert — 4× margin with near-perfect timing |
+## 5. Property Wealth Targets and Benchmarks
 
-Endings: Small House → *Normie*; Normal House → *Middle-class stability*; ToLam Villa → *Extravagant luxury*; liquidation → *Wipeout*. *The benchmark note lists the basic target as 2× (file name says 3×/10×/100×); the product uses 3×/20×/100×.*
+Targets are calibrated against empirical upper-bound frontiers calculated by the whole-share MILP optimizer (`analysis/best_case.py`):
 
-## 7. Worked examples
-**A. 4× boundary (T02–T04).** Capital $10,000; buy 400 @ $100 = $40,000; debt $30,000; ratio 25 %. At $93.75: stock $37,500, equity $7,500, ratio 20.00 % (no liquidation). At $93.74: stock $37,496, equity $7,496, ratio 19.9914 % → liquidation.
+| Property Target | Multiplier Target | Required Capital (from \$10k) | Optimization Ceiling Share | Feasible Strategy |
+|---|---|---|---|---|
+| **Small House** | **3.0×** | \$30,000 | 1.9% of benchmark | Achievable with conservative cash trading and timely bank rotations. |
+| **Normal House** | **20.0×** | \$200,000 | 12.8% of benchmark | Requires disciplined 2×–3× margin management during bull phases. |
+| **Glorious Forest Villa** | **100.0×** | \$1,000,000 | 64.1% of benchmark | Demands 4× maximum leverage with near-perfect exit timing before Phase 6. |
 
-**B. High-leverage wipeout (T09).** ₩10m capital, ₩40m position, ₩30m debt, −20 % shock: stock ₩32m, equity ₩2m, ratio 6.25 %. Penalty 5 % × ₩32m = ₩1.6m; net proceeds ₩30.4m; repay ₩30m; final cash **₩0.4m**.
+---
 
-**C. Cash only (Week 4 case 2, T01, T10).** ₩50m cash position, −10 %: equity ₩45m, no debt, no margin call. A $4,000 Bank Savings deposit stays $4,000 when stocks fall 50 %.
+## 6. Formal Reconciliations
 
-**D. Narrative cases (Sample I/O).** ToLam Villa + 4× held into Phase 6 (≈ −49 % to −51 % after session limits) → margin ratio falls through 20 % after a ≈ 6.25 % drop → forced liquidation, possible zero/negative equity. Small House + cash, rotated into Bank Savings before Phase 6 → solvent at ≈ $29,247 (2.92×), just under the 3× target.
+Earlier working drafts contained minor discrepancies across working notes. The authoritative specifications implemented in the codebase are reconciled below:
 
-## 8. Explainability
-Every outcome traces to a decision: `Margin tier → Leverage → Position size → Price move → P&L → Equity → Margin ratio → Liquidation risk`. The debrief explains *why* the state changed rather than only showing the result.
-
-## 9. Items to reconcile (documents disagree)
-| Topic | Conflict | Suggested resolution |
-|---|---|---|
-| Net equity | Proposal excludes Bank Savings; Solution Structure / Feature Map / T10 include it | Use inclusive definition everywhere |
-| Maintenance threshold | `ASSUMPTIONS` / tests: 20 %; `SOURCE_USE_MAP`: “30 %” | Correct source map to 20 % (or explain) |
-| Boundary rule | Assumptions: “reaches or falls below 20 %”; tests: exactly 20.00 % is not liquidated | State “below 20 %” |
-| Warning level | Solution Structure: leverage > 2.5×; engine test T02 shows 4× (25 % ratio) as `NORMAL`, 20 % as `WARNING` | Confirm engine warning threshold and align doc |
-| Phase 6 drop | −57 % (docs), −48.7 % / −51 % (sample cases), ≈ −50 % (scenario plot) vs −30.0 % for drivers in the scenario 1 CSV (a +30 % jump at second 1651 — see data_and_sources §6) | Re-check the CSV, then state one figure with its basis |
-| Settlement delay | Engine/tests: 30 ticks (tick 50 → 80); `best_case.py`: 75 s | Align benchmark with the engine or explain |
-| Benchmark ceiling | 217.45× (Input Dictionary) vs ≈ 156× (new optimiser); target ladder 2×/20×/100× vs 3×/20×/100× | Pick the current benchmark and update the Input Dictionary |
-| Week 4 targets (2× / 8×) and `initial_margin_ratio` inputs | Superseded by 3/20/100× and margin tiers | Treated as history in [revision_summary.md](revision_summary.md) |
+1. **Trading Equity vs Total Net Worth:** Total Net Worth includes Bank Savings. However, the Margin Ratio evaluated for liquidation risk considers Trading Equity ($C_t + E_t - D_t$) only, preventing non-custodied bank balances from serving as unpledged collateral.
+2. **Maintenance Margin Threshold:** Standardized globally at **20.00%**. Exactly 20.00% triggers a `WARNING`; strictly less than 20.00% triggers forced liquidation.
+3. **Settlement Boundary:** Standardized at `tick < 150` for intra-phase delivery (T+30) and `tick >= 150` for next-phase delivery.
+4. **Phase Price Volatility Limits:** Standardized at ±30% per session (compounded phase limit of +69%/−51%).
+5. **Benchmark Ceiling:** Standardized on the whole-share MILP optimizer ceiling (~109× concentrated DP, ~156× staggered re-leveraging), superseding early unconstrained continuous models.

@@ -121,7 +121,7 @@ The game uses three property targets:
 |---|---:|---:|
 | **Small House** | 3× | $30,000 |
 | **Normal House** | 20× | $200,000 |
-| **ToLam Villa** | 100× | $1,000,000 |
+| **Glorious Forest Villa** | 100× | $1,000,000 |
 
 **Target attainment under the staggered optimizer:**
 
@@ -149,7 +149,7 @@ Historical benchmarks such as 109×, 156× and 785.81× from previous dataset ve
 | `assigned_scenario_id` | Selects Scenario 1 or 2 | System-generated | Market prices and portfolio outcomes |
 | `initial_capital` | Starting wealth | $10,000 in optimizer | Equity, buying power and targets |
 | `fixed_price_path` | Asset-price path for each tick | 1,800 × 50 CSV data | Portfolio valuation and margin checks |
-| `target_house_type` | Selected property reward | Small / Normal / ToLam Villa | Target evaluation |
+| `target_house_type` | Selected property reward | Small / Normal / Glorious Forest Villa | Target evaluation |
 | `property_target_value` | Final-equity requirement | 3× / 20× / 100× initial capital | Target progress |
 | `margin_tier` | Selected leverage | 1× cash; 2× / 3× / 4× margin | Exposure and debt |
 | `orders` | BUY, SELL, quantity and asset | Player input; whole shares | Portfolio and settlement |
