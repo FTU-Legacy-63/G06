@@ -10,4 +10,4 @@ This file records where external information is used in the MVP, how it was modi
 
 ## Source-Use Principle
 
-External crisis data provided the **historical foundation**, which was **modified by the team into an intensified deterministic simulation model**. Benchmark algorithmic runs confirmed that peak margin returns can reach **~200×** under optimal conditions, providing empirical justification for the ToLam Villa difficulty tier.
+External crisis data provided the **historical foundation**, which was **modified by the team into an intensified deterministic simulation model**. Benchmark algorithmic runs confirmed that peak margin returns can reach **~200×** under optimal conditions, providing empirical justification for the Glorious Forest Villa difficulty tier.
